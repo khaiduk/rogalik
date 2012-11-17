@@ -1,10 +1,17 @@
 #include <SFML/Graphics.hpp>
+#include "Game.h"
+#include "ImageRes.h"
 
 int main()
 {
 	bool x = true;
 
-    sf::RenderWindow App(sf::VideoMode(800, 600), "SFML Basic Window");
+	sf::Clock clock;
+	float lastTime = clock.GetElapsedTime();
+    sf::RenderWindow App(sf::VideoMode(800, 600), "Rogalik");
+	ImageRes::getInstance().loadImages("tiles.png", 8, 0);
+	Game game;
+
 
     while (App.IsOpened())
     {
@@ -15,21 +22,17 @@ int main()
                 App.Close();
             else if (Event.Type == sf::Event::KeyPressed)
 			{
-				if(Event.Key.Code == sf::Key::Up)
-				{
-					x = !x;
-				}
+				game.getInput(Event.Key);
 			}
 			
         }
 
-        App.Clear();
-		if(x)
-			App.Draw(sf::Shape::Rectangle(200, 150, 600, 450, sf::Color::Green));
-		else
-			App.Draw(sf::Shape::Rectangle(200, 150, 600, 450, sf::Color::Red));
-		App.Draw(sf::String("Press up arrow"));
+		float dt = clock.GetElapsedTime() - lastTime;
+		lastTime += dt;
 
+        App.Clear();
+		game.draw(App);
+		
         App.Display();
     }
 

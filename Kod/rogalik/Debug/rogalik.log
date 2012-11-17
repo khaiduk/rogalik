@@ -1,4 +1,7 @@
-﻿  main.cpp
+﻿  Terrain.cpp
+d:\studia\semestr v\inżynieria oprogramowania\git\rogalik\kod\rogalik\terrain.cpp(41): warning C4018: '<' : signed/unsigned mismatch
+d:\studia\semestr v\inżynieria oprogramowania\git\rogalik\kod\rogalik\terrain.cpp(43): warning C4018: '<' : signed/unsigned mismatch
+  Game.cpp
+  Generating Code...
   LINK : D:\studia\Semestr V\Inżynieria Oprogramowania\git\rogalik\Kod\rogalik\Debug\rogalik.exe not found or not built by the last incremental link; performing full link
-LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
   rogalik.vcxproj -> D:\studia\Semestr V\Inżynieria Oprogramowania\git\rogalik\Kod\rogalik\Debug\rogalik.exe
