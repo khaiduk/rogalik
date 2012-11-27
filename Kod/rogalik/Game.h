@@ -31,5 +31,6 @@ public:
 private:
 	Terrain terrain;
 	Position playerpos; // do wymiany
+	std::string someData;
 };
 

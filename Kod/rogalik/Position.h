@@ -16,11 +16,7 @@ public:
 	int GetX() const;
 	int GetY() const;
 	int GetZ() const;
-
-	/**
-	 * Przemieszcza pozycjê od dx, dy
-	 */
-	void move(int dx, int dy);
+	Position operator +(const Position& b) const;
 
 public:
 	int x,y,z;

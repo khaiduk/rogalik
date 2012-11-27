@@ -29,6 +29,14 @@ public:
 	 * Szerokoœæ pojedynczej kafelki w pikselach
 	 */
 	static const int TILESIZE = 32;
+
+	enum Tileset {
+		EMPTY = 0,
+		HERO,
+		GRASS,
+		BRICK,
+		WOOD
+	};
 private:
 	ImageRes(void){}
 	ImageRes(const ImageRes& x){}

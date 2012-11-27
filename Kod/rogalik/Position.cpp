@@ -35,8 +35,8 @@ int Position::GetZ() const
 	return z;
 }
 
-void Position::move(int dx, int dy)
+
+Position Position::operator +(const Position& b) const
 {
-	x += dx;
-	y += dy;
+	return Position(x + b.x, y+b.y, z+b.z);
 }

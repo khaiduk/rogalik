@@ -29,9 +29,25 @@ public:
 	 * @param img identyfikator obrazka
 	 */
 	void setImage(int img);
+	/**
+	 * Ustawia niemo¿noœæ przejœcia przez kafelek
+	 * @param solid czy nie da siê przejœæ
+	 */
+	void setSolid(bool solid);
+	/**
+	 *Zwraca wartoœæ logiczn¹ odpowiadaj¹c¹ mo¿liwoœci przejscia przez kafelkê
+	 */
+	bool isSolid();
+
+	void setWarp(const Position& pos);
+	bool isWarp();
+	Position getWarp();
 private:
 	Position pos;
 	sf::Sprite sprite;
+	bool solid;
+	bool warp;
+	Position warpTo;
 
 };
 

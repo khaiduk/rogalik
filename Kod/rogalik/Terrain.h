@@ -20,7 +20,16 @@ public:
 	/**
 	 * Wyœwietla teren na ekranie z przesuniêciem o pos kafelek
 	 */
-	void draw(sf::RenderWindow& rw, Position pos) const;
+	void draw(sf::RenderWindow& rw, const Position& pos) const;
+	/**
+	 * Oblicza docelowe przesuniêcie mapy.
+	 */
+	Position calculateShift(const Position& p) const;
+	/**
+	 * Pobiera kafelek z danego po³o¿enia
+	 * Jeœli taki kafelek nie istneje rzuca wyj¹tek ..
+	 */
+	Tile getTile(const Position& pos) const;
 private:
 	std::vector< std::vector< std::vector<Tile> > > map;
 	std::vector< std::vector<Tile> > newLevel(int width, int height, int level);
