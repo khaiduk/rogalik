@@ -1,7 +1,24 @@
-﻿  Terrain.cpp
-d:\studia\semestr v\inżynieria oprogramowania\git\rogalik\kod\rogalik\terrain.cpp(41): warning C4018: '<' : signed/unsigned mismatch
-d:\studia\semestr v\inżynieria oprogramowania\git\rogalik\kod\rogalik\terrain.cpp(43): warning C4018: '<' : signed/unsigned mismatch
+﻿  Tile.cpp
+d:\studia\semestr v\inżynieria oprogramowania\git\rogalik\kod\rogalik\tile.cpp(17): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+d:\studia\semestr v\inżynieria oprogramowania\git\rogalik\kod\rogalik\tile.cpp(17): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+  Terrain.cpp
+d:\studia\semestr v\inżynieria oprogramowania\git\rogalik\kod\rogalik\terrain.cpp(11): warning C4018: '<' : signed/unsigned mismatch
+d:\studia\semestr v\inżynieria oprogramowania\git\rogalik\kod\rogalik\terrain.cpp(13): warning C4018: '<' : signed/unsigned mismatch
+d:\studia\semestr v\inżynieria oprogramowania\git\rogalik\kod\rogalik\terrain.cpp(42): warning C4018: '<' : signed/unsigned mismatch
+d:\studia\semestr v\inżynieria oprogramowania\git\rogalik\kod\rogalik\terrain.cpp(44): warning C4018: '<' : signed/unsigned mismatch
+d:\studia\semestr v\inżynieria oprogramowania\git\rogalik\kod\rogalik\terrain.cpp(78): warning C4018: '<' : signed/unsigned mismatch
+d:\studia\semestr v\inżynieria oprogramowania\git\rogalik\kod\rogalik\terrain.cpp(80): warning C4018: '<' : signed/unsigned mismatch
+d:\studia\semestr v\inżynieria oprogramowania\git\rogalik\kod\rogalik\terrain.cpp(108): warning C4101: 'oor' : unreferenced local variable
+  Position.cpp
+  Player.cpp
+  NPC.cpp
+  main.cpp
   Game.cpp
+  Creature.cpp
+d:\studia\semestr v\inżynieria oprogramowania\git\rogalik\kod\rogalik\creature.cpp(20): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+d:\studia\semestr v\inżynieria oprogramowania\git\rogalik\kod\rogalik\creature.cpp(20): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
   Generating Code...
+  Skipping... (no relevant changes detected)
+  ImageRes.cpp
   LINK : D:\studia\Semestr V\Inżynieria Oprogramowania\git\rogalik\Kod\rogalik\Debug\rogalik.exe not found or not built by the last incremental link; performing full link
   rogalik.vcxproj -> D:\studia\Semestr V\Inżynieria Oprogramowania\git\rogalik\Kod\rogalik\Debug\rogalik.exe

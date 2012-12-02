@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <iostream>
 #include "Position.h"
 #include "Tile.h"
 
@@ -20,11 +21,12 @@ public:
 	/**
 	 * Wyœwietla teren na ekranie z przesuniêciem o pos kafelek
 	 */
-	void draw(sf::RenderWindow& rw, const Position& pos) const;
+	void draw(sf::RenderWindow& rw, int level, const Position& shift) const;
 	/**
 	 * Oblicza docelowe przesuniêcie mapy.
+	 * Na podstawie po³o¿enia gracza oblicza o ile pikseli musi byæ przesuniêty ka¿dy element œwiata gry.
 	 */
-	Position calculateShift(const Position& p) const;
+	Position calculateShift(const Position& playerPos) const;
 	/**
 	 * Pobiera kafelek z danego po³o¿enia
 	 * Jeœli taki kafelek nie istneje rzuca wyj¹tek ..

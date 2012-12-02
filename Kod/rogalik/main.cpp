@@ -8,7 +8,7 @@ int main()
 
 	sf::Clock clock;
 	float lastTime = clock.GetElapsedTime();
-    sf::RenderWindow App(sf::VideoMode(800, 600), "Rogalik");
+	sf::RenderWindow App(sf::VideoMode(ImageRes::WIDTH, ImageRes::HEIGHT), "Rogalik");
 	ImageRes::getInstance().loadImages("tiles.png", 8, 0);
 	Game game;
 

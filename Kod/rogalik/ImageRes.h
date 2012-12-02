@@ -30,12 +30,20 @@ public:
 	 */
 	static const int TILESIZE = 32;
 
+	/**
+	 * Rozmiary okna
+	 */
+	static const int WIDTH = 800;
+	static const int HEIGHT = 600;
+
 	enum Tileset {
 		EMPTY = 0,
 		HERO,
 		GRASS,
 		BRICK,
-		WOOD
+		WOOD,
+		MONSTER,
+		DEALER
 	};
 private:
 	ImageRes(void){}

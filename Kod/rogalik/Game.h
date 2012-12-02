@@ -1,6 +1,9 @@
 #pragma once
+#include <list>
 #include <SFML/Graphics.hpp>
 #include "Terrain.h"
+#include "Player.h"
+#include "NPC.h"
 
 /**
  * Klasa g³ówna gry.
@@ -30,7 +33,7 @@ public:
 	void draw(sf::RenderWindow& rw) const;
 private:
 	Terrain terrain;
-	Position playerpos; // do wymiany
-	std::string someData;
+	Player player;
+	std::list<Creature> npcs;
 };
 

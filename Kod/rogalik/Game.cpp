@@ -3,8 +3,9 @@
 
 Game::Game(void)
 {
-	playerpos = Position(0, 5);
-	someData = "";
+	player.setPosition(Position(0, 2));
+	npcs.push_back( NPC(Position(0,1, 0), ImageRes::DEALER) );
+	npcs.push_back( NPC(Position(8,1, 1), ImageRes::DEALER) );
 }
 
 
@@ -32,22 +33,7 @@ void Game::getInput(const sf::Event::KeyEvent& key)
 		dp.SetX(-1);
 	}
 
-	try
-	{
-		Tile newtile = terrain.getTile(playerpos + dp);
-		if(newtile.isSolid()) dp = Position(0, 0);
-		if(newtile.isWarp())
-		{
-			playerpos = newtile.getWarp();
-			dp = Position(0,0,0);
-		}
-		someData = newtile.isSolid() ? std::string("solid") : std::string("pass");
-	}
-	catch(...)
-	{
-		someData = std::string("noTile");
-	}
-	playerpos = playerpos + dp;	
+	player.move(dp, terrain);
 }
 
 void Game::step(float dt)
@@ -57,10 +43,14 @@ void Game::step(float dt)
 
 void Game::draw(sf::RenderWindow& rw) const
 {
-	terrain.draw(rw, playerpos);
-	sf::Sprite playerSprite(ImageRes::getInstance().getImage(ImageRes::HERO));
-	playerSprite.SetPosition(12 * ImageRes::TILESIZE, 10* ImageRes::TILESIZE);
-	rw.Draw(playerSprite);
-	sf::String str(someData);
-	rw.Draw(str);
+	Position dp;
+	dp = terrain.calculateShift(player.getPosition());
+	terrain.draw(rw, player.getPosition().GetZ(), dp);
+	for(std::list<Creature>::const_iterator i = npcs.begin(); i != npcs.end(); i++)
+	{
+		if(i->getPosition().GetZ() == player.getPosition().GetZ())
+			i->draw(rw, dp);
+	}
+	player.draw(rw, dp);
+	player.drawHud(rw);
 }
