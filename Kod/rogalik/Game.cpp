@@ -38,7 +38,7 @@ void Game::getInput(const sf::Event::KeyEvent& key)
 
 void Game::step(float dt)
 {
-
+	player.replenishHealth();
 }
 
 void Game::draw(sf::RenderWindow& rw) const

@@ -5,9 +5,10 @@
 int main()
 {
 	bool x = true;
+	float TIME_STEP = 0.03f;
 
 	sf::Clock clock;
-	float lastTime = clock.GetElapsedTime();
+	float timeAcc = 0;
 	sf::RenderWindow App(sf::VideoMode(ImageRes::WIDTH, ImageRes::HEIGHT), "Rogalik");
 	ImageRes::getInstance().loadImages("tiles.png", 8, 0);
 	Game game;
@@ -27,13 +28,21 @@ int main()
 			
         }
 
-		float dt = clock.GetElapsedTime() - lastTime;
-		lastTime += dt;
+		timeAcc += clock.GetElapsedTime();
+
+		while(timeAcc > TIME_STEP)
+		{
+			game.step(TIME_STEP);
+
+			timeAcc -= TIME_STEP;
+		}
+		clock.Reset();
 
         App.Clear();
 		game.draw(App);
 		
         App.Display();
+
     }
 
     return EXIT_SUCCESS;

@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player::Player(const Position pos) : Creature(pos, ImageRes::HERO), health(1.0), mana(1.0)
+Player::Player(const Position pos) : Creature(pos, ImageRes::HERO), health(0.8), mana(0.60)
 {
 	hudimg.LoadFromFile("hud.png");
 	hbarimg.LoadFromFile("healthbar.png");
@@ -21,4 +21,10 @@ void Player::drawHud(sf::RenderWindow& rw) const
 	sf::Sprite mbar(mbarimg, sf::Vector2f(642, 376 + mbarimg.GetHeight() - mbarheight));
 	mbar.SetSubRect(sf::IntRect(0, mbarimg.GetHeight() - mbarheight, mbarimg.GetWidth(), mbarimg.GetHeight()));
 	rw.Draw(mbar);
+}
+
+void Player::replenishHealth()
+{
+	if(health < 1)
+	health += 0.0001;
 }
