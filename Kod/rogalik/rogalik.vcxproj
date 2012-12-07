@@ -72,7 +72,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Creature.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameBuilder.cpp" />
     <ClCompile Include="ImageRes.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NPC.cpp" />
@@ -83,7 +85,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Creature.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameBuilder.h" />
     <ClInclude Include="ImageRes.h" />
     <ClInclude Include="NPC.h" />
     <ClInclude Include="Player.h" />

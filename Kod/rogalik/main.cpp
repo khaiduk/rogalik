@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include "GameBuilder.h"
 #include "Game.h"
 #include "ImageRes.h"
 
@@ -11,7 +12,10 @@ int main()
 	float timeAcc = 0;
 	sf::RenderWindow App(sf::VideoMode(ImageRes::WIDTH, ImageRes::HEIGHT), "Rogalik");
 	ImageRes::getInstance().loadImages("tiles.png", 8, 0);
-	Game game;
+
+	GameBuilder gb;
+	gb.generateNewGame();
+	Game game = gb.getGame();
 
 
     while (App.IsOpened())

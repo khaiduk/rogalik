@@ -4,6 +4,7 @@
 #include "Terrain.h"
 #include "Player.h"
 #include "NPC.h"
+#include "Enemy.h"
 
 /**
  * Klasa g³ówna gry.
@@ -34,6 +35,9 @@ public:
 private:
 	Terrain terrain;
 	Player player;
-	std::list<Creature> npcs;
+	std::list<NPC> npcs;
+	std::list<Enemy> enemies;
+
+	friend class GameBuilder;
 };
 

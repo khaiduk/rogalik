@@ -34,6 +34,7 @@ public:
 	Tile getTile(const Position& pos) const;
 private:
 	std::vector< std::vector< std::vector<Tile> > > map;
-	std::vector< std::vector<Tile> > newLevel(int width, int height, int level);
+
+	friend class GameBuilder;
 };
 

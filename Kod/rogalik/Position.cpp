@@ -40,3 +40,15 @@ Position Position::operator +(const Position& b) const
 {
 	return Position(x + b.x, y+b.y, z+b.z);
 }
+
+
+Position Position::operator -(const Position& b) const
+{
+	return Position(x - b.x, y-b.y, z-b.z);
+}
+
+float Position::distance(const Position& a, const Position& b)
+{
+	Position dp = a - b;
+	return sqrt(static_cast<float>(dp.x*dp.x + dp.y*dp.y + dp.z*dp.z));
+}

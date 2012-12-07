@@ -40,7 +40,7 @@ public:
 	 * Przemieszcza postaæ zgodnie z mechanik¹ gry
 	 */
 	void move(const Position& dp, const Terrain& terrain);
-private:
+protected:
 	Position pos;
 	sf::Sprite sprite;
 };

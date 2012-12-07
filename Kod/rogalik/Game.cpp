@@ -3,9 +3,6 @@
 
 Game::Game(void)
 {
-	player.setPosition(Position(0, 2));
-	npcs.push_back( NPC(Position(0,1, 0), ImageRes::DEALER) );
-	npcs.push_back( NPC(Position(8,1, 1), ImageRes::DEALER) );
 }
 
 
@@ -39,6 +36,11 @@ void Game::getInput(const sf::Event::KeyEvent& key)
 void Game::step(float dt)
 {
 	player.replenishHealth();
+	for(std::list<Enemy>::iterator i = enemies.begin(); i != enemies.end(); i++)
+	{
+		if(i->getPosition().GetZ() == player.getPosition().GetZ()) // symuluj tylko przeciwników na tym samym poziomie
+			i->step(dt, terrain, player);
+	}
 }
 
 void Game::draw(sf::RenderWindow& rw) const
@@ -46,7 +48,12 @@ void Game::draw(sf::RenderWindow& rw) const
 	Position dp;
 	dp = terrain.calculateShift(player.getPosition());
 	terrain.draw(rw, player.getPosition().GetZ(), dp);
-	for(std::list<Creature>::const_iterator i = npcs.begin(); i != npcs.end(); i++)
+	for(std::list<NPC>::const_iterator i = npcs.begin(); i != npcs.end(); i++)
+	{
+		if(i->getPosition().GetZ() == player.getPosition().GetZ())
+			i->draw(rw, dp);
+	}
+	for(std::list<Enemy>::const_iterator i = enemies.begin(); i != enemies.end(); i++)
 	{
 		if(i->getPosition().GetZ() == player.getPosition().GetZ())
 			i->draw(rw, dp);

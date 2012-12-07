@@ -1,4 +1,5 @@
 #pragma once
+#include <cmath>
 
 /**
  * Po³o¿enie w œwiecie gry
@@ -17,7 +18,9 @@ public:
 	int GetY() const;
 	int GetZ() const;
 	Position operator +(const Position& b) const;
+	Position operator -(const Position& b) const;
 
+	static float distance(const Position& a, const Position& b);
 public:
 	int x,y,z;
 };

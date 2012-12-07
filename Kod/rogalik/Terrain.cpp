@@ -2,7 +2,7 @@
 
 
 Terrain::Terrain(void)
-{
+{/*
 	map.reserve(15);// rezerwacja ilosci poziomow
 	//*
 	//level 1
@@ -52,7 +52,7 @@ Terrain::Terrain(void)
 			
 	}
 	
-	/*/
+	//
 	// LEVEL 1
 	// wioska
 	map.insert(map.begin() + 0, newLevel(30, 20, 0)); // tworze poziom o numerze np. 0 i o wymiarach np. 20x20
@@ -487,21 +487,6 @@ void Terrain::draw(sf::RenderWindow& rw, int level, const Position& shift) const
 		}
 	}
 }
-
-
-std::vector< std::vector<Tile> > Terrain::newLevel(int width, int height, int level)
-{
-	std::vector< std::vector<Tile> > newLevel;
-	newLevel.resize(width);
-	for(int x=0;x<width;x++)
-	{
-		for(int y=0;y<height;y++)
-			newLevel[x].push_back(Tile(Position(x, y, level)));
-	}
-	return newLevel;
-}
-
-
 	
 Tile Terrain::getTile(const Position& pos) const
 {
