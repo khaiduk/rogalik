@@ -24,7 +24,7 @@ int main()
 	while(App.IsOpened())
 	{
 		sf::Event Event;
-		while(App.GetEvent(Event))
+		if(var) while(App.GetEvent(Event))
 		{
 			if(Event.Type == sf::Event::Closed || Event.Key.Code=='e')
 				App.Close();
@@ -50,7 +50,10 @@ int main()
 		}
 		else
 		{
-			if (Event.Type == sf::Event::KeyPressed)
+			while(App.GetEvent(Event))
+				if(Event.Type == sf::Event::Closed || Event.Key.Code=='e')
+				App.Close();
+			else if (Event.Type == sf::Event::KeyPressed)
 			{
 				game.getInput(Event.Key);
 			}
