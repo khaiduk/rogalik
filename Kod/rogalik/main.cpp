@@ -53,9 +53,9 @@ int main()
 			while(App.GetEvent(Event))
 				if(Event.Type == sf::Event::Closed || Event.Key.Code=='e')
 				App.Close();
-			else if (Event.Type == sf::Event::KeyPressed)
+				else if (Event.Type == sf::Event::KeyPressed || Event.Type == sf::Event::KeyReleased)
 			{
-				game.getInput(Event.Key);
+				game.getInput(Event);
 			}
 			timeAcc += clock.GetElapsedTime();
 			while(timeAcc > TIME_STEP)

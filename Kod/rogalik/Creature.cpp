@@ -1,7 +1,7 @@
 #include "Creature.h"
 
 
-Creature::Creature(const Position pos, int img) : pos(pos)
+Creature::Creature(const Position pos, int img) : pos(pos), walkDir(0,0), lastDir(0,0), walkPower(0), speed(10)
 {
 	sprite=sf::Sprite(ImageRes::getInstance().getImage(img));
 }
@@ -51,5 +51,25 @@ void Creature::move(const Position& dp, const Terrain& terrain)
 	catch(...)
 	{
 		std::cerr << "Nie ma takiego kafelka ";
+	}
+}
+
+
+void Creature::walk(const Position& dp, const Terrain& terrain)
+{
+
+	if(lastDir != dp) // gdy zmieniamy kierunek
+	{
+		walkPower = 0; // zacznij liczyæ od nowa
+	}
+	lastDir = dp;
+
+	if(dp != Position(0,0))
+		walkPower += speed; // tu trzebaby wyliczyæ z prêdkoœci danej postacil
+
+	if(walkPower > 50) // a tu trzeba wyliczyæ z trudnoœæi kafla
+	{
+		move(dp, terrain);
+		walkPower = 0;
 	}
 }

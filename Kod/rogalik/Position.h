@@ -19,6 +19,8 @@ public:
 	int GetZ() const;
 	Position operator +(const Position& b) const;
 	Position operator -(const Position& b) const;
+	bool operator ==(const Position& b) const;
+	bool operator !=(const Position& b) const;
 
 	static float distance(const Position& a, const Position& b);
 public:

@@ -10,32 +10,20 @@ Game::~Game(void)
 {
 }
 
-void Game::getInput(const sf::Event::KeyEvent& key)
+void Game::getInput(const sf::Event& e)
 {
-	Position dp;
-	if(key.Code == sf::Key::Up)
+	if(	e.Key.Code == sf::Key::Up ||
+		e.Key.Code == sf::Key::Down ||
+		e.Key.Code == sf::Key::Right ||
+		e.Key.Code == sf::Key::Left)
 	{
-		dp.SetY(-1);
+		player.getInput(e);
 	}
-	else if(key.Code == sf::Key::Down)
-	{
-		dp.SetY(1);
-	}
-	else if(key.Code == sf::Key::Right)
-	{
-		dp.SetX(1);
-	}
-	else if(key.Code == sf::Key::Left)
-	{
-		dp.SetX(-1);
-	}
-
-	player.move(dp, terrain);
 }
 
 void Game::step(float dt)
 {
-	player.replenishHealth();
+	player.step(dt, terrain);
 	for(std::list<Enemy>::iterator i = enemies.begin(); i != enemies.end(); i++)
 	{
 		if(i->getPosition().GetZ() == player.getPosition().GetZ()) // symuluj tylko przeciwników na tym samym poziomie

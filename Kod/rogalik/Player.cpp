@@ -28,3 +28,52 @@ void Player::replenishHealth()
 	if(health < 1)
 	health += 0.0001;
 }
+
+
+void Player::step(float dt, const Terrain& terrain)
+{
+	replenishHealth();
+	walk(walkDir, terrain);
+}
+
+void Player::getInput(const sf::Event& e)
+{
+	if(e.Type == sf::Event::KeyPressed)
+	{
+		if(e.Key.Code == sf::Key::Up)
+		{
+			walkDir.SetY(-1);
+		}
+		else if(e.Key.Code == sf::Key::Down)
+		{
+			walkDir.SetY(1);
+		}
+		else if(e.Key.Code == sf::Key::Right)
+		{
+			walkDir.SetX(1);
+		}
+		else if(e.Key.Code == sf::Key::Left)
+		{
+			walkDir.SetX(-1);
+		}
+	}
+	else if(e.Type == sf::Event::KeyReleased)
+	{
+		if(e.Key.Code == sf::Key::Up)
+		{
+			walkDir.SetY(0);
+		}
+		else if(e.Key.Code == sf::Key::Down)
+		{
+			walkDir.SetY(0);
+		}
+		else if(e.Key.Code == sf::Key::Right)
+		{
+			walkDir.SetX(0);
+		}
+		else if(e.Key.Code == sf::Key::Left)
+		{
+			walkDir.SetX(0);
+		}
+	}
+}

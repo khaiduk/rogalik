@@ -40,8 +40,19 @@ public:
 	 * Przemieszcza postaæ zgodnie z mechanik¹ gry
 	 */
 	void move(const Position& dp, const Terrain& terrain);
+
+	/**
+	 * Stara siê wykonaæ ruch w danym kierunku
+	 */
+	void walk(const Position& dp, const Terrain& terrain);;
 protected:
 	Position pos;
+	Position walkDir;
+	Position lastDir;
+
 	sf::Sprite sprite;
+
+	int walkPower;
+	int speed;
 };
 

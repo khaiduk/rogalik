@@ -17,9 +17,9 @@ public:
 
 	/**
 	 * Pobiera wejœcie
-	 * @param key Przekazywane zdarzenie klawiatury
+	 * @param e Przekazywane zdarzenie
 	 */
-	void getInput(const sf::Event::KeyEvent& key);
+	void getInput(const sf::Event& e);
 
 	/**
 	 * Wykonuje krok symulacji
