@@ -42,12 +42,16 @@ public:
 	void setWarp(const Position& pos);
 	bool isWarp();
 	Position getWarp();
+
+	void setWalkSpeed(int speed);
+	int getWalkSpeed() const;
 private:
 	Position pos;
 	sf::Sprite sprite;
 	bool solid;
 	bool warp;
 	Position warpTo;
+	int walkSpeed;
 
 };
 

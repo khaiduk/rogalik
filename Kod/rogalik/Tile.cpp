@@ -1,7 +1,7 @@
 #include "Tile.h"
 
 
-Tile::Tile(const Position pos, int img) : pos(pos), solid(false), warp(false)
+Tile::Tile(const Position pos, int img) : pos(pos), solid(false), warp(false), walkSpeed(50)
 {
 	sprite=sf::Sprite(ImageRes::getInstance().getImage(img));
 }
@@ -41,4 +41,14 @@ bool Tile::isWarp()
 Position Tile::getWarp()
 {
 	return warpTo;
+}
+
+void Tile::setWalkSpeed(int speed)
+{
+	walkSpeed = speed;
+}
+
+int Tile::getWalkSpeed() const
+{
+	return walkSpeed;
 }

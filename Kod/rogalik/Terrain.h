@@ -32,6 +32,10 @@ public:
 	 * Jeœli taki kafelek nie istneje rzuca wyj¹tek ..
 	 */
 	Tile getTile(const Position& pos) const;
+	/**
+	 * Sprawdza czy w podanym po³o¿eniu znajduje siê jakiœ kafelek
+	 */
+	bool tileExist(const Position& pos) const;
 private:
 	std::vector< std::vector< std::vector<Tile> > > map;
 

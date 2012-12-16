@@ -49,6 +49,10 @@ void GameBuilder::generateNewGame()
 	map[0][0][y].setImage(ImageRes::ROAD);
 	map[0][0][y-1].setImage(ImageRes::ROAD);
 	map[0][0][y+1].setImage(ImageRes::ROAD);
+
+	map[0][0][y].setWalkSpeed(30);
+	map[0][0][y-1].setWalkSpeed(30);
+	map[0][0][y+1].setWalkSpeed(30);
 	
 	for(int x=1;x<100;x++)
 	{
@@ -72,6 +76,10 @@ void GameBuilder::generateNewGame()
 				map[0][x][y-1].setImage(ImageRes::ROAD);
 				map[0][x][y].setImage(ImageRes::ROAD);
 				map[0][x][y+1].setImage(ImageRes::ROAD);
+
+				map[0][x][y].setWalkSpeed(30);
+				map[0][x][y-1].setWalkSpeed(30);
+				map[0][x][y+1].setWalkSpeed(30);
 			}
 		
 		if(x==99)

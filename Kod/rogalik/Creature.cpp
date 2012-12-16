@@ -34,23 +34,16 @@ Position Creature::getPosition() const
 
 void Creature::move(const Position& dp, const Terrain& terrain)
 {
-	try
+	Tile newtile = terrain.getTile(pos + dp);
+	if(newtile.isSolid())
+		return;
+	else if(newtile.isWarp())
 	{
-		Tile newtile = terrain.getTile(pos + dp);
-		if(newtile.isSolid())
-			return;
-		else if(newtile.isWarp())
-		{
-			pos = newtile.getWarp();
-		}
-		else
-		{
-			pos = pos + dp;	
-		}
+		pos = newtile.getWarp();
 	}
-	catch(...)
+	else
 	{
-		std::cerr << "Nie ma takiego kafelka ";
+		pos = pos + dp;	
 	}
 }
 
@@ -64,10 +57,16 @@ void Creature::walk(const Position& dp, const Terrain& terrain)
 	}
 	lastDir = dp;
 
-	if(dp != Position(0,0))
-		walkPower += speed; // tu trzebaby wyliczyæ z prêdkoœci danej postacil
+	if(!terrain.tileExist(pos + dp))
+		return;
 
-	if(walkPower > 50) // a tu trzeba wyliczyæ z trudnoœæi kafla
+	if(dp != Position(0,0))
+		walkPower += speed;
+
+	int walkTreshold = terrain.getTile(pos + dp).getWalkSpeed();
+	if(dp.GetX() != 0 && dp.GetY() != 0)
+		walkTreshold *= 1.41;
+	if(walkPower > walkTreshold)
 	{
 		move(dp, terrain);
 		walkPower = 0;
