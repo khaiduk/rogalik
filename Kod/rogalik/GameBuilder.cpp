@@ -989,8 +989,8 @@ void GameBuilder::generateNewGame()
 	}
 	*/
 	//game.player = Player( Position(0, 2) );
-	game.npcs.push_back( NPC(Position(0,1, 0), ImageRes::DEALER) );
-	game.npcs.push_back( NPC(Position(8,1, 1), ImageRes::DEALER) );// mo¿e by warto by³o jakiœ NPCBuilder 
+	game.creatures.push_back( Creature(Position(0,1, 0), ImageRes::DEALER) );
+	game.creatures.push_back( Creature(Position(8,1, 1), ImageRes::DEALER) );// mo¿e by warto by³o jakiœ NPCBuilder 
 	game.enemies.push_back( Enemy(Position(10,5, 0)) ); // mo¿e by warto by³o jakiœ EnemyBuilder 
 
 

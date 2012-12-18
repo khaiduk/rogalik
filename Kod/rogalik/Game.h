@@ -35,7 +35,7 @@ public:
 private:
 	Terrain terrain;
 	Player player;
-	std::list<NPC> npcs;
+	std::list<Creature> creatures;
 	std::list<Enemy> enemies;
 
 	friend class GameBuilder;
