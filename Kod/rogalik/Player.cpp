@@ -1,10 +1,11 @@
 #include "Player.h"
 
-Player::Player(Position pos) : Creature(pos, ImageRes::HERO), health(0.8), mana(0.60)
+Player::Player(Position pos) : Creature(pos, ImageRes::HERO), mana(0.60)
 {
 	hudimg.LoadFromFile("hud.png");
 	hbarimg.LoadFromFile("healthbar.png");
 	mbarimg.LoadFromFile("manabar.png");
+	setType(PLAYER);
 }
 
 void Player::drawHud(sf::RenderWindow& rw) const
@@ -23,6 +24,32 @@ void Player::drawHud(sf::RenderWindow& rw) const
 	rw.Draw(mbar);
 }
 
+void Player::drawInventory(sf::RenderWindow& rw) const
+{
+	static bool firstRun = true;
+	static sf::Image tlo;
+	static sf::Font font;
+	if(firstRun)
+	{
+		tlo.LoadFromFile("tlo.png");
+		firstRun = false;
+		font.LoadFromFile("silesiana.otf", 50,  L"A•BC∆DE FGHIJKL£MN—O”PRSåTUWYZèØaπbcÊdeÍfghijkl≥mnÒoÛprsútuwyzüøXxVvQq0123456789~!@#$%^&*()_-[]\\;',./{}:\"<>?=-+ ");
+	}
+
+	sf::Sprite tloH(tlo);
+	rw.Draw(tloH);
+
+	float posy = 30.0;
+	for(std::list<Item>::const_iterator i = inventory.begin(); i != inventory.end(); i++)
+	{
+		sf::String t(i->getName(), font, 30.f);
+		t.SetColor(sf::Color(20, 18, 160));
+		t.SetPosition(20.f, posy);
+		rw.Draw(t);
+		posy += 30.0;
+	}
+}
+
 void Player::replenishHealth()
 {
 	if(health < 1)
@@ -30,10 +57,10 @@ void Player::replenishHealth()
 }
 
 
-void Player::step(float dt, const Terrain& terrain)
+void Player::step(float dt, const Terrain& terrain, std::list<Creature> &creatures)
 {
 	replenishHealth();
-	walk(walkDir, terrain);
+	walk(walkDir, terrain, creatures, *this);
 }
 
 void Player::getInput(const sf::Event& e)
@@ -76,4 +103,9 @@ void Player::getInput(const sf::Event& e)
 			walkDir.SetX(0);
 		}
 	}
+}
+
+void Player::giveItem(const Item& item)
+{
+	inventory.push_back(item);
 }

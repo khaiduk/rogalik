@@ -1,6 +1,5 @@
 #include "GameBuilder.h"
 
-
 Game& GameBuilder::getGame()
 {
 	return game; 
@@ -989,9 +988,66 @@ void GameBuilder::generateNewGame()
 	}
 	*/
 	//game.player = Player( Position(0, 2) );
-	game.creatures.push_back( Creature(Position(0,1, 0), ImageRes::DEALER) );
-	game.creatures.push_back( Creature(Position(8,1, 1), ImageRes::DEALER) );// mo¿e by warto by³o jakiœ NPCBuilder 
-	game.enemies.push_back( Enemy(Position(10,5, 0)) ); // mo¿e by warto by³o jakiœ EnemyBuilder 
+
+	Creature cinkciarz = Creature(Position(8,1, 1), ImageRes::DEALER);
+	
+	Dialog dialog;
+
+	dialog = Dialog();
+
+	dialog.addNode(Dialog::START_DIALOG, L"Witaj w naszych skromny progach wêdrowcze! W czym mogê s³u¿yæ?").
+		addOption(L"Chcia³bym coœ kupiæ, ale nie mam pieniêdzy. Liczê na ³askê.", 1).
+		addOption(L"Ach wêdrujê, i szukam przygód. Mo¿e coœ mi polecicie?", 2);
+
+	dialog.addNode(1, L"Drogi Panie! Na ³askê w tych czasach?! Musicie pytaæ gdzieœ indziej.").
+		addOption(L". . .", Dialog::END_DIALOG);
+
+	dialog.addNode(2, L"Na terenach niedalekich jest wiele lasów i gór. Jest co ogl¹daæ i gdzie szukaæ zwady z miejscowymi rozbójnikami.").
+		addOption(L"O nie! Uciekam st¹d!", Dialog::END_DIALOG).
+		addOption(L"A¿ tak o to ³atwo?", 20);
+
+	dialog.addNode(20, L"Ka¿dy chce pokazaæ jak¹ ma si³ê w ³apie! Zw³aszcza m³odzi. Próbuj¹ dostaæ siê do stra¿y Rogalika.").
+		addOption(L"A có¿ to?", 200);
+
+	dialog.addNode(200, L"Musicie byæ chyba z bardzo daleka, ¿e o tym nie wiecie. Rz¹dy nad ca³ym terenem sprawuje szlachcic. Mieszka on w najwiêkszej wiosce i jest bardzo potê¿ny w³aœnie dziêki Rogalikowi. Podobno to jakiœ prezent od mnichów czy od dziadków. Kr¹¿¹ ró¿ne historie. Ale oprócz szlachcica i kilku stra¿ników nikt go nie widzia³. Jest tak pilnie strze¿ony!").
+		addOption(L"Wasz w³adca musi byæ straszny!", 201).
+		addOption(L"Musicie byæ wiêc zadowoleni z tak wielkiego w³adcy.", 202).
+		addOption(L"Obi³o mi siê o uszy, ¿e macie strasznego przywódcê...", 201).
+		addOption(L"By³em ciekaw jak tu ¿yjecie, pod rz¹dzami szlachcica.", 203);
+
+	dialog.addNode(201, L"Co takiego?! Mamy najlepszego w³adcê na œwiecie! Jak œmiesz wypowiadaæ takie s³owa?!").
+		addOption(L"Wybaczcie, mówiê tylko co s³ysza³em...", 2011);
+	
+	dialog.addNode(2011, L"To Ÿle us³yszeliœcie! Wynoœ siê!").
+		addOption(L"[uciekaj]", Dialog::END_DIALOG);
+
+	dialog.addNode(202, L"Och! Nie jest tak piêknie jak mog³oby siê wydawaæ... Ale z³ego s³owa nikt nie powie. Wszyscy siê boj¹").
+		addOption(L"Co siê dzieje?", 2021);
+
+	dialog.addNode(2021, L"Lepiej nie zawracaæ siê tym g³owy, zw³aszcza, ¿e zaraz pójdziecie w dalsz¹ podró¿... a i tak za du¿o ju¿ powiedzia³em... Bywajcie zdrów!").
+		addOption(L"Bywajcie!", Dialog::END_DIALOG);
+	
+	dialog.addNode(203, L"Bardzo dobrze! W koñcu nadesz³y czasy, w których cz³owiek czuje siê bezpiecznie.").
+		addOption(L"S³ysza³em co innego...", 2031);
+
+	dialog.addNode(2031, L"Musieliœcie Ÿle zrozumieæ, drogi goœciu.").
+		addOption(L". . .", Dialog::END_DIALOG);
+
+	cinkciarz.addDialog(dialog);
+
+	cinkciarz.setType(Creature::Type::DIALOG);
+	game.creatures.push_back( cinkciarz );
+
+	Creature losowynpc = Creature(Position(0,1, 0), ImageRes::DEALER);
+	losowynpc.setType(Creature::Type::DIALOG);
+	game.creatures.push_back( losowynpc );
+
+	Creature losowypotwor = Creature(Position(10,5, 0), ImageRes::MONSTER);
+	losowypotwor.setSpeed(3); // doœæ wolny
+	losowypotwor.setAI(Creature::AI::RANDOM_WALK); // losowo b³¹dzi
+	losowypotwor.setType(Creature::Type::HOSTILE); // wrogi
+	losowypotwor.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
+	game.creatures.push_back( losowypotwor );
 
 
 }

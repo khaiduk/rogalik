@@ -1,4 +1,5 @@
 #pragma once
+#include <list>
 #include "Creature.h"
 
 /**
@@ -9,12 +10,18 @@ class Player: public Creature
 public:
 	Player(Position pos = Position(0,0));
 	void drawHud(sf::RenderWindow& rw) const;
+	void drawInventory(sf::RenderWindow& rw) const;
+	
 	void replenishHealth();
-	void step(float dt, const Terrain& terrain);
+	void step(float dt, const Terrain& terrain, std::list<Creature> &creatures);
 	void getInput(const sf::Event& e);
+	void giveItem(const Item& item);
+
+	friend class GameBuilder;
 private:
 	sf::Image hbarimg, mbarimg, hudimg;
-	float health;
 	float mana;
+
+	std::list<Item> inventory;
 };
 

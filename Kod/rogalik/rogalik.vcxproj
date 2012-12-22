@@ -72,13 +72,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Creature.cpp" />
-    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Dialog.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameBuilder.cpp" />
     <ClCompile Include="ImageRes.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
-    <ClCompile Include="NPC.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Position.cpp" />
     <ClCompile Include="Terrain.cpp" />
@@ -86,12 +86,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Creature.h" />
-    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Dialog.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameBuilder.h" />
     <ClInclude Include="ImageRes.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="Menu.h" />
-    <ClInclude Include="NPC.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Position.h" />
     <ClInclude Include="Terrain.h" />

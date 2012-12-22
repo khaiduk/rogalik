@@ -2,9 +2,8 @@
 #include <list>
 #include <SFML/Graphics.hpp>
 #include "Terrain.h"
+#include "Creature.h"
 #include "Player.h"
-#include "NPC.h"
-#include "Enemy.h"
 
 /**
  * Klasa g³ówna gry.
@@ -32,11 +31,20 @@ public:
 	 * @param rw Obiekt okna na którym bêdzie rysowana gra
 	 */
 	void draw(sf::RenderWindow& rw) const;
+
+	enum GameState
+	{
+		INGAME,
+		INVENTORY,
+		DIALOG
+	};
+
+	GameState getState() const;
 private:
 	Terrain terrain;
 	Player player;
 	std::list<Creature> creatures;
-	std::list<Enemy> enemies;
+	GameState gameState;
 
 	friend class GameBuilder;
 };

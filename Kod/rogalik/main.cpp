@@ -51,19 +51,33 @@ int main()
 		else
 		{
 			while(App.GetEvent(Event))
+			{
 				if(Event.Type == sf::Event::Closed || Event.Key.Code=='e')
-				App.Close();
+				{
+					App.Close();
+				}
 				else if (Event.Type == sf::Event::KeyPressed || Event.Type == sf::Event::KeyReleased)
-			{
-				game.getInput(Event);
+				{
+					game.getInput(Event);
+				}
 			}
-			timeAcc += clock.GetElapsedTime();
-			while(timeAcc > TIME_STEP)
+
+			// czas jest symulowany tylko w czasie rozgrywki - nie w interferjsach takich jak
+			//   ekwipunek, dialogi, itp...
+			if(game.getState() == Game::INGAME)
 			{
-				game.step(TIME_STEP);
-				timeAcc -= TIME_STEP;
+				timeAcc += clock.GetElapsedTime();
+				while(timeAcc > TIME_STEP)
+				{
+					game.step(TIME_STEP);
+					timeAcc -= TIME_STEP;
+				}
+				clock.Reset();
 			}
-			clock.Reset();
+			else
+			{
+				clock.Reset();
+			}
 
 			App.Clear();
 			game.draw(App);
