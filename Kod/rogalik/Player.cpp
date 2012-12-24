@@ -57,10 +57,10 @@ void Player::replenishHealth()
 }
 
 
-void Player::step(float dt, const Terrain& terrain, std::list<Creature> &creatures)
+void Player::step(float dt, const Terrain& terrain, std::list<Creature> &creatures, Game& game)
 {
 	replenishHealth();
-	walk(walkDir, terrain, creatures, *this);
+	walk(walkDir, terrain, creatures, *this, game);
 }
 
 void Player::getInput(const sf::Event& e)

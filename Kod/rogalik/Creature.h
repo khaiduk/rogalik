@@ -9,6 +9,7 @@
 #include "Dialog.h"
 
 class Player;
+class Game;
 
 /**
  * Postac wystêpuj¹ca w swiecie gry, taka jak NPC i wrogowie
@@ -53,7 +54,7 @@ public:
 	/**
 	 * Stara siê wykonaæ ruch w danym kierunku
 	 */
-	void walk(const Position& dp, const Terrain& terrain, std::list<Creature> &creatures, Player& player);
+	void walk(const Position& dp, const Terrain& terrain, std::list<Creature> &creatures, Player& player, Game& game);
 
 	/**
 	 * Sposób zachowania siê postaci
@@ -66,7 +67,7 @@ public:
 	/**
 	 * Wykonuje krok symulacji
 	 */
-	void step(float dt, const Terrain& terrain, std::list<Creature> &creatures, Player& player);
+	void step(float dt, const Terrain& terrain, std::list<Creature> &creatures, Player& player, Game& game);
 
 	enum Type
 	{

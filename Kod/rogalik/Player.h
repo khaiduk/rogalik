@@ -13,7 +13,7 @@ public:
 	void drawInventory(sf::RenderWindow& rw) const;
 	
 	void replenishHealth();
-	void step(float dt, const Terrain& terrain, std::list<Creature> &creatures);
+	void step(float dt, const Terrain& terrain, std::list<Creature> &creatures, Game& game);
 	void getInput(const sf::Event& e);
 	void giveItem(const Item& item);
 

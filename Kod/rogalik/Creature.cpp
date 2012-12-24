@@ -1,6 +1,6 @@
 #include "Creature.h"
 #include "Player.h"
-
+#include "Game.h"
 
 Creature::Creature(const Position pos, int img) : pos(pos), walkDir(0,0), lastDir(0,0), walkPower(0), speed(10), ai(AI::IDLE), type(Type::DIALOG), health(1)
 {
@@ -60,7 +60,7 @@ void Creature::fight(Creature& creature)
 }
 
 
-void Creature::walk(const Position& dp, const Terrain& terrain, std::list<Creature> &creatures, Player& player)
+void Creature::walk(const Position& dp, const Terrain& terrain, std::list<Creature> &creatures, Player& player, Game& game)
 {
 
 	if(lastDir != dp) // gdy zmieniamy kierunek
@@ -93,6 +93,8 @@ void Creature::walk(const Position& dp, const Terrain& terrain, std::list<Creatu
 						if(i->type == Type::DIALOG) // rozmowa
 						{
 							std::cerr << "bla, blabla\n";
+							game.setDialog(i->dialog);
+							player.walkDir = Position(0,0);
 						}
 						else if(i->type == Type::HOSTILE) // atakuj
 						{
@@ -137,7 +139,7 @@ void Creature::setAI(const AI ai)
 	this->ai = ai;
 }
 	
-void Creature::step(float dt, const Terrain& terrain, std::list<Creature> &creatures, Player& player)
+void Creature::step(float dt, const Terrain& terrain, std::list<Creature> &creatures, Player& player, Game& game)
 {
 	if(ai == AI::IDLE)
 	{
@@ -147,7 +149,7 @@ void Creature::step(float dt, const Terrain& terrain, std::list<Creature> &creat
 	{
 		static Position newPos = pos;
 
-		walk(walkDir, terrain, creatures, player);
+		walk(walkDir, terrain, creatures, player, game);
 	
 		if(newPos == pos)
 		{

@@ -1,7 +1,7 @@
 #include "Game.h"
 
 
-Game::Game(void) : gameState(INGAME)
+Game::Game(void) : gameState(INGAME), currentDialog(NULL)
 {
 }
 
@@ -26,7 +26,7 @@ void Game::getInput(const sf::Event& e)
 			gameState = INVENTORY;
 		}
 	}
-	else
+	else if(gameState == INVENTORY)
 	{
 		if( e.Type == sf::Event::KeyPressed && (e.Key.Code == sf::Key::I ||
 			e.Key.Code == sf::Key::Escape)) // wyjscie z inventory
@@ -34,21 +34,46 @@ void Game::getInput(const sf::Event& e)
 			gameState = INGAME;
 		}
 	}
+	else if(gameState == DIALOG)
+	{
+		if( e.Type == sf::Event::KeyPressed &&
+			e.Key.Code == sf::Key::Escape)
+		{
+			gameState = INGAME;
+			currentDialog = NULL;
+		}
+		else
+		{
+			if(currentDialog->getInput(e))
+			{
+				gameState = DIALOG;
+			}
+			else
+			{
+				gameState = INGAME;
+				currentDialog->resetDialog();
+			}
+		}
+	}
 }
 
 void Game::step(float dt)
 {
-	player.step(dt, terrain, creatures);
-	for(std::list<Creature>::iterator i = creatures.begin(); i != creatures.end(); i++)
+	player.step(dt, terrain, creatures, *this);
+	for(std::list<Creature>::iterator i = creatures.begin(); i != creatures.end();)
 	{
 		if(i->getPosition().GetZ() == player.getPosition().GetZ()) // symuluj tylko postacie na tym samym poziomie
 		{
-			i->step(dt, terrain, creatures, player);
+			i->step(dt, terrain, creatures, player, *this);
 		}
 		if(! i->isAlive() )
 		{
 			i->giveLootToPlayer(player);
 			i = creatures.erase(i);
+		}
+		else
+		{
+			i++;
 		}
 	}
 }
@@ -73,10 +98,21 @@ void Game::draw(sf::RenderWindow& rw) const
 	{
 		player.drawInventory(rw);
 	}
+	else if(gameState == DIALOG)
+	{
+		currentDialog->draw(rw);
+	}
 }
 
 
 Game::GameState Game::getState() const
 {
 	return gameState;
+}
+
+
+void Game::setDialog(Dialog& dialog)
+{
+	currentDialog = &dialog;
+	gameState = DIALOG;
 }

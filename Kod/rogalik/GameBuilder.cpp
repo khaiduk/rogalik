@@ -989,6 +989,8 @@ void GameBuilder::generateNewGame()
 	*/
 	//game.player = Player( Position(0, 2) );
 
+/************************************************************************************************************/
+	//level 1 - rozmowa z cinkciarzem
 	Creature cinkciarz = Creature(Position(8,1, 1), ImageRes::DEALER);
 	
 	Dialog dialog;
@@ -999,7 +1001,7 @@ void GameBuilder::generateNewGame()
 		addOption(L"Chcia³bym coœ kupiæ, ale nie mam pieniêdzy. Liczê na ³askê.", 1).
 		addOption(L"Ach wêdrujê, i szukam przygód. Mo¿e coœ mi polecicie?", 2);
 
-	dialog.addNode(1, L"Drogi Panie! Na ³askê w tych czasach?! Musicie pytaæ gdzieœ indziej.").
+	dialog.addNode(1, L"Drogi Panie! Na ³askê w tych czasach?! Musicie pytaæ gdzie indziej.").
 		addOption(L". . .", Dialog::END_DIALOG);
 
 	dialog.addNode(2, L"Na terenach niedalekich jest wiele lasów i gór. Jest co ogl¹daæ i gdzie szukaæ zwady z miejscowymi rozbójnikami.").
@@ -1038,9 +1040,475 @@ void GameBuilder::generateNewGame()
 	cinkciarz.setType(Creature::Type::DIALOG);
 	game.creatures.push_back( cinkciarz );
 
-	Creature losowynpc = Creature(Position(0,1, 0), ImageRes::DEALER);
-	losowynpc.setType(Creature::Type::DIALOG);
-	game.creatures.push_back( losowynpc );
+	/************************************************************************************************************/
+	//level 1 - rozmowa z rzemieœlnikiem
+	Creature rzemieslnik = Creature(Position(8,1, 2), ImageRes::DEALER);
+	
+	Dialog dialog0;
+
+	dialog0 = Dialog();
+
+	dialog0.addNode(Dialog::START_DIALOG, L"Co Ciê do mnie sprowadza?").
+		addOption(L"S³ysza³em, ¿e ³atwo u Was o bójkê. Okradli mnie przed wiosk¹ i niestety nic nie mam do obrony... Nie wiem jak sobie poradziæ.", 3).
+		addOption(L"Macie jakieœ narzêdzia do obrony?", 4);
+
+	dialog0.addNode(3, L"Oj dzieciaku! Nie poradzisz sobie w ¿yciu! Musisz byæ bardziej uwa¿ny. Na	pocz¹tek mogê daæ ci drewniany kij, bo jak s¹dzê pieniêdzy te¿ nie masz.").
+		addOption(L"Dziêkujê za pomoc.", 30);
+	
+	dialog0.addNode(30, L"IdŸ i uwa¿aj na siebie dzieciaku.").
+		addOption(L". . .", Dialog::END_DIALOG); //KONIEC
+
+	dialog0.addNode(4, L"Takich rzeczy jest u mnie pod dostatkiem. Co was interesuje i w jakiej cenie?").
+		addOption(L"Ale ja niestety nie mam pieniêdzy... Okradli mnie.", 40);
+
+	dialog0.addNode(40, L"Za darmo nic ma.").
+		addOption(L"A mo¿e coœ starego, ledwo nadaj¹ce siê do u¿ytku?", 401).
+		addOption(L"Mo¿e macie coœ zbêdnego? Lub z nadmiarem?", 402);
+
+	dialog0.addNode(401, L"Nie obra¿ajcie mnie! U mnie nic nie jest do wyrzucenia!").
+		addOption(L"Przepraszam, nie to mia³em na myœli...", 4010);
+
+	dialog0.addNode(4010, L"Jeszcze musisz siê wiele nauczyæ. £ap kija i ju¿ idŸ.").
+		addOption(L". . .", Dialog::END_DIALOG);//KONIEC
+
+	dialog0.addNode(402, L"Hmm myœlê, ¿e mogê pomóc... Proszê, oto drewniany kij.").
+		addOption(L". . .", Dialog::END_DIALOG); //KONIEC
+
+	rzemieslnik.addDialog(dialog0);
+
+	rzemieslnik.setType(Creature::Type::DIALOG);
+	game.creatures.push_back( rzemieslnik );
+
+	/************************************************************************************************************/
+	//level 1 - rozmowa z kowalem
+	Creature kowal = Creature(Position(8,1, 3), ImageRes::DEALER);
+	
+	Dialog dialog1;
+
+	dialog1 = Dialog();
+
+	dialog1.addNode(Dialog::START_DIALOG, L"Czego tu szukasz?").
+		addOption(L"Chcia³em zobaczyæ czym siê tutaj zajmujecie.", 5).
+		addOption(L"Ale¿ jest Pan mi³y!", 6);
+
+	dialog1.addNode(6, L"WyjdŸ, nie mam nastroju do rozmów!").
+		addOption(L"[uciekaj]", Dialog::END_DIALOG);
+	
+	dialog1.addNode(5, L"Jak widaæ - tym czym ma siê zajmowaæ kowal.").
+		addOption(L"Widzê, ¿e jesteœcie zmêczeni.", 50);
+		//addOption(L". . .", Dialog::END_DIALOG); //KONIEC
+
+	dialog1.addNode(50, L"Tak. Tyle roboty, ¿e dnia nie starcza. Muszê znaleŸæ kogoœ i oddaæ mu klacz.").
+		addOption(L"Z chêci¹ j¹ przyjmê.", Dialog::END_DIALOG). //KONIEC
+		addOption(L"No tak, mo¿e byæ ciê¿ko. Wygl¹da na star¹ i s³ab¹.", 501);
+
+	dialog1.addNode(501, L"Mo¿e i wygl¹da, ale jest jeszcze pe³na energii.").
+		addOption(L"To mo¿e ja j¹ wezmê?", 5010);
+
+	dialog1.addNode(5010, L"Od zaraz!").
+		addOption(L". . .", Dialog::END_DIALOG);//KONIEC
+
+	kowal.addDialog(dialog1);
+
+	kowal.setType(Creature::Type::DIALOG);
+	game.creatures.push_back( kowal );
+
+	/************************************************************************************************************/
+	////level 1 - rozmowa z medrcem
+	Creature medrzec = Creature(Position(8,1, 4), ImageRes::DEALER);
+	
+	Dialog dialog2;
+
+	dialog2 = Dialog();
+
+	dialog2.addNode(Dialog::START_DIALOG, L"Wyczuwam now¹ energiê w mej przestrzeni! Och! Podró¿niku! Czego szukasz w naszych stronach?").
+		addOption(L"Nigdy nie mia³em stycznoœci z eliksirami. By³em ciekaw co tu jest...", 7);
+
+	dialog2.addNode(7, L"I pewnie chcia³byœ coœ kupiæ?").
+		addOption(L"Niestety nie mam za co...", 71).
+		addOption(L"Nie, w³aœciwie to ju¿ wychodzê.", 72);
+
+	dialog2.addNode(71, L"Och! Jakoœ na to zaradzimy. Jako nowy goœæ przyjmij ode mnie prezent - eliksir ¿ycia.").
+		addOption(L"A co to?", 711).
+		addOption(L"Chyba wiem co to jest.", 712);
+
+	dialog2.addNode(711, L"Kiedy bêdziesz czu³, ¿e tracisz si³y - napij siê.").
+		addOption(L". . .",Dialog::END_DIALOG); //KONIEC
+
+	dialog2.addNode(712, L"W takim razie bêdziesz wiedzia³ kiedy tego u¿yæ.").
+		addOption(L". . .", Dialog::END_DIALOG);//KONIEC
+
+	dialog2.addNode(72, L"W takim razie do zobaczenia!").
+		addOption(L". . .", Dialog::END_DIALOG);//KONIEC
+
+	medrzec.addDialog(dialog2);
+
+	medrzec.setType(Creature::Type::DIALOG);
+	game.creatures.push_back( medrzec );
+
+	/************************************************************************************************************/
+	////level 2 - rozmowa z pijakiem
+	Creature pijak = Creature(Position(8,1, 5), ImageRes::DEALER);
+	
+	Dialog dialog3;
+
+	dialog3 = Dialog();
+
+	dialog3.addNode(Dialog::START_DIALOG, L"Hej! Przyjacielu! Mo¿e siê dosi¹dziesz?").
+		addOption(L"Nie, dziêkujê! Nie bêdê siedzia³ z pijakiem...", 8).
+		addOption(L"Przepraszam, ale muszê czym prêdzej dostaæ siê do Waszego Pana.", 9);
+
+	dialog3.addNode(8, L"Phi! Wa¿niak...").
+		addOption(L". . .", Dialog::END_DIALOG); //KONIEC
+
+	dialog3.addNode(9, L"Uuu... To jeszcze d³uga droga przed tob¹, towarzyszu.").
+		addOption(L"Znasz jakiœ skrót?", 90);
+
+	dialog3.addNode(90, L"Heh... mo¿e i znam. (czkawka)").
+		addOption(L"Mo¿e to Ciê zachêci [daj mu monety].",900);
+
+	dialog3.addNode(900, L"Chcesz mnie przekupiæ?! A mo¿e masz coœ do picia? Trochê boli mnie g³owa...").
+		addOption(L"Mo¿e wina?", 9001).
+		addOption(L"Niestety nie mam nic.",9002).
+		addOption(L"Oszala³eœ?! Nie wiem w ogóle po co z Tob¹ rozmawiam. Sam wybiorê drogê. Na pewno trafiê.", Dialog::END_DIALOG);
+
+	dialog3.addNode(9001, L"Ooo...czywiœcie nie odmówiê!").
+		addOption(L"Teraz powiesz mi, któr¹ drog¹ mam iœæ?", 90010);
+
+	dialog3.addNode(90010, L"Pewnie! Ale chyba napijesz siê ze mn¹?").
+		addOption(L"Jasne...", 90011);
+	dialog3.addNode(90011, L"Jeœli wybierzesz drogê na lewo, to bêdziesz musia³ zap³aciæ za jej pzejœcie i jest trochê d³u¿sza, ale za to bez przeszkód. Jeœli jednak pójdziesz na prawo... S³ysza³em o zbójniku, który chodzi z wilkiem i ma doskona³y miecz! Przyda³by Ci siê!").
+		addOption(L"Dziêkujê! Bywaj zdrów!", 90012);
+	dialog3.addNode(90012, L"Wst¹p jeszcze kiedyœ!").
+		addOption(L". . .", Dialog::END_DIALOG); //KONIEC
+
+	dialog3.addNode(9002, L"Uuu to szkoda. Lubiê czasami wypiæ coœ mocniejszego. Lepiej mi siê myœli.").
+		addOption(L"Hmm... Moment. Mo¿e wina?", 9001);
+
+	pijak.addDialog(dialog3);
+
+	pijak.setType(Creature::Type::DIALOG);
+	game.creatures.push_back( pijak );
+
+	/************************************************************************************************************/
+	////level 3 - rozmowa z rzemieslnikiem
+	Creature rzemieslnik2 = Creature(Position(8,1, 9), ImageRes::DEALER);
+	
+	Dialog dialog4;
+
+	dialog4 = Dialog();
+
+	dialog4.addNode(Dialog::START_DIALOG, L"W czym mogê pomóc?").
+		addOption(L"Chcia³bym kupiæ zbroje.", 10).
+		addOption(L"Tylko siê rozgl¹dam.", 11);
+
+	dialog4.addNode(10, L"A jakieœ konkretne wymagania?").
+		addOption(L"Nie wiem. Nie znam siê.", 101).
+		addOption(L"Mam niewiele pieniêdzy. Nie wiem na jak¹ mnie staæ.", 102);
+
+	dialog4.addNode(101, L"Mam tego doœæ sporo, rozejrzyj siê, a kiedy coœ znajdziesz - powiedz.").
+		addOption(L". . .", Dialog::END_DIALOG); //KONIEC
+
+	dialog4.addNode(102, L"Zbroja jest wa¿na. Warto zap³aciæ za ni¹ wiêcej. Wróæ jak ju¿ bêdziesz mia³ wystarczaj¹co du¿o monet.").
+		addOption(L". . .", Dialog::END_DIALOG); //KONIEC
+
+	rzemieslnik2.addDialog(dialog4);
+
+	rzemieslnik2.setType(Creature::Type::DIALOG);
+	game.creatures.push_back( rzemieslnik2 );
+
+	/************************************************************************************************************/
+	////level 3 - rozmowa z kolesiem
+	Creature koles = Creature(Position(8,1, 11), ImageRes::DEALER);
+	
+	Dialog dialog5;
+
+	dialog5 = Dialog();
+
+	dialog5.addNode(Dialog::START_DIALOG, L"Hej, ty! Ile chcesz za tego konia?").
+		addOption(L"Nie jest na sprzeda¿!", 12).
+		addOption(L"A ile proponujesz?", 13);
+
+	dialog5.addNode(12, L"No tak, zawsze mo¿na wzi¹æ si³¹ co siê chce!").
+		addOption(L"[walcz]", Dialog::END_DIALOG); //KONIEC I POJEDYNEK
+
+	dialog5.addNode(13, L"Nie wygl¹da najlepiej, ale i taka by mi siê przyda³a. Hmm 8 monet.").
+		addOption(L"Ma³o, chcê 12.", 130).
+		addOption(L"Dobrze, jest Twoja", Dialog::END_DIALOG); //KONIEC
+
+	dialog5.addNode(130, L"Mogê daæ 10 i ani monety wiêcej.").
+		addOption(L"Dobrze, jest Twoja", Dialog::END_DIALOG). //KONIEC
+		addOption(L"W takim razie nic z tego.", Dialog::END_DIALOG); //KONIEC I POJEDYNEK
+
+	koles.addDialog(dialog5);
+
+	koles.setType(Creature::Type::DIALOG);
+	game.creatures.push_back( koles );
+
+	/************************************************************************************************************/
+	////level 3 - rozmowa z medrcem
+	Creature medrzec2 = Creature(Position(8,1, 10), ImageRes::DEALER);
+	
+	Dialog dialog6;
+
+	dialog6 = Dialog();
+
+	dialog6.addNode(Dialog::START_DIALOG, L"Czego szukasz, drogi wêdrowcze?").
+		addOption(L"Potrzebujê czegoœ na wzmocnienie.", 14).
+		addOption(L"Nic konkretnego.", 15);
+
+	dialog6.addNode(14, L"Hmm dobrym rozwi¹zaniem bêdzie eliksir ¿ycia.").
+		addOption(L"W takim razie biorê!", 140);
+
+	dialog6.addNode(140, L"A mo¿e by³byœ zainteresowany czymœ jeszcze?").
+		addOption(L"Nie, dziêkujê. Myœlê, ¿e na razie wystarczy.", Dialog::END_DIALOG).
+		addOption(L"Macie coœ do zaproponowania?", 1400);
+
+	dialog6.addNode(1400, L"Doskona³y z³oty proszek usypiaj¹cy. Ka¿demu w koñcu siê przydaje.").
+		addOption(L"Hmm. Mo¿e innym razem. Dziêkujê!", Dialog::END_DIALOG). //KONIEC
+		addOption(L"Skoro tak twierdzicie to mo¿e i mnie siê przyda.",1401);
+
+	dialog6.addNode(1401, L"Z pewnoœci¹.").
+		addOption(L". . .", Dialog::END_DIALOG); //KONIEC
+
+	dialog6.addNode(15, L"Mo¿e móg³bym coœ zaproponowaæ?").
+		addOption(L"Z chêci¹ pos³ucham.", 1400);
+
+	medrzec2.addDialog(dialog6);
+
+	medrzec2.setType(Creature::Type::DIALOG);
+	game.creatures.push_back( medrzec2 );
+
+	/************************************************************************************************************/
+	////level 3 - rozmowa ze stra¿nikiem
+	Creature straznik = Creature(Position(8,1, 8), ImageRes::DEALER);
+	
+	Dialog dialog7;
+
+	dialog7 = Dialog();
+
+	dialog7.addNode(Dialog::START_DIALOG, L"Czego?").
+		addOption(L"Czy otworzycie bramy?", 16).
+		addOption(L"Wypuœæ mnie! Chcê wyjœæ!", 162);
+		
+	dialog7.addNode(16, L"To zale¿y jak poprosisz! (œmiech)").
+		addOption(L"Mam zap³aciæ?",161).
+		addOption(L"Pewnie chcecie pieniêdzy? Otwieranie bramy jest waszym obowi¹zkiem!", 162);
+
+	dialog7.addNode(161, L"Myœlê, ¿e powinno wystarczyæ.").
+		addOption(L"[zaplac]", Dialog::END_DIALOG);//KONIEC
+
+	dialog7.addNode(162, L"Mo¿e trochê szacunku! Co?!").
+		addOption(L"Niby dlaczego?", 1620);
+
+	dialog7.addNode(1620, L"Szukasz niepotrzebnego problemu, ch³opaczku.").
+		addOption(L"Mam zap³aciæ?", 161).
+		addOption(L"Ch³opaczku?! Jak œmiesz?!", Dialog::END_DIALOG); //KONIEC I POJEDYNEK
+
+	straznik.addDialog(dialog7);
+
+	straznik.setType(Creature::Type::DIALOG);
+	game.creatures.push_back( straznik );
+
+	/************************************************************************************************************/
+	////level 4 - rozmowa z kolesiem
+	Creature koles2 = Creature(Position(8,1, 12), ImageRes::DEALER);
+	
+	Dialog dialog8;
+
+	dialog8 = Dialog();
+
+	dialog8.addNode(Dialog::START_DIALOG, L"Masz coœ do jedzenia?").
+		addOption(L"Nie, nie mam.", Dialog::END_DIALOG).
+		addOption(L"Coœ mog³oby siê znaleŸæ.", 17);
+		
+	dialog8.addNode(17, L"Podzielisz siê?").
+		addOption(L"Widzê, ¿e potrzebujesz bardziej ni¿ ja.",171).
+		addOption(L"Mogê Ci sprzedaæ. Potrzebujê piniêdzy wiêc ka¿da moneta siê przyda.", 172);
+
+	dialog8.addNode(171, L"Och, jesteœcie tacy mi³osierni. Przyjmijcie w zamian eliksir ¿ycia.").
+		addOption(L"[zaplac]", Dialog::END_DIALOG);//KONIEC
+
+	dialog8.addNode(172, L"No dobrze, mam kilka.").
+		addOption(L"[zaplac]", Dialog::END_DIALOG); //KONIEC
+
+	koles2.addDialog(dialog8);
+
+	koles2.setType(Creature::Type::DIALOG);
+	game.creatures.push_back( koles2 );
+
+	/************************************************************************************************************/
+	////level 4 - rozmowa ze zbieraczem narzedzi
+	Creature zbieracz = Creature(Position(8,1, 13), ImageRes::DEALER);
+	
+	Dialog dialog9;
+
+	dialog9 = Dialog();
+
+	dialog9.addNode(Dialog::START_DIALOG, L"Zapraszam w me skromne progi!").
+		addOption(L"O przepraszam, nie wiedzia³em, ¿e ktoœ tu mieszka.", 18);
+		
+	dialog9.addNode(18, L"Nie dziwi mnie to, w takim miejscu.").
+		addOption(L"Nie chcê przeszkadzaæ, wszystkiego dobrego!", Dialog::END_DIALOG). //KONIEC
+		addOption(L"Czym siê zajmujecie tutaj?", 180);
+
+	dialog9.addNode(180, L"G³ównie to zbieraniem narzêdzi i udoskonalaniem ich.").
+		addOption(L"Czyli siê nie nudzicie.", 181);
+
+	dialog9.addNode(181, L"Jeœli macie coœ do sprzeda¿y, to z chêci¹ kupiê.").
+		addOption(L"W³aœciwie to nic czego chcia³bym siê pozbyæ.", 1811).
+		addOption(L"Hmm... co najwy¿ej ciupagê.",1812);
+
+	dialog9.addNode(1811, L"Szkoda, gdybyœ jednak siê zdecydowa³, wiesz gdzie mnie szukaæ.").
+		addOption(L". . .", Dialog::END_DIALOG); //KONIEC
+	
+	dialog9.addNode(1812, L"Biorê! A dok¹d siê wybieracie?").
+		addOption(L"Przed siebie szukaæ przygód.", 18121).
+		addOption(L"Do Waszego Pana. S³ysza³em ró¿ne historie o nim i jego panowaniu.", 18122);
+
+	dialog9.addNode(18121, L"W takim razie szerokiej drogi").
+		addOption(L". . .", Dialog::END_DIALOG); //KONIEC
+
+	dialog9.addNode(18122, L"Ach! B¹dŸ ostro¿ny. W domu szlachcica mieszka podobno straszny potwór. Nie widzia³em na w³asne oczy, ale czasami bywam w wiosce i ludzie gadaj¹. Myœlê, ¿e czegoœ pilnuje.").
+		addOption(L"Dziêkujê. Bêdê mia³, jak to mówi¹, oczy dooko³a g³owy.", Dialog::END_DIALOG); //KONIEC
+
+	zbieracz.addDialog(dialog9);
+
+	zbieracz.setType(Creature::Type::DIALOG);
+	game.creatures.push_back( zbieracz );
+
+	/************************************************************************************************************/
+	////level 5 - rozmowa z rzemieslnikiem
+	Creature rzemieslnik3 = Creature(Position(8,1, 17), ImageRes::DEALER);
+	
+	Dialog dialog10;
+
+	dialog10 = Dialog();
+
+	dialog10.addNode(Dialog::START_DIALOG, L"Co bêdzie?").
+		addOption(L"Nic nie chcê.", 19).
+		addOption(L"Chcia³bym kupiæ zbroje.", 21);
+		
+	dialog10.addNode(19, L"To po co przychodzisz?").
+		addOption(L"Chcia³em zbrojê, ale tutaj nie widzê nic co by³oby odpowiednie.", 190);
+
+	dialog10.addNode(190, L"Ka¿dy cwany. Jeœli siê jednak zdecydujecie, wiecie gdzie wróciæ. Lepszych nigdzie nei znajdziecie.").
+		addOption(L". . .", Dialog::END_DIALOG); //KONIEC
+
+	dialog10.addNode(21, L"Nie wygl¹dacie na kogoœ kto ma tyle pieniêdzy.").
+		addOption(L"Pozory myl¹.", 211).
+		addOption(L"Proszê sobie oszczêdziæ takich komentarzy..",212);
+
+	dialog10.addNode(211, L"Oczywiœcie zaraz znajdê coœ odpowiedniego.").
+		addOption(L". . .", Dialog::END_DIALOG); //KONIEC
+	
+	dialog10.addNode(212, L"Ka¿dy cwany. Zaraz znajdê coœ odpowiedniego.").
+		addOption(L". . .", Dialog::END_DIALOG);
+
+	rzemieslnik3.addDialog(dialog10);
+
+	rzemieslnik3.setType(Creature::Type::DIALOG);
+	game.creatures.push_back( rzemieslnik3 );
+
+	/************************************************************************************************************/
+	////level 5 - rozmowa z medrcem
+	Creature medrzec3 = Creature(Position(8,1, 18), ImageRes::DEALER);
+	
+	Dialog dialog11;
+
+	dialog11 = Dialog();
+
+	dialog11.addNode(Dialog::START_DIALOG, L"Co przygotowaæ?").
+		addOption(L"Potrzebujê eliksiru ¿ycia.", 22).
+		addOption(L"Sam nie wiem czego chcê.", 23);
+		
+	dialog11.addNode(22, L"Tylko go nie marnuj...").
+		addOption(L". . .", Dialog::END_DIALOG); //KONIEC
+
+	dialog11.addNode(23, L"Wróæ kiedy bêdziesz czegoœ potrzebowa³.").
+		addOption(L". . .", Dialog::END_DIALOG); //KONIEC
+
+	medrzec3.addDialog(dialog11);
+
+	medrzec3.setType(Creature::Type::DIALOG);
+	game.creatures.push_back( medrzec3 );
+
+	/************************************************************************************************************/
+	////level 5 - rozmowa z cinkcarzem
+	Creature cinkciarz2 = Creature(Position(8,1, 16), ImageRes::DEALER);
+	
+	Dialog dialog12;
+
+	dialog12 = Dialog();
+
+	dialog12.addNode(Dialog::START_DIALOG, L"S³u¿ê uprzejmie!").
+		addOption(L"Chcia³bym dostaæ siê do Waszego Pana, niestety nie znam drogi.", 24).
+		addOption(L"Gdzie znajdê dom Szlachcica?", 25);
+		
+	dialog12.addNode(25, L"Przy koñcu wioski.").
+		addOption(L"Dziêkujê!", 250);
+
+	dialog12.addNode(250, L"BadŸ ostro¿ny, kiedy tam wejdziesz.").
+		addOption(L". . .", Dialog::END_DIALOG); //KONIEC
+
+	dialog12.addNode(24, L"Musisz iœæ do koñca wioski. Na pewno rozpoznasz jego dom.").
+		addOption(L"Dziêkujê!", Dialog::END_DIALOG). //KONIEC
+		addOption(L"Podobno mieszka w nim jakiœ straszny potwór, to prawda?", 240);
+
+	dialog12.addNode(240, L"O tak! Przyda³aby Ci siê jakaœ czarodziejska sztuczka. Wybierz siê do mêdrca. Na pewno coœ wymyœli. Przyda Ci sie pochodnia, któr¹ znajdziesz na pocz¹tku korytarza prowadz¹cego do miejsca gdzie znajduje sie Rogalik.").
+		addOption(L"Ale czym j¹ rozpalê?", 2401).
+		addOption(L"Zapamiêtam te wskazówki.", Dialog::END_DIALOG);
+
+	dialog12.addNode(2401, L"Mam coœ takiego jak rozpa³ka do ognia.").
+		addOption(L"Z chêci¹ kupiê!", Dialog::END_DIALOG). //KONIEC
+		addOption(L"Chcesz mnie naci¹gn¹æ!", 2402);
+
+	dialog12.addNode(2402, L"Bêdziesz ¿a³owa³ i jeszcze po ni¹ wrócis!").
+		addOption(L". . .", Dialog::END_DIALOG); //KONIEC
+	
+	dialog12.addNode(212, L"Ka¿dy cwany. Zaraz znajdê coœ odpowiedniego.").
+		addOption(L". . .", Dialog::END_DIALOG); //KONIEC
+
+	cinkciarz2.addDialog(dialog12);
+
+	cinkciarz2.setType(Creature::Type::DIALOG);
+	game.creatures.push_back( cinkciarz2 );
+
+	/************************************************************************************************************/
+	////level 5 - rozmowa z medrcem (powrot)
+	Creature medrzec4 = Creature(Position(8,1, 18), ImageRes::DEALER);
+	
+	Dialog dialog13;
+
+	dialog13 = Dialog();
+
+	dialog13.addNode(Dialog::START_DIALOG, L"Widzê, ¿e o czymœ sobie przypomnia³eœ!").
+		addOption(L"Potrzebujê jakiejœ <<magicznej sztuczki>>.", 26).
+		addOption(L"Wybieram sie do szlachcica. Dowiedzia³em siê, ¿e bêdê potrzebowa³ jakiejœ <<magicznej sztuczki>>. Moglibyœcie mi jakoœ pomóc?", 261);
+		
+	dialog13.addNode(26, L"Niewiele mi to mówi. Musisz siê bardziej postaraæ.").
+		addOption(L"Idê do szlachcica.", 261).
+		addOption(L"Nie powinno Was to interesowaæ.",  262);
+
+	dialog13.addNode(262, L"W takim razie nie mogê pomóc.").
+		addOption(L". . .", Dialog::END_DIALOG); //KONIEC
+
+	dialog13.addNode(261, L"Ach! Do szlachcica. Pewnie zainteresowa³ Ciê Rogalik.").
+		addOption(L"Pewnie jak wielu innych.", 2611).
+		addOption(L"To ju¿ nie Wasz sprawa.", 2612);
+
+
+	dialog13.addNode(2611, L"Niech pomyœlê... proponujê kolorowy piasek. O jego w³aœciwoœciach nie mogê mówiæ, ka¿dy na swój sposób wie kiedy i jak go u¿yæ.").
+		addOption(L"Mam nadziejê, ¿e i ja siê dowiem.", Dialog::END_DIALOG); //KONIEC
+
+	dialog13.addNode(2612, L"Nie mogê pomóc jeœli nie wiem o co chodzi.").
+		addOption(L"Hmm... no dobrze. Zainteresowa³ mnie i to bardzo. Pomo¿ecie?", 2611);
+
+	medrzec4.addDialog(dialog13);
+
+	medrzec4.setType(Creature::Type::DIALOG);
+	game.creatures.push_back( medrzec4 );
+	/////////////////////////////////////////////////////////////////////////////////
 
 	Creature losowypotwor = Creature(Position(10,5, 0), ImageRes::MONSTER);
 	losowypotwor.setSpeed(3); // doœæ wolny

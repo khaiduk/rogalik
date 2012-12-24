@@ -40,11 +40,15 @@ public:
 	};
 
 	GameState getState() const;
+
+	void setDialog(Dialog& dialog);
 private:
 	Terrain terrain;
 	Player player;
 	std::list<Creature> creatures;
 	GameState gameState;
+
+	Dialog *currentDialog;
 
 	friend class GameBuilder;
 };

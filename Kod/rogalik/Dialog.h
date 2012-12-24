@@ -1,7 +1,10 @@
 #pragma once
 #include <map>
+#include <vector>
 #include <string>
 #include <iostream>
+#include <SFML/Graphics.hpp>
+
 class Dialog
 {
 public:
@@ -14,7 +17,8 @@ public:
 		Node& addOption(std::wstring asw, int id);
 
 		std::wstring message;
-		std::map<int, std::wstring> opts;
+		std::vector<std::wstring> optsAns;
+		std::vector<int> optsDest;
 
 	};
 
@@ -23,6 +27,13 @@ public:
 
 	Node& addNode(int id, std::wstring msg);
 
+	void draw(sf::RenderWindow& rw);
+	bool getInput(const sf::Event& e);
+	void resetDialog();
+
 	std::map<int, Node> nodes;
+
+	int currentNode;
+	int selectedAns;
 };
 

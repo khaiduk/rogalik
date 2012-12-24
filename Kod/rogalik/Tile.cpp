@@ -13,6 +13,8 @@ void Tile::setImage(int img)
 
 void Tile::draw(sf::RenderWindow& rw, int x, int y) const
 {
+	if(x<0 || y<0 || x > ImageRes::WIDTH || y > ImageRes::HEIGHT )
+		return;
 	sf::Sprite s(sprite);
 	s.SetPosition(x, y);
 	rw.Draw(s);
