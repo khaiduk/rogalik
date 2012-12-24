@@ -22,6 +22,9 @@ public:
 	bool operator ==(const Position& b) const;
 	bool operator !=(const Position& b) const;
 
+	/**
+	 * Zwraca odleg³oœæ miêdzy po³o¿eniami
+	 */
 	static float distance(const Position& a, const Position& b);
 public:
 	int x,y,z;

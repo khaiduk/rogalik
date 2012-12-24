@@ -5,11 +5,6 @@ Game::Game(void) : gameState(INGAME), currentDialog(NULL)
 {
 }
 
-
-Game::~Game(void)
-{
-}
-
 void Game::getInput(const sf::Event& e)
 {
 	if(gameState == INGAME)
@@ -37,7 +32,7 @@ void Game::getInput(const sf::Event& e)
 	else if(gameState == DIALOG)
 	{
 		if( e.Type == sf::Event::KeyPressed &&
-			e.Key.Code == sf::Key::Escape)
+			e.Key.Code == sf::Key::Escape) // wyjscie z dialogu
 		{
 			gameState = INGAME;
 			currentDialog = NULL;

@@ -12,7 +12,6 @@ class Game
 {
 public:
 	Game(void);
-	~Game(void);
 
 	/**
 	 * Pobiera wejœcie
@@ -32,6 +31,9 @@ public:
 	 */
 	void draw(sf::RenderWindow& rw) const;
 
+	/**
+	 * Stan gry
+	 */
 	enum GameState
 	{
 		INGAME,
@@ -39,8 +41,15 @@ public:
 		DIALOG
 	};
 
+	/**
+	 * Zwraca obecny stan gry
+	 */
 	GameState getState() const;
 
+	/**
+	 * Ustawia stan gry na dialog z postaci¹
+	 * @param dialog Obiekt dialogu
+	 */
 	void setDialog(Dialog& dialog);
 private:
 	Terrain terrain;

@@ -39,11 +39,31 @@ public:
 	 */
 	bool isSolid();
 
+	/**
+	 * Ustawia kafelek jako teleportuj¹cy postacie do innego kafelka
+	 * @param pos punkt docelowy
+	 */
 	void setWarp(const Position& pos);
+
+	/**
+	 * Zwraca true gdy kafalek jest teleportuj¹cy, w przeciwnym wypadku zwraca false
+	 */
 	bool isWarp();
+
+	/**
+	 * Zwraca punkt docelowy kafelka teleportuj¹cego
+	 */
 	Position getWarp();
 
+	/**
+	 * Ustawia prêdkoœæ poruszania siê po danym kafelku
+	 * @param speed prêdkoœæ poruszania siê po danym kafelku
+	 */
 	void setWalkSpeed(int speed);
+
+	/**
+	 * Zwraca prêdkoœæ poruszania siê po danym kafelku
+	 */
 	int getWalkSpeed() const;
 private:
 	Position pos;

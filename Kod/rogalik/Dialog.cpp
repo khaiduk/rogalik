@@ -47,6 +47,7 @@ void Dialog::draw(sf::RenderWindow& rw)
 	posx = 50.0;
 	posy = 50.0;
 
+	// Dobrze by³oby wydzieliæ do jakieœ osobnej klasy TextArea ~ Karol
 	for(int i=0;i<nodes[currentNode].message.size();i++)
 	{
 		std::wstring s(1, nodes[currentNode].message[i]);

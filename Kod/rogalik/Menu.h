@@ -1,5 +1,9 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+
+/**
+ * Menu g³ówne gry
+ */
 class Menu
 {
 public:

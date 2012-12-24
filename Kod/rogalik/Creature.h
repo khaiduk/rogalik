@@ -42,6 +42,9 @@ public:
 	 */
 	Position getPosition() const;
 
+	/**
+	 * Zwraca true gdy postaæ jescze ¿yje
+	 */
 	bool isAlive() const;
 
 	/**
@@ -49,6 +52,10 @@ public:
 	 */
 	void move(const Position& dp, const Terrain& terrain);
 
+	/**
+	 * Wykonanie ataku na postaci
+	 * @param creature Postaæ na której jest wykonywany atak
+	 */
 	void fight(Creature& creature);
 
 	/**
@@ -66,9 +73,17 @@ public:
 	};
 	/**
 	 * Wykonuje krok symulacji
+	 * @param dt D³ugoœæ kroku czasowego
+	 * @param terrain Teren (mapa) w jakim znajduje siê postaæ
+	 * @param creatures Lista postaci niezale¿nych na mapie
+	 * @param player Postaæ gracza
+	 * @param game Obiekt gry
 	 */
 	void step(float dt, const Terrain& terrain, std::list<Creature> &creatures, Player& player, Game& game);
 
+	/**
+	 * Typ postaci
+	 */
 	enum Type
 	{
 		PLAYER,
@@ -76,6 +91,9 @@ public:
 		HOSTILE
 	};
 
+	/**
+	 * Oddaje posiadane przedmioty jako ³up postaci gracza
+	 */
 	void giveLootToPlayer(Player& player);
 	
 	friend class GameBuilder;
@@ -95,11 +113,19 @@ protected:
 	 */
 	void setAI(const AI ai);
 	
-	
+	/**
+	 * Ustawia typ postaci
+	 */
 	void setType(const Type type);
 
+	/**
+	 * Dodaje przedmiot ³upu
+	 */
 	void addLoot(const Item& item);
 
+	/**
+	 * Ustawia obiekt dialogu
+	 */
 	void addDialog(const Dialog& dialog);
 
 protected:

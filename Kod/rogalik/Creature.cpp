@@ -20,6 +20,7 @@ void Creature::draw(sf::RenderWindow& rw, const Position& shift) const
 	int dy = shift.GetY();
 	s.SetPosition(pos.GetX()*ImageRes::TILESIZE + shift.GetX(), pos.GetY()*ImageRes::TILESIZE + shift.GetY());
 	rw.Draw(s);
+	// mo¿e warto by dodaæ pasek ¿ycia ~ Karol
 }
 
 
@@ -56,7 +57,7 @@ void Creature::move(const Position& dp, const Terrain& terrain)
 void Creature::fight(Creature& creature)
 {
 	creature.health -= 0.1;
-	std::cerr << "HP = " << health <<", c.HP= " << creature.health << std::endl;
+	//std::cerr << "HP = " << health <<", c.HP= " << creature.health << std::endl;
 }
 
 
@@ -92,13 +93,13 @@ void Creature::walk(const Position& dp, const Terrain& terrain, std::list<Creatu
 					{
 						if(i->type == Type::DIALOG) // rozmowa
 						{
-							std::cerr << "bla, blabla\n";
+							//std::cerr << "bla, blabla\n";
 							game.setDialog(i->dialog);
 							player.walkDir = Position(0,0);
 						}
 						else if(i->type == Type::HOSTILE) // atakuj
 						{
-							std::cerr << "slash, slash ";
+							//std::cerr << "slash, slash ";
 							fight(*i);
 						}
 					}
@@ -114,7 +115,7 @@ void Creature::walk(const Position& dp, const Terrain& terrain, std::list<Creatu
 				walkPower = 0;
 				if(type == Type::HOSTILE) // gdy jestem wrogiem
 				{
-					std::cerr << "grrr";
+					//std::cerr << "grrr";
 					fight(player);
 				}
 				isDone = true;

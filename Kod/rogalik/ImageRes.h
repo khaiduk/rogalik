@@ -36,6 +36,9 @@ public:
 	static const int WIDTH = 800;
 	static const int HEIGHT = 600;
 
+	/**
+	 * Identyfikatory wygl¹du kafelków/spritów
+	 */
 	enum Tileset {
 		EMPTY = 0,
 		HERO,
