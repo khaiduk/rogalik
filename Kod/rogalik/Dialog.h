@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include "TextArea.h"
 
 /**
  * Dialog postaci gracza z postaciami niezale¿nymi

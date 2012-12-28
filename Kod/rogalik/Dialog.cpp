@@ -43,6 +43,25 @@ void Dialog::draw(sf::RenderWindow& rw)
 	sf::Sprite tloH(tlo);
 	rw.Draw(tloH);
 
+	TextArea txt(nodes[currentNode].message, 700, font, 30);
+	txt.SetPosition(50, 50);
+	txt.SetColor(sf::Color(20, 18, 160));
+	rw.Draw(txt);
+	
+	float posy = txt.GetHeight() + 100;
+	
+	for(int i=0;i<nodes[currentNode].optsAns.size();i++)
+	{
+		sf::String t(nodes[currentNode].optsAns[i], font, 20.f);
+		if(selectedAns == i)
+			t.SetColor(sf::Color(120, 18, 60));
+		else
+			t.SetColor(sf::Color(20, 18, 160));
+		t.SetPosition(70.f, posy+40*i);
+		rw.Draw(t);
+	}
+
+	/*
 	float posx, posy;
 	posx = 50.0;
 	posy = 50.0;
@@ -73,7 +92,7 @@ void Dialog::draw(sf::RenderWindow& rw)
 			t.SetColor(sf::Color(20, 18, 160));
 		t.SetPosition(70.f, posy+40*i);
 		rw.Draw(t);
-	}
+	}*/
 }
 
 
