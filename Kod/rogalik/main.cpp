@@ -25,11 +25,11 @@ int main()
 		sf::Event Event;
 		if(m.getVar()) while(App.GetEvent(Event))
 		{
-			if(Event.Type == sf::Event::Closed || Event.Key.Code=='e' || Event.Key.Code == sf::Key::Escape)
+			if(Event.Type == sf::Event::Closed || Event.Key.Code=='e' )//|| Event.Key.Code == sf::Key::Escape)
 				App.Close();
 			else
 			{
-				m.Action(char(Event.Key.Code));
+				m.Action(Event.Key.Code);
 			}
 		}
 		if(m.getVar())

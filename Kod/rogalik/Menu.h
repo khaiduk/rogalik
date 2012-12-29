@@ -7,6 +7,10 @@
 class Menu
 {
 public:
+	struct node{
+		sf::Image *wsk;
+		bool wartosc;
+	};
 	/**
 	** Domyslny konstruktor w ktory wczytujemy obrazki, definiujemy poczatkowe wartosci zmiennych
 	**/
@@ -27,8 +31,9 @@ public:
 	/**
 	** Funkcja odpowiadajaca za obsluge klawiatury w menu @Param przycisk do obsluzenia
 	**/
-	void Action(const char);
+	void Action(sf::Key::Code );
 private:
 	sf::Image tlo,opcje,start,wczytaj,wyjscie;
 	bool var;
+	node *tab;
 };

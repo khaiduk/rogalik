@@ -2,12 +2,16 @@
 #include <iostream>
 Menu::Menu()
 {
+	tab = new node[5];
 	tlo.LoadFromFile("tlo.png");
 	start.LoadFromFile("start.png");
 	opcje.LoadFromFile("opcje.png");
 	wczytaj.LoadFromFile("wczytaj.png");
 	wyjscie.LoadFromFile("wyjscie.png");
 	var = true;
+
+	//tab[0].wsk = &tlo;
+	//tab[0].wartosc = false;
 }
 void Menu::draw(sf::RenderWindow& rw) const
 {
@@ -30,18 +34,22 @@ bool Menu::getVar() const
 {
 	return var;
 }
-void Menu::Action(const char wsk)
+void Menu::Action(sf::Key::Code wsk)
 {
-	if(wsk == 'n')
+	if(wsk == sf::Key::N)
 	{
 		var=false;
 	}
-	else if (wsk == 'o')
+	else if (wsk == sf::Key::O)
 	{
 		//opcje
 	}
-	else if(wsk == 'w')
+	else if(wsk == sf::Key::W)
 	{
 		//wczytaj
 	}
+	else if(wsk ==  sf::Key::Up)
+		std::cout<< "Strzala w gore"<< std::endl;
+	else if(wsk ==  sf::Key::Down)
+		std::cout << "Strzala w dol"<< std::endl;
 }
