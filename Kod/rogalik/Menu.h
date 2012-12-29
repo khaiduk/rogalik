@@ -8,7 +8,7 @@ class Menu
 {
 public:
 	/**
-	** Domyslny konstruktor w ktory wczytujemy obrazki
+	** Domyslny konstruktor w ktory wczytujemy obrazki, definiujemy poczatkowe wartosci zmiennych
 	**/
 	Menu();
 
@@ -16,6 +16,19 @@ public:
 	** Funkcja odpowiadajaca za 'rysowanie' menu @param rw Obiekt okna na którym bêdzie rysowane menu
 	**/
 	void draw(sf::RenderWindow& rw) const;
+	/**
+	**	Funkcja ustawiajaca prywatna wartosc klassy
+	**/
+	void setVar(const bool ws);
+	/**
+	** Funkcja pobierajaca prywatna wartosc klasy @return var - prywatna zmienna typu bool
+	**/
+	bool getVar() const;
+	/**
+	** Funkcja odpowiadajaca za obsluge klawiatury w menu @Param przycisk do obsluzenia
+	**/
+	void Action(const char);
 private:
 	sf::Image tlo,opcje,start,wczytaj,wyjscie;
+	bool var;
 };

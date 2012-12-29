@@ -19,30 +19,20 @@ int main()
 	Menu m;
 	gb.generateNewGame();
 	Game game = gb.getGame();
-	bool var = true;
-
+	std::cout << m.getVar() ;
 	while(App.IsOpened())
 	{
 		sf::Event Event;
-		if(var) while(App.GetEvent(Event))
+		if(m.getVar()) while(App.GetEvent(Event))
 		{
-			if(Event.Type == sf::Event::Closed || Event.Key.Code=='e')
+			if(Event.Type == sf::Event::Closed || Event.Key.Code=='e' || Event.Key.Code == sf::Key::Escape)
 				App.Close();
-			else if (Event.Key.Code=='n')
+			else
 			{
-				var = false;
-				//create game
-			}
-			else if (Event.Key.Code=='o')
-			{
-				//opcje
-			}
-			else if(Event.Key.Code=='w')
-			{
-				//wczytaj
+				m.Action(char(Event.Key.Code));
 			}
 		}
-		if(var)
+		if(m.getVar())
 		{
 			App.Clear();
 			m.draw(App);
