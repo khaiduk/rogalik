@@ -2,9 +2,9 @@
 
 Player::Player(Position pos) : Creature(pos, ImageRes::HERO), mana(0.60)
 {
-	hudimg.LoadFromFile("hud.png");
-	hbarimg.LoadFromFile("healthbar.png");
-	mbarimg.LoadFromFile("manabar.png");
+	hudimg.LoadFromFile("Images/hud.png");
+	hbarimg.LoadFromFile("Images/healthbar.png");
+	mbarimg.LoadFromFile("Images/manabar.png");
 	setType(PLAYER);
 }
 
