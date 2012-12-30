@@ -7,10 +7,6 @@
 class Menu
 {
 public:
-//	struct node{
-	//	sf::Image *wsk;
-	//	bool wartosc;
-//	};
 	/**
 	** Domyslny konstruktor w ktory wczytujemy obrazki, definiujemy poczatkowe wartosci zmiennych
 	**/
@@ -24,11 +20,11 @@ public:
 	**	Funkcja ustawiajaca prywatna wartosc klassy
 	**/
 	void drawMenuGame(sf::RenderWindow& rw);
-	void setVar(const bool ws);
+	void setOustsideGame(const bool ws);
 	/**
 	** Funkcja pobierajaca prywatna wartosc klasy @return var - prywatna zmienna typu bool
 	**/
-	bool getVar() const;
+	bool isOutsideGame () const;
 	/**
 	** Funkcja odpowiadajaca za obsluge klawiatury w menu @Param przycisk do obsluzenia
 	**/
@@ -37,7 +33,5 @@ public:
 private:
 	sf::Image tlo,opcje,start,wczytaj,wyjscie;
 	bool var;
-	//node *tab;
-	bool *_tab;
 	int _indeks;
 };

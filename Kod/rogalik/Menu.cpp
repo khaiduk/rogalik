@@ -3,59 +3,53 @@
 Menu::Menu()
 {
 	_indeks = 0;
-	_tab = new bool[4];
-	for(int i = 0 ; i < 4 ;i++)
-		_tab[i] = false;
-	_tab[0] = true;
 	tlo.LoadFromFile("Images/tlo.png");
 	var = true;
 }
 Menu::~Menu()
 {
-	//delete []_tab;
-	//_tab = NULL;
 }
 void Menu::draw(sf::RenderWindow& rw)
 {
 	sf::Sprite tloH(tlo);
 	rw.Draw(tloH);
-	if(_tab[0])
-		start.LoadFromFile("Images/start1.png");
-	else
+	if(_indeks == 0)
 		start.LoadFromFile("Images/start.png");
+	else
+		start.LoadFromFile("Images/start1.png");
 	sf::Sprite startH(start,sf::Vector2f(296,240));
 	rw.Draw(startH);
-	if(_tab[1])
-		opcje.LoadFromFile("ee.png");
+	if(_indeks == 1)
+		opcje.LoadFromFile("Images/opcje1.png");
 	else
-		opcje.LoadFromFile("opcje.png");
+		opcje.LoadFromFile("Images/opcje.png");
 	sf::Sprite opcjeH(opcje,sf::Vector2f(292,294));
 	rw.Draw(opcjeH);
-	if(_tab[2])
-		wczytaj.LoadFromFile("ee.png");
+	if(_indeks == 2)
+		wczytaj.LoadFromFile("Images/wczytaj1.png");
 	else
-		wczytaj.LoadFromFile("wczytaj.png");
+		wczytaj.LoadFromFile("Images/wczytaj.png");
 	sf::Sprite wczytajH(wczytaj,sf::Vector2f(296,349));
 	rw.Draw(wczytajH);
-	if(_tab[3])
-		wyjscie.LoadFromFile("ee.png");
+	if(_indeks == 3)
+		wyjscie.LoadFromFile("Images/wyjscie1g.png");
 	else
-		wyjscie.LoadFromFile("wyjscie.png");
+		wyjscie.LoadFromFile("Images/wyjscieg.png");
 	sf::Sprite wyjscieH(wyjscie,sf::Vector2f(294,404));
 	rw.Draw(wyjscieH);
 }
 void Menu::drawMenuGame(sf::RenderWindow& rw)
 {
 	static sf::Image wznow,zapisz;
-	if(_tab[0])
+	if(_indeks == 0)
 		wznow.LoadFromFile("Images/wznow1.png");
 	else
 		wznow.LoadFromFile("Images/wznow.png");
-	if(_tab[1])
+	if(_indeks == 1)
 		zapisz.LoadFromFile("Images/zapisz1.png");
 	else
 		zapisz.LoadFromFile("Images/zapisz.png");
-	if(_tab[2])
+	if(_indeks == 2)
 		wyjscie.LoadFromFile("Images/wyjscie1.png");
 	else
 		wyjscie.LoadFromFile("Images/wyjscie.png");
@@ -68,11 +62,11 @@ void Menu::drawMenuGame(sf::RenderWindow& rw)
 	sf::Sprite wyjscieH(wyjscie,sf::Vector2f(280,329));
 	rw.Draw(wyjscieH);
 }
-void Menu::setVar(const bool ws)
+void Menu::setOustsideGame(const bool ws)
 {
 	var = ws;
 }
-bool Menu::getVar() const
+bool Menu::isOutsideGame () const
 {
 	return var;
 }
@@ -96,28 +90,22 @@ void Menu::Action(const sf::Event& e)
 		{
 			_indeks--;
 		}
-		for(int i = 0 ; i < 4 ;i++)
-			_tab[i] = false;
-		_tab[_indeks] = true;
 	}
 	else if(e.Key.Code ==  sf::Key::Down && e.Type == sf::Event::KeyPressed)
 	{
 		if(_indeks < 3)
 			_indeks++;
-		for(int i = 0 ; i < 4 ;i++)
-				_tab[i] = false;
-		_tab[_indeks] = true;
 	}
 	else if(e.Key.Code ==  sf::Key::Space && e.Type == sf::Event::KeyPressed)
 	{
 		for(int i = 0 ; i < 4 ; i++)
-			if(_tab[0])
+			if(_indeks == 0)
 				var=false;
-			else if (_tab[1])
+			else if (_indeks == 1)
 				break; //wczytaj
-			else if(_tab[2])
+			else if(_indeks == 2)
 				break;//opcje
-			else if(_tab[3])
+			else if(_indeks == 3)
 				break; //exit
 	}
 }
@@ -129,16 +117,10 @@ void Menu::ActionGameMenu(const sf::Event& e)
 		{
 			_indeks--;
 		}
-		for(int i = 0 ; i < 3 ;i++)
-			_tab[i] = false;
-		_tab[_indeks] = true;
 	}
 	else if(e.Key.Code ==  sf::Key::Down && e.Type == sf::Event::KeyPressed)
 	{
 		if(_indeks < 2)
 			_indeks++;
-		for(int i = 0 ; i < 3 ;i++)
-				_tab[i] = false;
-		_tab[_indeks] = true;
 	}
 }
