@@ -1,91 +1,126 @@
 #include "Menu.h"
 #include <iostream>
-int Menu::_indeks = 0;
 Menu::Menu()
 {
-	tab = new node[5];
-	_tab = new bool[4];
-	_tab[0] = true;
-	tlo.LoadFromFile("tlo.png");
-	/*start.LoadFromFile("start.png");
-	opcje.LoadFromFile("opcje.png");
-	wczytaj.LoadFromFile("wczytaj.png");
-	wyjscie.LoadFromFile("wyjscie.png");*/
+	_indeks = 0;
+	tlo.LoadFromFile("Images/tlo.png");
 	var = true;
-
-	//tab[0].wsk = &tlo;
-	//tab[0].wartosc = false;
+}
+Menu::~Menu()
+{
 }
 void Menu::draw(sf::RenderWindow& rw)
 {
 	sf::Sprite tloH(tlo);
 	rw.Draw(tloH);
-	if(_tab[0])
-		start.LoadFromFile("ee.png");
+	if(_indeks == 0)
+		start.LoadFromFile("Images/start.png");
 	else
-		start.LoadFromFile("start.png");
+		start.LoadFromFile("Images/start1.png");
 	sf::Sprite startH(start,sf::Vector2f(296,240));
 	rw.Draw(startH);
-	if(_tab[1])
-		opcje.LoadFromFile("ee.png");
+	if(_indeks == 1)
+		opcje.LoadFromFile("Images/opcje1.png");
 	else
-		opcje.LoadFromFile("opcje.png");
+		opcje.LoadFromFile("Images/opcje.png");
 	sf::Sprite opcjeH(opcje,sf::Vector2f(292,294));
 	rw.Draw(opcjeH);
-	if(_tab[2])
-		wczytaj.LoadFromFile("ee.png");
+	if(_indeks == 2)
+		wczytaj.LoadFromFile("Images/wczytaj1.png");
 	else
-		wczytaj.LoadFromFile("wczytaj.png");
+		wczytaj.LoadFromFile("Images/wczytaj.png");
 	sf::Sprite wczytajH(wczytaj,sf::Vector2f(296,349));
 	rw.Draw(wczytajH);
-	if(_tab[3])
-		wyjscie.LoadFromFile("ee.png");
+	if(_indeks == 3)
+		wyjscie.LoadFromFile("Images/wyjscie1g.png");
 	else
-		wyjscie.LoadFromFile("wyjscie.png");
+		wyjscie.LoadFromFile("Images/wyjscieg.png");
 	sf::Sprite wyjscieH(wyjscie,sf::Vector2f(294,404));
 	rw.Draw(wyjscieH);
 }
-void Menu::setVar(const bool ws)
+void Menu::drawMenuGame(sf::RenderWindow& rw)
+{
+	static sf::Image wznow,zapisz;
+	if(_indeks == 0)
+		wznow.LoadFromFile("Images/wznow1.png");
+	else
+		wznow.LoadFromFile("Images/wznow.png");
+	if(_indeks == 1)
+		zapisz.LoadFromFile("Images/zapisz1.png");
+	else
+		zapisz.LoadFromFile("Images/zapisz.png");
+	if(_indeks == 2)
+		wyjscie.LoadFromFile("Images/wyjscie1.png");
+	else
+		wyjscie.LoadFromFile("Images/wyjscie.png");
+	sf::Sprite tloH(tlo);
+	rw.Draw(tloH);
+	sf::Sprite wznowH(wznow,sf::Vector2f(270,210));
+	rw.Draw(wznowH);
+	sf::Sprite zapiszH(zapisz,sf::Vector2f(275,269));
+	rw.Draw(zapiszH);
+	sf::Sprite wyjscieH(wyjscie,sf::Vector2f(280,329));
+	rw.Draw(wyjscieH);
+}
+void Menu::setOustsideGame(const bool ws)
 {
 	var = ws;
 }
-bool Menu::getVar() const
+bool Menu::isOutsideGame () const
 {
 	return var;
 }
-void Menu::Action(sf::Key::Code wsk)
+void Menu::Action(const sf::Event& e)
 {
-	if(wsk == sf::Key::N)
+	if(e.Type == sf::Event::KeyPressed && e.Key.Code == sf::Key::N)
 	{
 		var=false;
 	}
-	else if (wsk == sf::Key::O)
+	else if (e.Type == sf::Event::KeyPressed && e.Key.Code == sf::Key::O)
 	{
 		//opcje
 	}
-	else if(wsk == sf::Key::W)
+	else if(e.Type == sf::Event::KeyPressed && e.Key.Code == sf::Key::W)
 	{
 		//wczytaj
 	}
-	else if(wsk ==  sf::Key::Up)
+	else if(e.Type == sf::Event::KeyPressed && e.Key.Code ==  sf::Key::Up)
 	{
-		//std::cout<< "Strzala w gore"<< std::endl;
 		if(_indeks > 0)
 		{
 			_indeks--;
-			for(int i = 0 ; i < 4 ;i++)
-				_tab[i] = false;
-			_tab[_indeks] = true;
 		}
 	}
-	else if(wsk ==  sf::Key::Down)
+	else if(e.Key.Code ==  sf::Key::Down && e.Type == sf::Event::KeyPressed)
 	{
-		//std::cout << "Strzala w dol"<< std::endl;
-		if(_indeks < 4)
+		if(_indeks < 3)
 			_indeks++;
-		for(int i = 0 ; i < 4 ;i++)
-				_tab[i] = false;
-		_tab[_indeks] = true;
-		//std::cout<<_indeks << std::endl;
+	}
+	else if(e.Key.Code ==  sf::Key::Space && e.Type == sf::Event::KeyPressed)
+	{
+		for(int i = 0 ; i < 4 ; i++)
+			if(_indeks == 0)
+				var=false;
+			else if (_indeks == 1)
+				break; //wczytaj
+			else if(_indeks == 2)
+				break;//opcje
+			else if(_indeks == 3)
+				break; //exit
+	}
+}
+void Menu::ActionGameMenu(const sf::Event& e)
+{
+	if(e.Type == sf::Event::KeyPressed && e.Key.Code ==  sf::Key::Up)
+	{
+		if(_indeks > 0)
+		{
+			_indeks--;
+		}
+	}
+	else if(e.Key.Code ==  sf::Key::Down && e.Type == sf::Event::KeyPressed)
+	{
+		if(_indeks < 2)
+			_indeks++;
 	}
 }

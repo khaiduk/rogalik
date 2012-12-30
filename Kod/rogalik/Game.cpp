@@ -20,6 +20,14 @@ void Game::getInput(const sf::Event& e)
 		{
 			gameState = INVENTORY;
 		}
+		else if( e.Type == sf::Event::KeyPressed && e.Key.Code == sf::Key::A) // atributes
+		{
+			gameState = ATRIBUTES;
+		}
+		else if ( e.Type == sf::Event::KeyPressed && e.Key.Code == sf::Key::Escape)
+		{
+			gameState = GAMEMENU;
+		}
 	}
 	else if(gameState == INVENTORY)
 	{
@@ -28,6 +36,23 @@ void Game::getInput(const sf::Event& e)
 		{
 			gameState = INGAME;
 		}
+	}
+	else if(gameState == ATRIBUTES)
+	{
+		if( e.Type == sf::Event::KeyPressed && (e.Key.Code == sf::Key::A ||
+			e.Key.Code == sf::Key::Escape)) // wyjscie z Atributes
+		{
+			gameState = INGAME;
+		}
+	}
+	else if(gameState == GAMEMENU)
+	{
+		if( e.Type == sf::Event::KeyPressed && (e.Key.Code == sf::Key::Escape)) // wyjscie z menu gry
+		{
+			gameState = INGAME;
+		}
+		else if(e.Type == sf::Event::KeyPressed || e.Type == sf::Event::KeyReleased)
+			m.ActionGameMenu(e);
 	}
 	else if(gameState == DIALOG)
 	{
@@ -73,7 +98,7 @@ void Game::step(float dt)
 	}
 }
 
-void Game::draw(sf::RenderWindow& rw) const
+void Game::draw(sf::RenderWindow& rw)
 {
 	if(gameState == INGAME)
 	{
@@ -96,6 +121,14 @@ void Game::draw(sf::RenderWindow& rw) const
 	else if(gameState == DIALOG)
 	{
 		currentDialog->draw(rw);
+	}
+	else if(gameState == ATRIBUTES)
+	{
+		player.drawAtributes(rw);
+	}
+	else if(gameState == GAMEMENU)
+	{
+		m.drawMenuGame(rw);
 	}
 }
 

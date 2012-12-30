@@ -19,20 +19,20 @@ int main()
 	Menu m;
 	gb.generateNewGame();
 	Game game = gb.getGame();
-	std::cout << m.getVar() ;
+	std::cout << m.isOutsideGame() ;
 	while(App.IsOpened())
 	{
 		sf::Event Event;
-		if(m.getVar()) while(App.GetEvent(Event))
+		if(m.isOutsideGame()) while(App.GetEvent(Event))
 		{
-			if(Event.Type == sf::Event::Closed || Event.Key.Code=='e' )//|| Event.Key.Code == sf::Key::Escape)
+			if(Event.Type == sf::Event::Closed || Event.Key.Code==sf::Key::E )//|| Event.Key.Code == sf::Key::Escape)
 				App.Close();
-			else
+			else if (Event.Type == sf::Event::KeyPressed || Event.Type == sf::Event::KeyReleased)
 			{
-				m.Action(Event.Key.Code);
+				m.Action(Event);
 			}
 		}
-		if(m.getVar())
+		if(m.isOutsideGame())
 		{
 			App.Clear();
 			m.draw(App);
@@ -42,7 +42,7 @@ int main()
 		{
 			while(App.GetEvent(Event))
 			{
-				if(Event.Type == sf::Event::Closed || Event.Key.Code=='e')
+				if(Event.Type == sf::Event::Closed || Event.Key.Code==sf::Key::E)
 				{
 					App.Close();
 				}

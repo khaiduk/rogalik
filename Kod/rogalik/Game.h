@@ -4,7 +4,7 @@
 #include "Terrain.h"
 #include "Creature.h"
 #include "Player.h"
-
+#include "Menu.h"
 /**
  * Klasa g³ówna gry.
  */
@@ -29,7 +29,7 @@ public:
 	 * Rysuje grê na ekranie
 	 * @param rw Obiekt okna na którym bêdzie rysowana gra
 	 */
-	void draw(sf::RenderWindow& rw) const;
+	void draw(sf::RenderWindow& rw);
 
 	/**
 	 * Stan gry
@@ -38,6 +38,8 @@ public:
 	{
 		INGAME,
 		INVENTORY,
+		ATRIBUTES,
+		GAMEMENU,
 		DIALOG
 	};
 
@@ -56,7 +58,7 @@ private:
 	Player player;
 	std::list<Creature> creatures;
 	GameState gameState;
-
+	Menu m;
 	Dialog *currentDialog;
 
 	friend class GameBuilder;
