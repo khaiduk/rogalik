@@ -7,10 +7,10 @@
 class Menu
 {
 public:
-	struct node{
-		sf::Image *wsk;
-		bool wartosc;
-	};
+//	struct node{
+	//	sf::Image *wsk;
+	//	bool wartosc;
+//	};
 	/**
 	** Domyslny konstruktor w ktory wczytujemy obrazki, definiujemy poczatkowe wartosci zmiennych
 	**/
@@ -19,7 +19,7 @@ public:
 	/**
 	** Funkcja odpowiadajaca za 'rysowanie' menu @param rw Obiekt okna na którym bêdzie rysowane menu
 	**/
-	void draw(sf::RenderWindow& rw) const;
+	void draw(sf::RenderWindow& rw);
 	/**
 	**	Funkcja ustawiajaca prywatna wartosc klassy
 	**/
@@ -35,5 +35,7 @@ public:
 private:
 	sf::Image tlo,opcje,start,wczytaj,wyjscie;
 	bool var;
-	node *tab;
+	//node *tab;
+	bool *_tab;
+	static int _indeks;
 };
