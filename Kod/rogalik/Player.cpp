@@ -31,7 +31,7 @@ void Player::drawInventory(sf::RenderWindow& rw) const
 	static sf::Font font;
 	if(firstRun)
 	{
-		tlo.LoadFromFile("tlo.png");
+		tlo.LoadFromFile("inv.png");
 		firstRun = false;
 		font.LoadFromFile("silesiana.otf", 50,  L"A•BC∆DE FGHIJKL£MN—O”PRSåTUWYZèØaπbcÊdeÍfghijkl≥mnÒoÛprsútuwyzüøXxVvQq0123456789~!@#$%^&*()_-[]\\;',./{}:\"<>?=-+ ");
 	}
@@ -49,7 +49,20 @@ void Player::drawInventory(sf::RenderWindow& rw) const
 		posy += 30.0;
 	}
 }
-
+void Player::drawAtributes(sf::RenderWindow& rw) const
+{
+	static bool firstRun = true;
+	static sf::Image tlo;
+	static sf::Font font;
+	if(firstRun)
+	{
+		tlo.LoadFromFile("atr.png");
+		firstRun = false;
+		font.LoadFromFile("silesiana.otf", 50,  L"A•BC∆DE FGHIJKL£MN—O”PRSåTUWYZèØaπbcÊdeÍfghijkl≥mnÒoÛprsútuwyzüøXxVvQq0123456789~!@#$%^&*()_-[]\\;',./{}:\"<>?=-+ ");
+	}
+	sf::Sprite tloH(tlo);
+	rw.Draw(tloH);
+}
 void Player::replenishHealth()
 {
 	if(health < 1)

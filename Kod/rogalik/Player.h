@@ -25,7 +25,12 @@ public:
 	 * @param rw Obiekt okna na którym bêdzie rysowany ekwipunek
 	 */
 	void drawInventory(sf::RenderWindow& rw) const;
-	
+	/**
+	 * Wyœwielta okno atrybutow gracza na ekranie
+	 * @param rw Obiekt okna na którym bêdzie rysowany ekwipunek
+	 */
+	void drawAtributes(sf::RenderWindow& rw) const;
+
 	/**
 	 * Odnawie ¿ycie gracza
 	 */
