@@ -59,7 +59,8 @@ public:
 		ROAD2,
 		STONE,
 		MONSTER,
-		DEALER
+		DEALER,
+		GOLD
 	};
 private:
 	ImageRes(void){}
