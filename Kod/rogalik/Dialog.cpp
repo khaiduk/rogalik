@@ -1,4 +1,5 @@
 #include "Dialog.h"
+#include "Player.h"
 
 Dialog::Dialog(void): currentNode(START_DIALOG), selectedAns(0)
 {
@@ -17,6 +18,12 @@ Dialog::Node& Dialog::Node::addOption(std::wstring asw, int id)
 {
 	optsAns.push_back(asw);
 	optsDest.push_back(id);
+	return *this;
+}
+
+Dialog::Node& Dialog::Node::addGiveItem(const Item& item)
+{
+	giveItems.push_back(item);
 	return *this;
 }
 
@@ -96,7 +103,7 @@ void Dialog::draw(sf::RenderWindow& rw)
 }
 
 
-bool Dialog::getInput(const sf::Event& e)
+bool Dialog::getInput(const sf::Event& e, Player &player)
 {
 	if(nodes.size() == 0) // nie ma dialogu
 		return false; //wyjdü
@@ -124,6 +131,11 @@ bool Dialog::getInput(const sf::Event& e)
 		{
 			currentNode = nodes[currentNode].optsDest[selectedAns];
 			selectedAns = 0;
+			for(std::vector<Item>::iterator i = nodes[currentNode].giveItems.begin(); i != nodes[currentNode].giveItems.end(); i++)
+			{
+				player.giveItem(*i);
+			}
+			nodes[currentNode].giveItems.erase(nodes[currentNode].giveItems.begin(), nodes[currentNode].giveItems.end());
 		}
 	}
 	return true;

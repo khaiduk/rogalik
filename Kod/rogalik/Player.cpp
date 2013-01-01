@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player::Player(Position pos) : Creature(pos, ImageRes::HERO), mana(0.60)
+Player::Player(Position pos) : Creature(pos, ImageRes::HERO), mana(0.60), slotWeapon(NULL), slotArmor(NULL)
 {
 	hudimg.LoadFromFile("hud.png");
 	hbarimg.LoadFromFile("healthbar.png");

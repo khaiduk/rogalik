@@ -93,7 +93,11 @@ void Creature::walk(const Position& dp, const Terrain& terrain, std::list<Creatu
 					{
 						if(i->type == Type::DIALOG) // rozmowa
 						{
-							//std::cerr << "bla, blabla\n";
+							game.setDialog(i->dialog);
+							player.walkDir = Position(0,0);
+						}
+						else if(i->type == Type::TRADE) // handel
+						{
 							game.setDialog(i->dialog);
 							player.walkDir = Position(0,0);
 						}
@@ -115,7 +119,6 @@ void Creature::walk(const Position& dp, const Terrain& terrain, std::list<Creatu
 				walkPower = 0;
 				if(type == Type::HOSTILE) // gdy jestem wrogiem
 				{
-					//std::cerr << "grrr";
 					fight(player);
 				}
 				isDone = true;
@@ -211,4 +214,9 @@ void Creature::addLoot(const Item& item)
 void Creature::addDialog(const Dialog& dialog)
 {
 	this->dialog = dialog;
+}
+
+void Creature::addTrade(const Trading& trading)
+{
+	this->trading = trading;
 }

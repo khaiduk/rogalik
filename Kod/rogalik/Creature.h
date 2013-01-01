@@ -7,6 +7,7 @@
 #include "ImageRes.h"
 #include "Item.h"
 #include "Dialog.h"
+#include "Trading.h"
 
 class Player;
 class Game;
@@ -88,6 +89,7 @@ public:
 	{
 		PLAYER,
 		DIALOG,
+		TRADE,
 		HOSTILE
 	};
 
@@ -128,6 +130,11 @@ protected:
 	 */
 	void addDialog(const Dialog& dialog);
 
+	/**
+	 * Ustawia obiekt handlu
+	 */
+	void addTrade(const Trading& trading);
+
 protected:
 	Position pos;
 	Position walkDir;
@@ -145,5 +152,6 @@ protected:
 
 	std::list<Item> loot;
 	Dialog dialog;
+	Trading trading;
 };
 

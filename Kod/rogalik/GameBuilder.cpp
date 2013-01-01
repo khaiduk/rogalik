@@ -1053,6 +1053,7 @@ void GameBuilder::generateNewGame()
 		addOption(L"Macie jakieœ narzêdzia do obrony?", 4);
 
 	dialog0.addNode(3, L"Oj dzieciaku! Nie poradzisz sobie w ¿yciu! Musisz byæ bardziej uwa¿ny. Na	pocz¹tek mogê daæ ci drewniany kij, bo jak s¹dzê pieniêdzy te¿ nie masz.").
+		addGiveItem(Item(L"kijek", L"kijek")).
 		addOption(L"Dziêkujê za pomoc.", 30);
 	
 	dialog0.addNode(30, L"IdŸ i uwa¿aj na siebie dzieciaku.").

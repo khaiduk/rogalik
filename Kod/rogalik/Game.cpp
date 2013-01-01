@@ -64,7 +64,7 @@ void Game::getInput(const sf::Event& e)
 		}
 		else
 		{
-			if(currentDialog->getInput(e))
+			if(currentDialog->getInput(e, player))
 			{
 				gameState = DIALOG;
 			}
@@ -72,6 +72,26 @@ void Game::getInput(const sf::Event& e)
 			{
 				gameState = INGAME;
 				currentDialog->resetDialog();
+			}
+		}
+	}
+	else if(gameState == TRADE)
+	{
+		
+		if( e.Type == sf::Event::KeyPressed && e.Key.Code == sf::Key::Escape)
+		{
+			gameState = INGAME;
+			currentDialog = NULL;
+		}
+		else
+		{
+			if(currentTrade->getInput(e, player))
+			{
+				gameState = TRADE;
+			}
+			else
+			{
+				gameState = INGAME;
 			}
 		}
 	}
@@ -130,6 +150,10 @@ void Game::draw(sf::RenderWindow& rw)
 	{
 		m.drawMenuGame(rw);
 	}
+	else if(gameState == TRADE)
+	{
+		currentTrade->draw(rw);
+	}
 }
 
 
@@ -143,4 +167,10 @@ void Game::setDialog(Dialog& dialog)
 {
 	currentDialog = &dialog;
 	gameState = DIALOG;
+}
+
+void Game::setTrade(Trading& trade)
+{
+	currentTrade = &trade;
+	gameState = TRADE;
 }

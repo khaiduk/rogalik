@@ -61,5 +61,7 @@ private:
 	float mana;
 
 	std::list<Item> inventory;
+	Item *slotWeapon;
+	Item *slotArmor;
 };
 
