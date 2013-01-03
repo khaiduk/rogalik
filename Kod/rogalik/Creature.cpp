@@ -2,7 +2,7 @@
 #include "Player.h"
 #include "Game.h"
 
-Creature::Creature(const Position pos, int img) : pos(pos), walkDir(0,0), lastDir(0,0), walkPower(0), speed(10), ai(AI::IDLE), type(Type::DIALOG), health(1)
+Creature::Creature(const Position pos, int img) : pos(pos), walkDir(0,0), lastDir(0,0), walkPower(0), speed(10), fightPower(0), xp(1), att(0.01), def(0.1), hitrate(0.1), ai(AI::IDLE), type(Type::DIALOG), health(1)
 {
 	sprite=sf::Sprite(ImageRes::getInstance().getImage(img));
 }
@@ -20,7 +20,19 @@ void Creature::draw(sf::RenderWindow& rw, const Position& shift) const
 	int dy = shift.GetY();
 	s.SetPosition(pos.GetX()*ImageRes::TILESIZE + shift.GetX(), pos.GetY()*ImageRes::TILESIZE + shift.GetY());
 	rw.Draw(s);
-	// mo¿e warto by dodaæ pasek ¿ycia ~ Karol
+
+	if(type == HOSTILE)
+	{
+		int healthbarw = ImageRes::TILESIZE;
+		int healthbarh = 3;
+		int healthbarx = pos.GetX()*ImageRes::TILESIZE + shift.GetX();
+		int healthbary = pos.GetY()*ImageRes::TILESIZE + shift.GetY();
+		int healthbarmid = healthbarw * health;
+		sf::Shape healthbarg = sf::Shape::Rectangle(healthbarx, healthbary, healthbarx + healthbarmid, healthbary + healthbarh, sf::Color::Green);
+		sf::Shape healthbarr = sf::Shape::Rectangle(healthbarx + healthbarmid, healthbary, healthbarx + healthbarw, healthbary + healthbarh, sf::Color::Red);
+		rw.Draw(healthbarr);
+		rw.Draw(healthbarg);
+	}
 }
 
 
@@ -56,8 +68,14 @@ void Creature::move(const Position& dp, const Terrain& terrain)
 
 void Creature::fight(Creature& creature)
 {
-	creature.health -= 0.1;
-	//std::cerr << "HP = " << health <<", c.HP= " << creature.health << std::endl;
+	if(fightPower >= 0) // mamy doœæ mocy
+	{
+		float rnd = static_cast<float>(rand()) / RAND_MAX; // 0..1
+		creature.health -= rnd * getAttack() / creature.getDefence();
+		fightPower -= 1;
+		if(! creature.isAlive()) // zabiliœmy dziada
+			xp += creature.xp;//dajmy expa
+	}
 }
 
 
@@ -69,73 +87,77 @@ void Creature::walk(const Position& dp, const Terrain& terrain, std::list<Creatu
 		walkPower = 0; // zacznij liczyæ od nowa
 	}
 	lastDir = dp;
+	
+	if(this == &player) // gdy jestem graczem
+	{
+		for(std::list<Creature>::iterator i = creatures.begin(); i != creatures.end(); i++)
+		{
+			if((pos + dp) == i->getPosition())
+			{
+				if(i->type == Type::DIALOG) // rozmowa
+				{
+					game.setDialog(i->dialog);
+					player.walkDir = Position(0,0);
+				}
+				else if(i->type == Type::TRADE) // handel
+				{
+					game.setDialog(i->dialog);
+					player.walkDir = Position(0,0);
+				}
+				else if(i->type == Type::HOSTILE) // atakuj
+				{
+					//std::cerr << "slash, slash ";
+					fight(*i);
+				}
+				walkPower = 0;
+				return;
+			}
+		}
+	}
+	else if(type == Type::HOSTILE)
+	{
+		if((pos + dp) == player.getPosition())
+		{
+			fight(player);
+			walkPower = 0;
+			return;
+		}
+	}
 
-	if(!terrain.tileExist(pos + dp))
+	if(!terrain.tileExist(pos + dp)) // gdy nie ma pozycji docelowej
 		return;
 
-	if(dp != Position(0,0))
+	if(dp != Position(0,0)) // gdy mamy ruch
 		walkPower += speed;
 
 	int walkTreshold = terrain.getTile(pos + dp).getWalkSpeed();
-	if(dp.GetX() != 0 && dp.GetY() != 0)
+	if(dp.GetX() != 0 && dp.GetY() != 0) //po przek¹tenej -> sqrt(2)
 		walkTreshold *= 1.41;
 	if(walkPower > walkTreshold)
 	{
-		bool isDone = false;
-		if(!isDone)
-		{
-			for(std::list<Creature>::iterator i = creatures.begin(); i != creatures.end(); i++)
-			{
-				if((pos + dp) == i->getPosition())
-				{
-					walkPower = 0;
-					if(this == &player) // gdy jestem graczem
-					{
-						if(i->type == Type::DIALOG) // rozmowa
-						{
-							game.setDialog(i->dialog);
-							player.walkDir = Position(0,0);
-						}
-						else if(i->type == Type::TRADE) // handel
-						{
-							game.setDialog(i->dialog);
-							player.walkDir = Position(0,0);
-						}
-						else if(i->type == Type::HOSTILE) // atakuj
-						{
-							//std::cerr << "slash, slash ";
-							fight(*i);
-						}
-					}
-					isDone = true;
-					break;
-				}
-			}
-		}
-		if(!isDone)
-		{
-			if((pos + dp) == player.getPosition())
-			{
-				walkPower = 0;
-				if(type == Type::HOSTILE) // gdy jestem wrogiem
-				{
-					fight(player);
-				}
-				isDone = true;
-			}
-		}
-		if(!isDone)
-		{
-			move(dp, terrain);
-			walkPower = 0;
-			isDone = true;
-		}
+		move(dp, terrain);
+		walkPower = 0;
 	}
 }
 
 void Creature::setSpeed(int speed)
 {
 	this->speed = speed;
+}
+
+void Creature::setAttack(int attack)
+{
+	this->att = attack;
+}
+
+void Creature::setDefence(int defence)
+{
+	this->def = defence;
+}
+
+void Creature::setHitrate(int hitrate)
+{
+	this->hitrate = hitrate;
 }
 
 void Creature::setAI(const AI ai)
@@ -145,6 +167,7 @@ void Creature::setAI(const AI ai)
 	
 void Creature::step(float dt, const Terrain& terrain, std::list<Creature> &creatures, Player& player, Game& game)
 {
+	hitRegen();
 	if(ai == AI::IDLE)
 	{
 		//nic nie rob
@@ -152,13 +175,139 @@ void Creature::step(float dt, const Terrain& terrain, std::list<Creature> &creat
 	else if(ai == AI::RANDOM_WALK)
 	{
 		static Position newPos = pos;
+		static int cx = pos.GetX(), cy = pos.GetY();
 
 		walk(walkDir, terrain, creatures, player, game);
 	
 		if(newPos == pos)
 		{
-			newPos = Position(rand()%10+5, rand()%10+5);
+			newPos = Position(rand()%10-5 + cx, rand()%10-5 + cy);
 		}
+
+		if(pos.GetX() < newPos.GetX())
+		{
+			walkDir.SetX(1);
+		}
+		else if(pos.GetX() > newPos.GetX())
+		{
+			walkDir.SetX(-1);
+		}
+		else
+		{
+			walkDir.SetX(0);
+		}
+
+		if(pos.GetY() < newPos.GetY())
+		{
+			walkDir.SetY(1);
+		}
+		else if(pos.GetY() > newPos.GetY())
+		{
+			walkDir.SetY(-1);
+		}
+		else
+		{
+			walkDir.SetY(0);
+		}
+	}
+	else if(ai == AI::OFFENSIVE_SLOW)
+	{
+		static Position newPos = pos;
+
+		walk(walkDir, terrain, creatures, player, game);
+	
+		if(newPos == pos)
+		{
+			newPos = player.pos;
+		}
+
+		if(pos.GetX() < newPos.GetX())
+		{
+			walkDir.SetX(1);
+		}
+		else if(pos.GetX() > newPos.GetX())
+		{
+			walkDir.SetX(-1);
+		}
+		else
+		{
+			walkDir.SetX(0);
+		}
+
+		if(pos.GetY() < newPos.GetY())
+		{
+			walkDir.SetY(1);
+		}
+		else if(pos.GetY() > newPos.GetY())
+		{
+			walkDir.SetY(-1);
+		}
+		else
+		{
+			walkDir.SetY(0);
+		}
+	}
+	else if(ai == AI::OFFENSIVE_FAST)
+	{
+		static Position newPos = pos;
+
+		walk(walkDir, terrain, creatures, player, game);
+	
+		newPos = player.pos;
+
+		if(pos.GetX() < newPos.GetX())
+		{
+			walkDir.SetX(1);
+		}
+		else if(pos.GetX() > newPos.GetX())
+		{
+			walkDir.SetX(-1);
+		}
+		else
+		{
+			walkDir.SetX(0);
+		}
+
+		if(pos.GetY() < newPos.GetY())
+		{
+			walkDir.SetY(1);
+		}
+		else if(pos.GetY() > newPos.GetY())
+		{
+			walkDir.SetY(-1);
+		}
+		else
+		{
+			walkDir.SetY(0);
+		}
+	}
+	else if(ai == AI::FIGHT_AND_FLEE)
+	{
+		static Position newPos = pos;
+		static int cx = pos.GetX(), cy = pos.GetY();
+		static bool fightstate = true;
+
+		walk(walkDir, terrain, creatures, player, game);
+	
+		if(fightstate) // fight
+		{
+			newPos = player.pos; // w kierunku gracza
+			if((pos + walkDir) == player.pos) // gdy ju¿ atakujemy gracza ...
+			{
+				fightstate = (rand() % 5 != 0); //... rozwa¿my zmianê stanu
+				cx = pos.GetX(); // aktualizacja centrum b³¹dzenia
+				cy = pos.GetY();
+			}
+		}
+		else //flee
+		{
+			if(newPos == pos) //zmiana tylko gdy doszliœmy do zadanej pozycji
+			{
+				newPos = Position(rand()%10-5 + cx, rand()%10-5 + cy);
+				fightstate = (rand() % 5 == 0);
+			}
+		}
+		if(rand() % 2)
 
 		if(pos.GetX() < newPos.GetX())
 		{
@@ -219,4 +368,23 @@ void Creature::addDialog(const Dialog& dialog)
 void Creature::addTrade(const Trading& trading)
 {
 	this->trading = trading;
+}
+
+
+float Creature::getAttack()
+{
+	return att;
+}
+
+float Creature::getDefence()
+{
+	return def;
+}
+
+void Creature::hitRegen()
+{
+	if(fightPower < 0)
+	{
+		fightPower += hitrate;
+	}
 }

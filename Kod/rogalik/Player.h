@@ -57,8 +57,19 @@ public:
 
 	friend class GameBuilder;
 private:
-	sf::Image hbarimg, mbarimg, hudimg;
-	float mana;
+	/**
+	 * Zwraca wspó³czynnik ataku postaci
+	 */
+	float getAttack();
+
+	/**
+	 * Zwraca wspó³czynnik obrony postaci
+	 */
+	float getDefence();
+	sf::Image hbarimg, hudimg;
+
+	int defLevel;
+	int attLevel;
 
 	std::list<Item> inventory;
 	Item *slotWeapon;

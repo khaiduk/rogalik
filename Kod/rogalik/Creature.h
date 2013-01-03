@@ -70,7 +70,10 @@ public:
 	enum AI
 	{
 		IDLE,
-		RANDOM_WALK
+		RANDOM_WALK, // losowe b³¹dzenie - ciê¿ko z³apaæ
+		OFFENSIVE_SLOW, //pod¹¿a tam, gdzie przed chwil¹ by³ gracz
+		OFFENSIVE_FAST, //pod¹¿a tam, gdzie teraz jest gracz
+		FIGHT_AND_FLEE // po³¹czenie OFFENSIVE_FAST z RANDOM_WALK - atakuje turami
 	};
 	/**
 	 * Wykonuje krok symulacji
@@ -108,6 +111,24 @@ protected:
 	 * 5 - postaæ 2 razy wolniejsza
 	 */
 	void setSpeed(int speed);
+	
+	/**
+	 * Ustawia wspó³czynnik ataku postaci
+	 * Wartoœæ domyœlna to 0.01
+	 */
+	void setAttack(int attack);
+	
+	/**
+	 * Ustawia wspó³czynnik obrony postaci
+	 * Wartoœæ domyœlna to 0.1
+	 */
+	void setDefence(int defence);
+
+	/**
+	 * Ustawia wspó³czynnik czêstoœci ataków postaci
+	 * Wartoœæ domyœlna to 0.1
+	 */
+	void setHitrate(int hitrate);
 
 	
 	/**
@@ -134,8 +155,24 @@ protected:
 	 * Ustawia obiekt handlu
 	 */
 	void addTrade(const Trading& trading);
+	
+	/**
+	 * Zwraca wspó³czynnik ataku postaci
+	 */
+	virtual float getAttack();
 
+	/**
+	 * Zwraca wspó³czynnik obrony postaci
+	 */
+	virtual float getDefence();
+
+	/**
+	 * Regenacja mo¿liwoœci ataku postaci
+	 */
+	void hitRegen();
 protected:
+	
+
 	Position pos;
 	Position walkDir;
 	Position lastDir;
@@ -144,6 +181,12 @@ protected:
 
 	int walkPower;
 	int speed;
+	float fightPower;
+	int xp;
+	float def;
+	float att;
+	float hitrate;
+
 
 	AI ai;
 	Type type;

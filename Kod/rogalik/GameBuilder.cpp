@@ -1650,7 +1650,7 @@ void GameBuilder::generateNewGame()
 
 	Creature losowypotwor = Creature(Position(10,5, 0), ImageRes::MONSTER);
 	losowypotwor.setSpeed(3); // doœæ wolny
-	losowypotwor.setAI(Creature::AI::RANDOM_WALK); // losowo b³¹dzi
+	losowypotwor.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo b³¹dzi
 	losowypotwor.setType(Creature::Type::HOSTILE); // wrogi
 	losowypotwor.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
 	game.creatures.push_back( losowypotwor );
