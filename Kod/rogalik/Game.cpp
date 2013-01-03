@@ -125,6 +125,8 @@ void Game::draw(sf::RenderWindow& rw)
 		Position dp;
 		dp = terrain.calculateShift(player.getPosition());
 		terrain.draw(rw, player.getPosition().GetZ(), dp);
+		terrain.drawMinimap(rw, player.getPosition().GetZ());
+
 		for(std::list<Creature>::const_iterator i = creatures.begin(); i != creatures.end(); i++)
 		{
 			if(i->getPosition().GetZ() == player.getPosition().GetZ())
@@ -133,6 +135,7 @@ void Game::draw(sf::RenderWindow& rw)
 
 		player.draw(rw, dp);
 		player.drawHud(rw);
+
 	}
 	else if(gameState == INVENTORY)
 	{

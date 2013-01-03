@@ -21,6 +21,11 @@ public:
 	 * Pobiera obrazek o zadanym identyfikatorze
 	 */
 	sf::Image& getImage(int id);
+
+	/**
+	 * Kolor obrazka do minimapy
+	 */
+	sf::Color imgColor(int id);
 	/**
 	 * Pobranie instancji tej klasy (singleton)
 	 */

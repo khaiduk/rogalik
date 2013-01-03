@@ -2,7 +2,8 @@
 #include "Player.h"
 #include "Game.h"
 
-Creature::Creature(const Position pos, int img) : pos(pos), walkDir(0,0), lastDir(0,0), walkPower(0), speed(10), fightPower(0), xp(1), att(0.01), def(0.1), hitrate(0.1), ai(AI::IDLE), type(Type::DIALOG), health(1)
+Creature::Creature(const Position pos, int img) : pos(pos), walkDir(0,0), lastDir(0,0), walkPower(0), speed(10), fightPower(0), xp(1), att(0.01), def(0.1), hitrate(0.1), ai(AI::IDLE), type(Type::DIALOG), health(1),
+	newPos(pos), cpos(pos), fightState(true)
 {
 	sprite=sf::Sprite(ImageRes::getInstance().getImage(img));
 }
@@ -39,6 +40,8 @@ void Creature::draw(sf::RenderWindow& rw, const Position& shift) const
 void Creature::setPosition(const Position& pos)
 {
 	this->pos = pos;
+	newPos = pos;
+	cpos = pos;
 }
 
 Position Creature::getPosition() const
@@ -127,6 +130,9 @@ void Creature::walk(const Position& dp, const Terrain& terrain, std::list<Creatu
 	if(!terrain.tileExist(pos + dp)) // gdy nie ma pozycji docelowej
 		return;
 
+	if(type != Type::PLAYER && terrain.getTile(pos + dp).isWarp())
+		return; //nie pozwalamy postaciom innym ni¿ gracz przechodziæ miêdzy levelami
+
 	if(dp != Position(0,0)) // gdy mamy ruch
 		walkPower += speed;
 
@@ -174,14 +180,11 @@ void Creature::step(float dt, const Terrain& terrain, std::list<Creature> &creat
 	}
 	else if(ai == AI::RANDOM_WALK)
 	{
-		static Position newPos = pos;
-		static int cx = pos.GetX(), cy = pos.GetY();
-
 		walk(walkDir, terrain, creatures, player, game);
 	
-		if(newPos == pos)
+		if(newPos == pos || rand() % 30 == 0) // zapobiega blokowanu siê na œcianach
 		{
-			newPos = Position(rand()%10-5 + cx, rand()%10-5 + cy);
+			newPos = Position(rand()%10-5 + cpos.GetX(), rand()%10-5 + cpos.GetY());
 		}
 
 		if(pos.GetX() < newPos.GetX())
@@ -212,11 +215,9 @@ void Creature::step(float dt, const Terrain& terrain, std::list<Creature> &creat
 	}
 	else if(ai == AI::OFFENSIVE_SLOW)
 	{
-		static Position newPos = pos;
-
 		walk(walkDir, terrain, creatures, player, game);
 	
-		if(newPos == pos)
+		if(newPos == pos || rand() % 30 == 0) // zapobiega blokowanu siê na œcianach
 		{
 			newPos = player.pos;
 		}
@@ -249,8 +250,6 @@ void Creature::step(float dt, const Terrain& terrain, std::list<Creature> &creat
 	}
 	else if(ai == AI::OFFENSIVE_FAST)
 	{
-		static Position newPos = pos;
-
 		walk(walkDir, terrain, creatures, player, game);
 	
 		newPos = player.pos;
@@ -283,32 +282,26 @@ void Creature::step(float dt, const Terrain& terrain, std::list<Creature> &creat
 	}
 	else if(ai == AI::FIGHT_AND_FLEE)
 	{
-		static Position newPos = pos;
-		static int cx = pos.GetX(), cy = pos.GetY();
-		static bool fightstate = true;
 
 		walk(walkDir, terrain, creatures, player, game);
 	
-		if(fightstate) // fight
+		if(fightState) // fight
 		{
 			newPos = player.pos; // w kierunku gracza
 			if((pos + walkDir) == player.pos) // gdy ju¿ atakujemy gracza ...
 			{
-				fightstate = (rand() % 5 != 0); //... rozwa¿my zmianê stanu
-				cx = pos.GetX(); // aktualizacja centrum b³¹dzenia
-				cy = pos.GetY();
+				fightState = (rand() % 5 != 0); //... rozwa¿my zmianê stanu
+				cpos = pos; // aktualizacja centrum b³¹dzenia
 			}
 		}
 		else //flee
 		{
-			if(newPos == pos) //zmiana tylko gdy doszliœmy do zadanej pozycji
+			if(newPos == pos || rand() % 30 == 0) //zapobiega blokowanu siê na œcianach
 			{
-				newPos = Position(rand()%10-5 + cx, rand()%10-5 + cy);
-				fightstate = (rand() % 5 == 0);
+				newPos = Position(rand()%10-5 + cpos.GetX(), rand()%10-5 + cpos.GetY());
+				fightState = (rand() % 5 == 0);
 			}
 		}
-		if(rand() % 2)
-
 		if(pos.GetX() < newPos.GetX())
 		{
 			walkDir.SetX(1);

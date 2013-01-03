@@ -1,13 +1,14 @@
 #include "Tile.h"
 
 
-Tile::Tile(const Position pos, int img) : pos(pos), solid(false), warp(false), walkSpeed(50)
+Tile::Tile(const Position pos, int img) : pos(pos), solid(false), warp(false), walkSpeed(50), imgId(img)
 {
 	sprite=sf::Sprite(ImageRes::getInstance().getImage(img));
 }
 
 void Tile::setImage(int img)
 {
+	imgId = img;
 	sprite=sf::Sprite(ImageRes::getInstance().getImage(img));
 }
 
@@ -18,6 +19,12 @@ void Tile::draw(sf::RenderWindow& rw, int x, int y) const
 	sf::Sprite s(sprite);
 	s.SetPosition(x, y);
 	rw.Draw(s);
+}
+
+void Tile::drawMini(sf::RenderWindow& rw, int x, int y) const
+{
+	sf::Shape rect = sf::Shape::Rectangle(x, y, x+1, y+1, ImageRes::getInstance().imgColor(imgId));
+	rw.Draw(rect);
 }
 
 void Tile::setSolid(bool solid)

@@ -196,5 +196,10 @@ protected:
 	std::list<Item> loot;
 	Dialog dialog;
 	Trading trading;
+
+	// u¿ywane przez AI:
+	Position newPos;
+	Position cpos;
+	bool fightState;
 };
 
