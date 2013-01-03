@@ -5,6 +5,7 @@
 Creature::Creature(const Position pos, int img) : pos(pos), walkDir(0,0), lastDir(0,0), walkPower(0), speed(10), fightPower(0), xp(1), att(0.01), def(0.1), hitrate(0.1), ai(AI::IDLE), type(Type::DIALOG), health(1),
 	newPos(pos), cpos(pos), fightState(true)
 {
+	loot.clear();
 	sprite=sf::Sprite(ImageRes::getInstance().getImage(img));
 }
 

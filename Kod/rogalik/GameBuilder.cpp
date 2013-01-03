@@ -90,7 +90,7 @@ void GameBuilder::generateNewGame()
 			losowypotwor2.setSpeed(5); // wolny
 			losowypotwor2.setAI(Creature::AI::RANDOM_WALK); // losowo b³¹dzi
 			losowypotwor2.setType(Creature::Type::HOSTILE); // wrogi
-			losowypotwor2.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
+			losowypotwor2.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!").setProperty(Item::WEAPON, 0.05) );
 			game.creatures.push_back( losowypotwor2 );
 		}
 		//cwaniaczek na koncu wioski 1
@@ -446,7 +446,7 @@ void GameBuilder::generateNewGame()
 	troll.setSpeed(4); // doœæ wolny
 	troll.setAI(Creature::AI::IDLE); 
 	troll.setType(Creature::Type::HOSTILE); // wrogi
-	troll.addLoot( Item(L"Czapka", L"Czapka") );
+	troll.addLoot( Item(L"Czapka", L"Czapka").setProperty(Item::ARMOR, 0.1) );
 	game.creatures.push_back( troll );
 
 	srand(time(NULL));
@@ -1515,6 +1515,7 @@ void GameBuilder::generateNewGame()
 		addOption(L"Nie, w³aœciwie to ju¿ wychodzê.", 72);
 
 	dialog2.addNode(71, L"Och! Jakoœ na to zaradzimy. Jako nowy goœæ przyjmij ode mnie prezent - eliksir ¿ycia.").
+		addGiveItem( Item(L"Eliksir ¿ycia", L"Przywraca pe³niê si³").setProperty(Item::LIFEPOTION) ).
 		addOption(L"A co to?", 711).
 		addOption(L"Chyba wiem co to jest.", 712);
 
@@ -1586,7 +1587,7 @@ void GameBuilder::generateNewGame()
 
 	dialog4.addNode(Dialog::START_DIALOG, L"W czym mogê pomóc?").
 		addOption(L"Chcia³bym kupiæ zbroje.", 10).
-		addOption(L"Tylko siê rozgl¹dam.", 11);
+		addOption(L"Tylko siê rozgl¹dam.", Dialog::END_DIALOG);
 
 	dialog4.addNode(10, L"A jakieœ konkretne wymagania?").
 		addOption(L"Nie wiem. Nie znam siê.", 101).

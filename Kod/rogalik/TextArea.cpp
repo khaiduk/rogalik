@@ -26,7 +26,10 @@ void TextArea::SetSize(float Size)
 float TextArea::GetHeight() const
 {
 	std::vector<sf::String> words = Recalc();
-	return words[words.size() - 1].GetRect().Bottom;
+	if(words.size() != 0)
+		return words[words.size() - 1].GetRect().Bottom;
+	else
+		return 0.0;
 }
 
 void TextArea::Render(sf::RenderTarget& Target) const

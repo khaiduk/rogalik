@@ -49,6 +49,19 @@ public:
 	 * @param e Przekazywane zdarzenie
 	 */
 	void getInput(const sf::Event& e);
+	
+	/**
+	 * Pobiera wejœcie do ekranu ekwipunku
+	 * @param e Przekazywane zdarzenie
+	 */
+	void getInputInventory(const sf::Event& e);
+
+	/**
+	 * Pobiera wejœcie do ekranu atrybutów
+	 * @param e Przekazywane zdarzenie
+	 */
+	void getInputAtributes(const sf::Event& e);
+
 	/**
 	 * Daje postaci gracza dany przedmiot
 	 * @param item przedmiot dawany postaci
@@ -66,13 +79,20 @@ private:
 	 * Zwraca wspó³czynnik obrony postaci
 	 */
 	float getDefence();
+
+	/**
+	 * Usuwa przedmiot z ekwipunku
+	 */
+	void deleteItem(int i);
 	sf::Image hbarimg, hudimg;
 
 	int defLevel;
 	int attLevel;
+	int selectedAttribute;
 
-	std::list<Item> inventory;
-	Item *slotWeapon;
-	Item *slotArmor;
+	std::vector<Item> inventory;
+	int weapon;
+	int armor;
+	int selectedItem;
 };
 

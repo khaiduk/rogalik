@@ -67,39 +67,6 @@ void Dialog::draw(sf::RenderWindow& rw)
 		t.SetPosition(70.f, posy+40*i);
 		rw.Draw(t);
 	}
-
-	/*
-	float posx, posy;
-	posx = 50.0;
-	posy = 50.0;
-
-	// Dobrze by³oby wydzieliæ do jakieœ osobnej klasy TextArea ~ Karol
-	for(int i=0;i<nodes[currentNode].message.size();i++)
-	{
-		std::wstring s(1, nodes[currentNode].message[i]);
-		sf::String t(s, font, 30.f);
-		t.SetColor(sf::Color(20, 18, 160));
-		t.SetPosition(posx, posy);
-		posx +=t.GetRect().GetWidth();
-		if(posx > 750)
-		{
-			posx = 50;
-			posy += 40;
-		}
-		rw.Draw(t);
-	}
-	posy += 50;
-
-	for(int i=0;i<nodes[currentNode].optsAns.size();i++)
-	{
-		sf::String t(nodes[currentNode].optsAns[i], font, 20.f);
-		if(selectedAns == i)
-			t.SetColor(sf::Color(120, 18, 60));
-		else
-			t.SetColor(sf::Color(20, 18, 160));
-		t.SetPosition(70.f, posy+40*i);
-		rw.Draw(t);
-	}*/
 }
 
 
@@ -144,4 +111,5 @@ bool Dialog::getInput(const sf::Event& e, Player &player)
 void Dialog::resetDialog()
 {
 	currentNode = START_DIALOG;
+	selectedAns = 0;
 }

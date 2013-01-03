@@ -36,6 +36,10 @@ void Game::getInput(const sf::Event& e)
 		{
 			gameState = INGAME;
 		}
+		else
+		{
+			player.getInputInventory(e);
+		}
 	}
 	else if(gameState == ATRIBUTES)
 	{
@@ -43,6 +47,10 @@ void Game::getInput(const sf::Event& e)
 			e.Key.Code == sf::Key::Escape)) // wyjscie z Atributes
 		{
 			gameState = INGAME;
+		}
+		else
+		{
+			player.getInputAtributes(e);
 		}
 	}
 	else if(gameState == GAMEMENU)

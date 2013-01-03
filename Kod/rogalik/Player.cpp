@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player::Player(Position pos) : Creature(pos, ImageRes::HERO), defLevel(1), attLevel(1), slotWeapon(NULL), slotArmor(NULL)
+Player::Player(Position pos) : Creature(pos, ImageRes::HERO), defLevel(1), attLevel(1), selectedAttribute(0), weapon(-1), armor(-1), selectedItem(0)
 {
 	hudimg.LoadFromFile("hud.png");
 	hbarimg.LoadFromFile("healthbar.png");
@@ -34,13 +34,32 @@ void Player::drawInventory(sf::RenderWindow& rw) const
 	rw.Draw(tloH);
 
 	float posy = 30.0;
-	for(std::list<Item>::const_iterator i = inventory.begin(); i != inventory.end(); i++)
+	int i = 0;
+	for(std::vector<Item>::const_iterator it = inventory.begin(); it != inventory.end(); it++)
 	{
-		sf::String t(i->getName(), font, 30.f);
+		std::wstring name = it->getName();
+		if(i == weapon)
+		{
+			name += L" (uzbrojny - broñ)";
+		}
+		if(i == armor)
+		{
+			name += L" (uzbrojny - zbroja)";
+		}
+		sf::String t(name, font, 30.f);
 		t.SetColor(sf::Color(20, 18, 160));
+		if(selectedItem == i)
+			t.SetColor(sf::Color(200, 18, 160));
 		t.SetPosition(20.f, posy);
 		rw.Draw(t);
 		posy += 30.0;
+		i++;
+	}
+	if(0 <= selectedItem && selectedItem < inventory.size())
+	{
+		TextArea desc(inventory[selectedItem].getDesc(), 400, font);
+		desc.SetPosition(300, 50);
+		rw.Draw(desc);
 	}
 }
 void Player::drawAtributes(sf::RenderWindow& rw) const
@@ -58,9 +77,18 @@ void Player::drawAtributes(sf::RenderWindow& rw) const
 	rw.Draw(tloH);
 	
 	std::wstringstream ss;
-	ss << L"Exp: " << xp << L"\n";
-	ss << L"Poziom obrony (+): " << defLevel << L"\n";
-	ss << L"Poziom ataku (+): " << attLevel << L"\n";
+	if(selectedAttribute == 0)
+	{
+		ss << L"Exp: " << xp << L"\n";
+		ss << L"> Poziom obrony: " << defLevel << L"\n";
+		ss << L"Poziom ataku: " << attLevel << L"\n";
+	}
+	else
+	{
+		ss << L"Exp: " << xp << L"\n";
+		ss << L"Poziom obrony: " << defLevel << L"\n";
+		ss << L"> Poziom ataku: " << attLevel << L"\n";
+	}
 	sf::String t(ss.str(), font, 30.f);
 	t.SetColor(sf::Color(20, 18, 160));
 	t.SetPosition(20.f, 20.0);
@@ -122,6 +150,85 @@ void Player::getInput(const sf::Event& e)
 	}
 }
 
+void Player::getInputInventory(const sf::Event& e)
+{
+	if(e.Type == sf::Event::KeyPressed)
+	{
+		if(e.Key.Code == sf::Key::Up)
+		{
+			selectedItem--;
+			if(selectedItem < 0 )
+				selectedItem = inventory.size()-1;
+		}
+		else if(e.Key.Code == sf::Key::Down)
+		{
+			selectedItem++;
+			if(selectedItem >= inventory.size() )
+				selectedItem = 0;
+		}
+		else if(e.Key.Code == sf::Key::Space)
+		{
+			if(inventory[selectedItem].getProperty() == Item::WEAPON)
+			{
+				if(weapon == selectedItem)
+					weapon = -1;
+				else
+					weapon = selectedItem;
+			}
+			else if(inventory[selectedItem].getProperty() == Item::ARMOR)
+			{
+				if(armor == selectedItem)
+					armor = -1;
+				else
+					armor = selectedItem;
+			}
+			else if(inventory[selectedItem].getProperty() == Item::LIFEPOTION)
+			{
+				health = 1;
+				deleteItem(selectedItem);
+			}
+		}
+	}
+}
+
+void Player::getInputAtributes(const sf::Event& e)
+{
+	if(e.Type == sf::Event::KeyPressed)
+	{
+		if(e.Key.Code == sf::Key::Up)
+		{
+			selectedAttribute--;
+			if(selectedAttribute < 0 )
+				selectedAttribute = 1;
+		}
+		else if(e.Key.Code == sf::Key::Down)
+		{
+			selectedAttribute++;
+			if(selectedAttribute >= 2 )
+				selectedAttribute = 0;
+		}
+		else if(e.Key.Code == sf::Key::Space)
+		{
+			if(selectedAttribute == 0) // obrona
+			{
+				if(xp>0)
+				{
+					defLevel++;
+					xp--;
+				}
+			}
+			else // atak
+			{
+				if(xp>0)
+				{
+					attLevel++;
+					xp--;
+				}
+			}
+		}
+	}
+}
+
 void Player::giveItem(const Item& item)
 {
 	inventory.push_back(item);
@@ -129,10 +236,30 @@ void Player::giveItem(const Item& item)
 
 float Player::getAttack()
 {
-	return 0.02 * attLevel;
+	if(weapon != -1)
+		return 0.02 * attLevel + inventory[weapon].getPropertyBoost();
+	else
+		return 0.02 * attLevel;
 }
 
 float Player::getDefence()
 {
-	return 0.2 * defLevel;
+	if(armor != -1)
+		return 0.2 * defLevel + inventory[armor].getPropertyBoost();
+	else
+		return 0.2 * defLevel;
 }
+	void Player::deleteItem(int i)
+	{
+		inventory.erase(inventory.begin() + i);
+		if(armor > i)
+			armor--;
+		if(weapon > i)
+			weapon--;
+		if(selectedItem >= i && i > 0)
+			selectedItem --;
+		if(armor == i)
+			armor = -1;
+		if(weapon == i)
+			weapon = -1;
+	}
