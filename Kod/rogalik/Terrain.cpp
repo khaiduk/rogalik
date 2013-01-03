@@ -37,6 +37,17 @@ void Terrain::draw(sf::RenderWindow& rw, int level, const Position& shift) const
 		}
 	}
 }
+
+void Terrain::drawMinimap(sf::RenderWindow& rw, int level) const
+{
+	for(int x=0;x<map[level].size();x++)
+	{
+		for(int y=0;y<map[level][x].size();y++)
+		{
+			map[level][x][y].drawMini(rw, x+3, y+3);
+		}
+	}
+}
 	
 Tile Terrain::getTile(const Position& pos) const
 {

@@ -42,7 +42,7 @@ void GameBuilder::generateNewGame()
 	//droga
 	//int x=0;
 	srand(time(NULL));
-	int y=rand()%27+1;
+	int y=rand()%27+2;
 	//int y = y1;
 	game.player = Player( Position(0, y) );
 	map[0][0][y].setImage(ImageRes::ROAD);
@@ -79,8 +79,32 @@ void GameBuilder::generateNewGame()
 				map[0][x][y].setWalkSpeed(30);
 				map[0][x][y-1].setWalkSpeed(30);
 				map[0][x][y+1].setWalkSpeed(30);
+
 			}
+
 		
+		//srand(time(NULL));
+		if(x%30==0)
+		{
+			Creature losowypotwor2 = Creature(Position(x,y, 0), ImageRes::MONSTER);
+			losowypotwor2.setSpeed(5); // wolny
+			losowypotwor2.setAI(Creature::AI::RANDOM_WALK); // losowo b³¹dzi
+			losowypotwor2.setType(Creature::Type::HOSTILE); // wrogi
+			losowypotwor2.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
+			game.creatures.push_back( losowypotwor2 );
+		}
+		//cwaniaczek na koncu wioski 1
+		if(x==95)
+		{
+			Creature cwaniaczek = Creature(Position(x,y, 0), ImageRes::MONSTER);
+			cwaniaczek.setSpeed(3); // doœæ wolny
+			cwaniaczek.setAI(Creature::AI::IDLE); // losowo b³¹dzi
+			cwaniaczek.setType(Creature::Type::HOSTILE); // wrogi
+			cwaniaczek.addLoot( Item(L"Trunek", L"Butelka wina.") );
+			cwaniaczek.addLoot(Item(L"Moneta", L"Sakwa monet."));
+			game.creatures.push_back( cwaniaczek );
+		}
+
 		if(x==99)
 			{
 				map[0][x][y].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
@@ -90,8 +114,9 @@ void GameBuilder::generateNewGame()
 			}
 			
 	}
+
 	//chata cinkciarza
-	int i=rand()%95+1;
+	/*int i=rand()%25+1;
 	int j=rand()%15+1;
 	for(int x=i;x<=i+3;x++)
 	{
@@ -110,7 +135,37 @@ void GameBuilder::generateNewGame()
 		}
 
 	}
-	
+	*/
+	int i=rand()%25+1;
+	int j;//=rand()%15+1;
+	bool war=true;
+	while(war)
+	{
+	j=rand()%15+1;
+	if( (j>0 && j<(y-4)) || (j>(y+2) && j<25) )
+	{
+		for(int x=i;x<=i+3;x++)
+		{
+			for(int y=j; y<=j+2;y++)
+			{
+				if(x==i && y==j+1)
+				{
+					map[0][x][y].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
+					map[0][x][y].setWarp(Position(0,1,1));
+				}
+				else
+				{
+					map[0][x][y].setImage(ImageRes::BRICK);
+					map[0][x][y].setSolid(true);
+				}
+			}
+
+		}
+		war=false;
+	}
+	else continue;
+	}
+
 	//wnetrze chaty cinkciarza
 	map.insert(map.begin() + 1, emptyTerrainLevel(10, 8, 1));
 	for(int x=0;x<map[1].size();x++)
@@ -149,7 +204,7 @@ void GameBuilder::generateNewGame()
 	map[1][0][1].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
 	
 	//chata rzemieslnika
-	int r=rand()%95+1;
+	int r=rand()%25+28;
 	int z=rand()%15+1;
 	for(int x=r;x<=r+3;x++)
 	{
@@ -201,7 +256,7 @@ void GameBuilder::generateNewGame()
 		map[2][0][1].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
 	
 	//chata kowala
-	int k=rand()%95+1;
+	int k=rand()%20+55;
 	int w=rand()%15+1;
 	for(int x=k;x<=k+3;x++)
 	{
@@ -251,7 +306,7 @@ void GameBuilder::generateNewGame()
 	map[3][0][1].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
 	
 	//chata mêdrca
-	int m=rand()%95+1;
+	int m=rand()%10+82;
 	int d=rand()%15+1;
 	for(int x=m;x<=m+3;x++)
 	{
@@ -260,7 +315,7 @@ void GameBuilder::generateNewGame()
 			if(x==m+3 && y==d)
 			{
 				map[0][x][y].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
-				map[0][x][y].setWarp(Position(0,1,4));
+				map[0][x][y].setWarp(Position(0,0,4));
 			}
 			else
 				{
@@ -280,8 +335,22 @@ void GameBuilder::generateNewGame()
 		}
 	}
 
-	map[4][0][1].setWarp(Position(m+3,d,0));
-	map[4][0][1].setImage(ImageRes::EMPTY);
+	for(y=3;y<6;y++)
+	{
+		map[4][7][y].setImage(ImageRes::DARK_WALL);
+		map[4][7][y].setSolid(true);
+
+		map[4][5][y].setImage(ImageRes::FURNITURE);
+		map[4][5][y].setSolid(true);
+
+		map[4][3][y].setImage(ImageRes::DARK_WALL);
+		map[4][3][y].setSolid(true);
+
+		map[4][1][y].setImage(ImageRes::FURNITURE);
+		map[4][1][y].setSolid(true);
+	}
+	map[4][0][0].setWarp(Position(m+3,d,0));
+	map[4][0][0].setImage(ImageRes::EMPTY);
 	
 	//LEVEL 2
 	//las
@@ -308,7 +377,12 @@ void GameBuilder::generateNewGame()
 			map[5][x][y+1].setImage(ImageRes::ROAD2);
 			map[5][x][y].setWarp(Position(powrot_x1,powrot_y1,0));
 			map[5][x][y].setImage(ImageRes::EMPTY);
+			
+			map[5][x][y].setWalkSpeed(30);
+			map[5][x][y-1].setWalkSpeed(30);
+			map[5][x][y+1].setWalkSpeed(30);
 		}
+		
 		if(x==69)
 		{
 			for(int y=5;y<15;y++)
@@ -316,6 +390,10 @@ void GameBuilder::generateNewGame()
 				map[5][x][y].setImage(ImageRes::ROAD2);
 				map[5][x+1][y].setImage(ImageRes::ROAD2);
 				map[5][x+2][y].setImage(ImageRes::ROAD2);
+				
+				map[5][x][y].setWalkSpeed(30);
+				map[5][x+1][y].setWalkSpeed(30);
+				map[5][x+2][y].setWalkSpeed(30);
 			}
 		}
 		else
@@ -323,6 +401,10 @@ void GameBuilder::generateNewGame()
 			map[5][x][y].setImage(ImageRes::ROAD2);
 			map[5][x][y-1].setImage(ImageRes::ROAD2);
 			map[5][x][y+1].setImage(ImageRes::ROAD2);
+			
+			map[5][x][y].setWalkSpeed(30);
+			map[5][x][y-1].setWalkSpeed(30);
+			map[5][x][y+1].setWalkSpeed(30);
 		}
 	}
 	int powrot_x2;
@@ -334,10 +416,18 @@ void GameBuilder::generateNewGame()
 		map[5][x][y-1].setImage(ImageRes::ROAD2);
 		map[5][x][y+1].setImage(ImageRes::ROAD2);
 
+		map[5][x][y].setWalkSpeed(30);
+		map[5][x][y-1].setWalkSpeed(30);
+		map[5][x][y+1].setWalkSpeed(30);
+
 		int yy = 13+(rand()%3);
 		map[5][x][yy].setImage(ImageRes::ROAD2);
 		map[5][x][yy-1].setImage(ImageRes::ROAD2);
 		map[5][x][yy+1].setImage(ImageRes::ROAD2);
+
+		map[5][x][yy].setWalkSpeed(30);
+		map[5][x][yy-1].setWalkSpeed(30);
+		map[5][x][yy+1].setWalkSpeed(30);
 
 		if(x==99)
 		{
@@ -351,18 +441,26 @@ void GameBuilder::generateNewGame()
 			powrot_y2=yy;
 		}
 	}
+	//troll
+	Creature troll = Creature(Position(1,10+(rand()%3), 5), ImageRes::MONSTER);
+	troll.setSpeed(4); // doœæ wolny
+	troll.setAI(Creature::AI::IDLE); 
+	troll.setType(Creature::Type::HOSTILE); // wrogi
+	troll.addLoot( Item(L"Czapka", L"Czapka") );
+	game.creatures.push_back( troll );
+
 	srand(time(NULL));
 	for(int i=0; i<200; ++i)
 	{
 		
-		int x=rand()%98;
+		int x=rand()%96+2;
 		//srand(time(NULL));
 		int y=rand()%19;
 		map[5][x][y].setImage(ImageRes::TREE);
 		map[5][x][y].setSolid(true);
 	}
 	
-
+	int yp4=rand()%27+1;
 	//wybor drogi 1 (6)
 	map.insert(map.begin() + 6, emptyTerrainLevel(40, 14, 6)); // tworze poziom o numerze np. 0 i o wymiarach np. 20x20
 
@@ -381,15 +479,20 @@ void GameBuilder::generateNewGame()
 		map[6][x][y-1].setImage(ImageRes::ROAD2);
 		map[6][x][y+1].setImage(ImageRes::ROAD2);
 
+		map[6][x][y].setWalkSpeed(30);
+		map[6][x][y-1].setWalkSpeed(30);
+		map[6][x][y+1].setWalkSpeed(30);
+
 		if(x==0)
 		{
 			map[6][x][y].setWarp(Position(powrot_x1,powrot_y1,5));
 			map[6][x][y].setImage(ImageRes::EMPTY);
 		}
+		
 		if(x==39)
 		{
 			map[6][x][y].setImage(ImageRes::EMPTY);
-			map[6][x][y].setWarp(Position(0, 10, 8));
+			map[6][x][y].setWarp(Position(0, yp4, 8));
 			powrot_x1=x;
 			powrot_y1=y;
 		}
@@ -398,11 +501,12 @@ void GameBuilder::generateNewGame()
 	for(int i=0; i<100; ++i)
 	{
 		
-		int x=rand()%38;
-		int y=rand()%10;
+		int x=rand()%36+2;
+		int y=rand()%7;
 		map[6][x][y].setImage(ImageRes::TREE);
 		map[6][x][y].setSolid(true);
 	}
+
 	//wybor drogi 2 (7)
 	map.insert(map.begin() + 7, emptyTerrainLevel(40, 14, 7)); // tworze poziom o numerze np. 0 i o wymiarach np. 20x20
 
@@ -413,7 +517,7 @@ void GameBuilder::generateNewGame()
 			map[7][x][y].setImage(ImageRes::GRASS); //pobiera obrazek, z podanego obrazka tiles.png o numerze np.2
 		}
 	}
-
+	int lvl;
 	srand(time(NULL));
 	for(int x=0;x<40;x++)
 	{
@@ -422,24 +526,39 @@ void GameBuilder::generateNewGame()
 		map[7][x][y-1].setImage(ImageRes::ROAD2);
 		map[7][x][y+1].setImage(ImageRes::ROAD2);
 
+		map[7][x][y].setWalkSpeed(30);
+		map[7][x][y-1].setWalkSpeed(30);
+		map[7][x][y+1].setWalkSpeed(30);
+
 		if(x==0)
 		{
 			map[7][x][y].setWarp(Position(powrot_x2,powrot_y2,5));
 			map[7][x][y].setImage(ImageRes::EMPTY);
 		}
+		if(x==20)
+		{
+			Creature rozbojnik = Creature(Position(x,y, 7), ImageRes::MONSTER);
+			rozbojnik.setSpeed(4); // wolny
+			rozbojnik.setAI(Creature::AI::IDLE); // losowo b³¹dzi
+			rozbojnik.setType(Creature::Type::HOSTILE); // wrogi
+			rozbojnik.addLoot( Item(L"Miecz", L"Miecz") );
+			rozbojnik.addLoot(Item(L"Moneta", L"Sakwa monet."));
+			game.creatures.push_back( rozbojnik );
+		}
+
 		if(x==39)
 		{
 			map[7][x][y].setImage(ImageRes::EMPTY);
-			map[7][x][y].setWarp(Position(0, 10, 8));
+			map[7][x][y].setWarp(Position(0, yp4, 8));
 			powrot_x2=x;
 			powrot_y2=y;
+			lvl =7;
 		}
 	}
 	for(int i=0; i<100; ++i)
 	{
-		
-		int x=rand()%38;
-		int y=rand()%10;
+		int x=rand()%36+2;
+		int y=rand()%7;
 		map[7][x][y].setImage(ImageRes::TREE);
 		map[7][x][y].setSolid(true);
 	}
@@ -459,20 +578,30 @@ void GameBuilder::generateNewGame()
 	int x=0;
 	int yp2=rand()%17+1;
 	srand(time(NULL));
-	y=rand()%27+1;
+	//y=rand()%27+1;
+	y=yp4;
 
 	map[8][x][y].setImage(ImageRes::EMPTY);
-	map[8][x][y].setWarp(Position(powrot_x1,powrot_y1,6));
-	map[8][x][y].setImage(ImageRes::EMPTY);
+	if(lvl==7)
 	map[8][x][y].setWarp(Position(powrot_x2,powrot_y2,7));
+	else
+	//map[8][x][y].setImage(ImageRes::EMPTY);
+	map[8][x][y].setWarp(Position(powrot_x1,powrot_y1,6));
+	//map[8][x][y].setImage(ImageRes::EMPTY);
+	//map[8][x][y].setWarp(Position(powrot_x2,powrot_y2,7));
 
 
-	map[8][x][y].setImage(ImageRes::ROAD);
+	map[8][x][y].setImage(ImageRes::EMPTY);
 	map[8][x][y-1].setImage(ImageRes::ROAD);
 	map[8][x][y+1].setImage(ImageRes::ROAD);
+
+	map[8][x][y].setWalkSpeed(30);
+	map[8][x][y-1].setWalkSpeed(30);
+	map[8][x][y+1].setWalkSpeed(30);
 	
 	int powrot_x3;
 	int powrot_y3;
+	int postaw, postaw2;
 	for(int x=1;x<100;x++)
 	{
 		y+=(rand()%3-1);
@@ -490,10 +619,26 @@ void GameBuilder::generateNewGame()
 		}
 		
 		else
-			{map[8][x][y-1].setImage(ImageRes::ROAD);
+		{
+			map[8][x][y-1].setImage(ImageRes::ROAD);
 			map[8][x][y].setImage(ImageRes::ROAD);
-			map[8][x][y+1].setImage(ImageRes::ROAD);}
-		
+			map[8][x][y+1].setImage(ImageRes::ROAD);
+
+			map[8][x][y].setWalkSpeed(30);
+			map[8][x][y-1].setWalkSpeed(30);
+			map[8][x][y+1].setWalkSpeed(30);
+		}
+		if(x%25==0)
+		{
+			Creature losowypotwor6 = Creature(Position(x,y, 8), ImageRes::MONSTER);
+			losowypotwor6.setSpeed(4); // wolny
+			losowypotwor6.setAI(Creature::AI::RANDOM_WALK); // losowo b³¹dzi
+			losowypotwor6.setType(Creature::Type::HOSTILE); // wrogi
+			//losowypotwor6.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
+			game.creatures.push_back( losowypotwor6 );
+		}
+		if(x==30) postaw=y;
+		if(x==98) postaw2=y;
 		if(x==99)
 			{
 				map[8][x][y].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
@@ -504,7 +649,7 @@ void GameBuilder::generateNewGame()
 			
 	}
 	//chata rzemieslnika
-	/*int r*/r=rand()%95+1;
+	/*int r*/r=rand()%25+1;
 	/*int z*/z=rand()%25+1;
 	for(int x=r;x<=r+3;x++)
 	{
@@ -555,7 +700,7 @@ void GameBuilder::generateNewGame()
 		map[9][0][1].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
 	
 	//chata mêdrca
-	/*int m*/m=rand()%95+1;
+	/*int m*/m=rand()%25+28;
 	/*int d*/d=rand()%25+1;
 	for(int x=m;x<=m+3;x++)
 	{
@@ -564,7 +709,7 @@ void GameBuilder::generateNewGame()
 			if(x==m+3 && y==d)
 			{
 				map[8][x][y].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
-				map[8][x][y].setWarp(Position(0,1,10));
+				map[8][x][y].setWarp(Position(0,0,10));
 			}
 			else
 				{
@@ -583,12 +728,25 @@ void GameBuilder::generateNewGame()
 			map[10][x][y].setImage(ImageRes::STAR);
 		}
 	}
+	for(y=3;y<6;y++)
+	{
+		map[10][7][y].setImage(ImageRes::DARK_WALL);
+		map[10][7][y].setSolid(true);
 
-	map[10][0][1].setWarp(Position(m+3,d,8));
-	map[10][0][1].setImage(ImageRes::EMPTY);
+		map[10][5][y].setImage(ImageRes::FURNITURE);
+		map[10][5][y].setSolid(true);
+
+		map[10][3][y].setImage(ImageRes::DARK_WALL);
+		map[10][3][y].setSolid(true);
+
+		map[10][1][y].setImage(ImageRes::FURNITURE);
+		map[10][1][y].setSolid(true);
+	}
+	map[10][0][0].setWarp(Position(m+3,d,8));
+	map[10][0][0].setImage(ImageRes::EMPTY);
 	
 	//Bar
-	int b=rand()%95+1;
+	int b=rand()%20+55;
 	int a=rand()%25+1;
 	for(int x=b;x<=b+3;x++)
 	{
@@ -661,12 +819,23 @@ void GameBuilder::generateNewGame()
 	int yp3=rand()%17+1;
 	srand(time(NULL));
 	y=yp2;
-	
+	int postaw3;
 	map[12][x][y].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
 	map[12][x][y].setWarp(Position(powrot_x3,powrot_y3,8));
 	map[12][x][y-1].setImage(ImageRes::ROAD);
 	map[12][x][y+1].setImage(ImageRes::ROAD);
+
+	map[12][x][y].setWalkSpeed(30);
+	map[12][x][y-1].setWalkSpeed(30);
+	map[12][x][y+1].setWalkSpeed(30);
 	
+	//troll
+	Creature troll2 = Creature(Position(1,y, 12), ImageRes::MONSTER);
+	troll2.setSpeed(4); // doœæ wolny
+	troll2.setAI(Creature::AI::IDLE); 
+	troll2.setType(Creature::Type::HOSTILE); // wrogi
+	//troll2.addLoot( Item(L"Czapka", L"Czapka") );
+	game.creatures.push_back( troll2 );
 	for(int x=1;x<100;x++)
 	{		
 		y+=(rand()%3-1);
@@ -681,14 +850,38 @@ void GameBuilder::generateNewGame()
 			continue;
 		}
 		else
-			{map[12][x][y-1].setImage(ImageRes::ROAD);
+		{
+			map[12][x][y-1].setImage(ImageRes::ROAD);
 			map[12][x][y].setImage(ImageRes::ROAD);
-			map[12][x][y+1].setImage(ImageRes::ROAD);}
-		
+			map[12][x][y+1].setImage(ImageRes::ROAD);
+
+			map[12][x][y].setWalkSpeed(30);
+			map[12][x][y-1].setWalkSpeed(30);
+			map[12][x][y+1].setWalkSpeed(30);
+		}
+		if(x%20==0)
+		{
+			Creature losowypotwor6 = Creature(Position(x,y, 12), ImageRes::MONSTER);
+			losowypotwor6.setSpeed(4); // wolny
+			losowypotwor6.setAI(Creature::AI::RANDOM_WALK); // losowo b³¹dzi
+			losowypotwor6.setType(Creature::Type::HOSTILE); // wrogi
+			//losowypotwor6.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
+			game.creatures.push_back( losowypotwor6 );
+		}
+		if(x==50)
+		{
+			Creature goral = Creature(Position(x, y, 12), ImageRes::MONSTER);
+			goral.setSpeed(3); // doœæ wolny
+			goral.setAI(Creature::AI::RANDOM_WALK); // losowo b³¹dzi
+			goral.setType(Creature::Type::HOSTILE); // wrogi
+			goral.addLoot( Item(L"Ciupaga", L"Ciupaga") );
+			game.creatures.push_back( goral );
+		}
+		if(x==33) postaw3=y;
 		if(x==99)
 			{
 				map[12][x][y].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
-				map[12][x][y].setWarp(Position(0,yp3,8));
+				map[12][x][y].setWarp(Position(0,yp3,14));
 				powrot_x4=x;
 				powrot_y4=y;
 			}	
@@ -729,6 +922,9 @@ void GameBuilder::generateNewGame()
 		{
 			map[13][6][y].setImage(ImageRes::DESK);
 			map[13][6][y].setSolid(true);
+
+			map[13][3][y].setImage(ImageRes::DESK);
+			map[13][3][y].setSolid(true);
 		}
 
 	for(int x=4;x<10;x++)
@@ -749,17 +945,17 @@ void GameBuilder::generateNewGame()
 			map[13][9][y].setSolid(true);
 		}
 
-	map[13][0][1].setWarp(Position(i,j+1,11)); //miejsce przejscia z jednego poziomu np. 1 1 1 [z x y] do 13 12 0 [x y z]
+	map[13][0][1].setWarp(Position(i,j+1,12)); //miejsce przejscia z jednego poziomu np. 1 1 1 [z x y] do 13 12 0 [x y z]
 	map[13][0][1].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
 	
 	//LEVEL 5
-	/*/wioska
+	//wioska
 	map.insert(map.begin() + 14, emptyTerrainLevel(100, 20, 14));
 	for(int x=0;x<map[14].size();x++)
 	{
 		for(int y=0;y<map[14][x].size();y++)
 		{
-			map[14][x][y].setImage(ImageRes::GORY);
+			map[14][x][y].setImage(ImageRes::GRASS);
 		}
 	}
 
@@ -770,9 +966,13 @@ void GameBuilder::generateNewGame()
 	y=yp3;
 	//game.player = Player( Position(0, y) );
 	map[14][x][y].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
-	map[14][x][y].setWarp(Position(powrot_x4,powrot_y4,11));
+	map[14][x][y].setWarp(Position(powrot_x4,powrot_y4,12));
 	map[14][x][y-1].setImage(ImageRes::ROAD);
 	map[14][x][y+1].setImage(ImageRes::ROAD);
+
+	map[14][x][y].setWalkSpeed(30);
+	map[14][x][y-1].setWalkSpeed(30);
+	map[14][x][y+1].setWalkSpeed(30);
 	
 	for(int x=1;x<80;x++)
 	{
@@ -789,19 +989,96 @@ void GameBuilder::generateNewGame()
 			continue;
 		}
 		else
-			{map[14][x][y-1].setImage(ImageRes::ROAD);
-			map[14][x][y].setImage(ImageRes::ROAD);
-			map[14][x][y+1].setImage(ImageRes::ROAD);}
-	}
-	/*
-	//chata cinkciarza
-	int i2=rand()%95+1;
-	int j2=rand()%15+1;
-	for(x=i2;x<=i2+3;x++)
-	{
-		for(y=j2; y<=j2+2;y++)
 		{
-			if(x==i2 && y==j2+1)
+			map[14][x][y-1].setImage(ImageRes::ROAD);
+			map[14][x][y].setImage(ImageRes::ROAD);
+			map[14][x][y+1].setImage(ImageRes::ROAD);
+		
+			map[14][x][y].setWalkSpeed(30);
+			map[14][x][y-1].setWalkSpeed(30);
+			map[14][x][y+1].setWalkSpeed(30);
+		}
+		if(x==79)
+			{
+				x++;
+
+				for(int y=6; y<11;y++)
+				{
+					if(x==80)
+					{
+						map[14][x][y].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
+						map[14][x][y].setWarp(Position(0,yp3,15));
+						powrot_x5=x;
+						powrot_y5=y;
+					}
+				}
+
+				for(int y= 4; y<15; y++)
+				//for(int x=80; x<100; x++)
+				{
+					for(int x=81; x<100; x++)
+					//for(int y= 4; y<15; y++)
+					{
+						/*if(x==80)
+						{
+							map[14][x][y].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
+							map[14][x][y].setWarp(Position(0,yp3,15));
+							powrot_x5=x;
+							powrot_y5=y;
+						}*/
+
+						map[14][x][y].setImage(ImageRes::GOLD);
+						map[14][x][y].setSolid(true);
+					}
+				}
+
+			}
+	}
+
+	//pomieszczenie finalowe
+	map.insert(map.begin() + 15, emptyTerrainLevel(50, 20, 15));
+	for(int x=0;x<map[15].size();x++)
+	{
+		for(int y=0;y<map[15][x].size();y++)
+		{
+			map[15][x][y].setImage(ImageRes::DARK_WALL);
+		}
+	}
+
+	x=0;
+	y=yp3;
+	map[15][x][y].setImage(ImageRes::EMPTY);
+	map[15][x][y].setWarp(Position(powrot_x5, powrot_y5, 14));
+	map[15][x][y].setImage(ImageRes::EMPTY);
+	//map[15][x][y-1].setImage(ImageRes::ROAD);
+	//map[15][x][y+1].setImage(ImageRes::ROAD);
+
+	for(int y=0; y<8;y++)
+	{
+		for(int x=1; x<25; x++)
+			{
+				map[15][x][y].setImage(ImageRes::EMPTY);
+				map[15][x][y].setSolid(true);
+			}
+	}
+
+	for(int y=12; y<20; y++)
+	{
+		for(int x=1; x<25; x++)
+		{
+			map[15][x][y].setImage(ImageRes::EMPTY);
+			map[15][x][y].setSolid(true);
+		}
+	}
+	//////////////////////////////////////////////////////////////////////////////////
+	//chata cinkciarza
+	int ii=rand()%23+50;
+	int jj=rand()%15+1;
+	for(int x=ii;x<=ii+3;x++)
+	{
+		for(int y=jj; y<=jj+2;y++)
+		{
+			if(x==ii && y==jj+1)
 			{
 				map[14][x][y].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
 				map[14][x][y].setWarp(Position(0,1,16));
@@ -814,6 +1091,7 @@ void GameBuilder::generateNewGame()
 		}
 
 	}
+	
 	//wnetrze chaty cinkciarza
 	map.insert(map.begin() + 16, emptyTerrainLevel(10, 8, 16));
 	for(int x=0;x<map[16].size();x++)
@@ -824,11 +1102,11 @@ void GameBuilder::generateNewGame()
 		}
 	}
 	
-		for(int y=3;y<6;++y)
-		{
-			map[16][6][y].setImage(ImageRes::DESK);
-			map[16][6][y].setSolid(true);
-		}
+	for(int y=3;y<6;y++)
+	{
+		map[16][6][y].setImage(ImageRes::DESK);
+		map[16][6][y].setSolid(true);
+	}
 		
 	for(int x=4;x<10;x++)
 	{
@@ -841,24 +1119,25 @@ void GameBuilder::generateNewGame()
 			map[16][x][7].setImage(ImageRes::FURNITURE);
 			map[16][x][7].setSolid(true);
 	}
-
+	
 		for(int y=3;y<8;y++)
 		{
 			map[16][9][y].setImage(ImageRes::FURNITURE);
 			map[16][9][y].setSolid(true);
 		}
 		
-	map[16][0][1].setWarp(Position(i2,j2+1,14)); //miejsce przejscia z jednego poziomu np. 1 1 1 [z x y] do 13 12 0 [x y z]
+	map[16][0][1].setWarp(Position(ii,jj+1,14)); //miejsce przejscia z jednego poziomu np. 1 1 1 [z x y] do 13 12 0 [x y z]
 	map[16][0][1].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
 	
+	
 	//chata rzemieslnika
-	int r2=rand()%95+1;
-	int z2=rand()%15+1;
-	for(x=r;x<=r+3;x++)
+	int rr=rand()%20+1;
+	int zz=rand()%15+1;
+	for(int x=rr;x<=rr+3;x++)
 	{
-		for(y=z2; y<=z2+2;y++)
+		for(int y=zz; y<=zz+2;y++)
 		{
-			if(x==r2+1 && y==z2+2)
+			if(x==rr+1 && y==zz+2)
 			{
 				map[14][x][y].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
 				map[14][x][y].setWarp(Position(0,1,17));
@@ -900,20 +1179,20 @@ void GameBuilder::generateNewGame()
 			map[17][7][y].setSolid(true);
 		}
 		
-		map[17][0][1].setWarp(Position(r2+1,z2+2,14)); //miejsce przejscia z jednego poziomu np. 1 1 1 [z x y] do 13 12 0 [x y z]
+		map[17][0][1].setWarp(Position(rr+1,zz+2,14)); //miejsce przejscia z jednego poziomu np. 1 1 1 [z x y] do 13 12 0 [x y z]
 		map[17][0][1].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
-
+	
 	//chata mêdrca
-	int m2=rand()%95+1;
-	int d2=rand()%25+1;
-	for(x=m2;x<=m2+3;x++)
+	int mm=rand()%22+23;
+	int dd=rand()%15+1;
+	for(int x=mm;x<=mm+3;x++)
 	{
-		for(y=d2; y<=d2+2;y++)
+		for(int y=dd; y<=dd+2;y++)
 		{
-			if(x==m2+3 && y==d2)
+			if(x==mm+3 && y==dd)
 			{
 				map[14][x][y].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
-				map[14][x][y].setWarp(Position(0,1,18));
+				map[14][x][y].setWarp(Position(0,0,18));
 			}
 			else
 				{
@@ -932,11 +1211,26 @@ void GameBuilder::generateNewGame()
 			map[18][x][y].setImage(ImageRes::STAR);
 		}
 	}
+	for(y=3;y<6;y++)
+	{
+		map[18][7][y].setImage(ImageRes::DARK_WALL);
+		map[18][7][y].setSolid(true);
 
-	map[18][0][1].setWarp(Position(m2+3,d2,0));
-	map[18][0][1].setImage(ImageRes::EMPTY);
-	* /
-		//budynek finalowy
+		map[18][5][y].setImage(ImageRes::FURNITURE);
+		map[18][5][y].setSolid(true);
+
+		map[18][3][y].setImage(ImageRes::DARK_WALL);
+		map[18][3][y].setSolid(true);
+
+		map[18][1][y].setImage(ImageRes::FURNITURE);
+		map[18][1][y].setSolid(true);
+	}
+
+	map[18][0][0].setWarp(Position(mm+3,dd,14));
+	map[18][0][0].setImage(ImageRes::EMPTY);
+	
+
+		/*//budynek finalowy - jest juz wyzej
 		if(x==79)
 			{
 				for(int x=80; x<100; x++)
@@ -954,42 +1248,133 @@ void GameBuilder::generateNewGame()
 						map[14][x][y].setImage(ImageRes::STAR);
 					}
 				}
-			}
+			}*/
 	
-
-	//pomieszczenie finalowe
-	map.insert(map.begin() + 15, emptyTerrainLevel(50, 20, 15));
-	for(int x=0;x<map[15].size();x++)
-	{
-		for(int y=0;y<map[15][x].size();y++)
-		{
-			map[15][x][y].setImage(ImageRes::DARK_WALL);
-		}
-	}
-
-	x=0;
-	y=yp3;
-	map[15][x][y].setImage(ImageRes::EMPTY);
-	map[15][x][y].setWarp(Position(powrot_x5, powrot_y5, 14));
-	map[15][x][y].setImage(ImageRes::ROAD);
-	map[15][x][y-1].setImage(ImageRes::ROAD);
-	map[15][x][y+1].setImage(ImageRes::ROAD);
-
-	for(int y=0; y<8;y++)
-	{
-		for(int y=12; y<20; y++)
-		{
-			for(int x=1; x<25; x++)
-			{
-				map[15][x][y].setImage(ImageRes::EMPTY);
-				map[15][x][y].setSolid(true);
-			}
-		}
-	}
-	*/
+	
 	//game.player = Player( Position(0, 2) );
+	/////////////////////////////////////////////////////////////////////////////////
+	//ENEMY
+	/////////////////////////////////////////////////////////////////////////////////
+	//poziom 1 - losowe potwory
+	Creature losowypotwor3 = Creature(Position(45,13, 0), ImageRes::MONSTER);
+	losowypotwor3.setSpeed(6); // doœæ wolny
+	losowypotwor3.setAI(Creature::AI::RANDOM_WALK); // losowo b³¹dzi
+	losowypotwor3.setType(Creature::Type::HOSTILE); // wrogi
+	//losowypotwor3.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
+	game.creatures.push_back( losowypotwor3 );
+	/********************************************************************************/
+	Creature losowypotwor = Creature(Position(75,21, 0), ImageRes::MONSTER);
+	losowypotwor.setSpeed(3); // doœæ wolny
+	losowypotwor.setAI(Creature::AI::RANDOM_WALK); // losowo b³¹dzi
+	losowypotwor.setType(Creature::Type::HOSTILE); // wrogi
+	//losowypotwor.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
+	game.creatures.push_back( losowypotwor );
+	////////////////////////////////////////////////////////////////////////////////////
+	//poziom 2 - losowe potwory
+	Creature zbir = Creature(Position(2,7, 6), ImageRes::MONSTER);
+	zbir.setSpeed(4); // wolny
+	zbir.setAI(Creature::AI::IDLE); // losowo b³¹dzi
+	zbir.setType(Creature::Type::HOSTILE); // wrogi
+	//zbir.addLoot( Item(L"Czapka", L"Czapka") );
+	game.creatures.push_back( zbir );
 
-/************************************************************************************************************/
+	Creature zbir2 = Creature(Position(0,10, 6), ImageRes::MONSTER);
+	zbir2.setSpeed(4); // wolny
+	zbir2.setAI(Creature::AI::IDLE); // losowo b³¹dzi
+	zbir2.setType(Creature::Type::HOSTILE); // wrogi
+	//zbir.addLoot( Item(L"Czapka", L"Czapka") );
+	game.creatures.push_back( zbir2 );
+
+	Creature zbir3 = Creature(Position(0,6, 6), ImageRes::MONSTER);
+	zbir3.setSpeed(4); // wolny
+	zbir3.setAI(Creature::AI::IDLE); // losowo b³¹dzi
+	zbir3.setType(Creature::Type::HOSTILE); // wrogi
+	//zbir.addLoot( Item(L"Czapka", L"Czapka") );
+	game.creatures.push_back( zbir3 );
+
+	Creature zbir4 = Creature(Position(2,9, 6), ImageRes::MONSTER);
+	zbir4.setSpeed(4); // wolny
+	zbir4.setAI(Creature::AI::IDLE); // losowo b³¹dzi
+	zbir4.setType(Creature::Type::HOSTILE); // wrogi
+	//zbir.addLoot( Item(L"Czapka", L"Czapka") );
+	game.creatures.push_back( zbir4 );
+
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//poziom 3 - losowe potwory
+	Creature losowypotwor4 = Creature(Position(35,23, 3), ImageRes::MONSTER);
+	losowypotwor4.setSpeed(6); // doœæ wolny
+	losowypotwor4.setAI(Creature::AI::RANDOM_WALK); // losowo b³¹dzi
+	losowypotwor4.setType(Creature::Type::HOSTILE); // wrogi
+	//losowypotwor4.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
+	game.creatures.push_back( losowypotwor4 );
+	/********************************************************************************/
+	Creature losowypotwor5 = Creature(Position(75,11, 3), ImageRes::MONSTER);
+	losowypotwor5.setSpeed(3); // doœæ wolny
+	losowypotwor5.setAI(Creature::AI::RANDOM_WALK); // losowo b³¹dzi
+	losowypotwor5.setType(Creature::Type::HOSTILE); // wrogi
+	//losowypotwor5.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
+	game.creatures.push_back( losowypotwor5 );
+	//////////////////////////////////////////////////////////////////////////////////
+	//poziom 4 - losowe potwory
+	Creature losowypotwor7 = Creature(Position(76,20, 12), ImageRes::MONSTER);
+	losowypotwor7.setSpeed(4); // wolny
+	losowypotwor7.setAI(Creature::AI::RANDOM_WALK); // losowo b³¹dzi
+	losowypotwor7.setType(Creature::Type::HOSTILE); // wrogi
+	//losowypotwor7.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
+	game.creatures.push_back( losowypotwor7 );
+	/********************************************************************************/
+	Creature losowypotwor8 = Creature(Position(85,20, 12), ImageRes::MONSTER);
+	losowypotwor8.setSpeed(3); // doœæ wolny
+	losowypotwor8.setAI(Creature::AI::RANDOM_WALK); // losowo b³¹dzi
+	losowypotwor8.setType(Creature::Type::HOSTILE); // wrogi
+	//losowypotwor8.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
+	game.creatures.push_back( losowypotwor8 );
+	////////////////////////////////////////////////////////////////////////////////////
+	//poziom 5
+	Creature losowypotwor9 = Creature(Position(2,yp3, 14), ImageRes::MONSTER);
+	losowypotwor9.setSpeed(3); // doœæ wolny
+	losowypotwor9.setAI(Creature::AI::IDLE); // losowo b³¹dzi
+	losowypotwor9.setType(Creature::Type::HOSTILE); // wrogi
+	//losowypotwor9.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
+	game.creatures.push_back( losowypotwor9 );
+	/********************************************************************************/
+	//poziom 5 straznicy przed domem
+	Creature warta = Creature(Position(79,5, 14), ImageRes::MONSTER);
+	warta.setSpeed(3); // doœæ wolny
+	warta.setAI(Creature::AI::IDLE); // losowo b³¹dzi
+	warta.setType(Creature::Type::HOSTILE); // wrogi
+	//straznik.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
+	game.creatures.push_back( warta );
+	
+	Creature warta2 = Creature(Position(78,8, 14), ImageRes::MONSTER);
+	warta2.setSpeed(3); // doœæ wolny
+	warta2.setAI(Creature::AI::IDLE); // losowo b³¹dzi
+	warta2.setType(Creature::Type::HOSTILE); // wrogi
+	//straznik2.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
+	game.creatures.push_back( warta2 );
+
+	Creature warta3 = Creature(Position(79,11, 14), ImageRes::MONSTER);
+	warta3.setSpeed(3); // doœæ wolny
+	warta3.setAI(Creature::AI::IDLE); // losowo b³¹dzi
+	warta3.setType(Creature::Type::HOSTILE); // wrogi
+	//straznik3.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
+	game.creatures.push_back( warta3 );
+	/********************************************************************************/
+	//straznicy w korytarzu
+	for(int i=0;i<3;i++)
+	{
+	Creature warta4 = Creature(Position(rand()%19+1,rand()%4+8, 15), ImageRes::MONSTER);
+	warta4.setSpeed(3); // doœæ wolny
+	warta4.setAI(Creature::AI::RANDOM_WALK); // losowo b³¹dzi
+	warta4.setType(Creature::Type::HOSTILE); // wrogi
+	//straznik4.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
+	game.creatures.push_back( warta4 );
+	}
+	////////////////////////////////////////////////////////////////////////////////////
+	//DIALOGI
+	//////////////////////////////////////////////////////////////////////////////////
+
 	//level 1 - rozmowa z cinkciarzem
 	Creature cinkciarz = Creature(Position(8,1, 1), ImageRes::DEALER);
 	
@@ -1042,7 +1427,7 @@ void GameBuilder::generateNewGame()
 
 	/************************************************************************************************************/
 	//level 1 - rozmowa z rzemieœlnikiem
-	Creature rzemieslnik = Creature(Position(8,1, 2), ImageRes::DEALER);
+	Creature rzemieslnik = Creature(Position(6,5, 2), ImageRes::DEALER);
 	
 	Dialog dialog0;
 
@@ -1053,6 +1438,7 @@ void GameBuilder::generateNewGame()
 		addOption(L"Macie jakieœ narzêdzia do obrony?", 4);
 
 	dialog0.addNode(3, L"Oj dzieciaku! Nie poradzisz sobie w ¿yciu! Musisz byæ bardziej uwa¿ny. Na	pocz¹tek mogê daæ ci drewniany kij, bo jak s¹dzê pieniêdzy te¿ nie masz.").
+		addGiveItem(Item(L"kijek", L"kijek")).
 		addOption(L"Dziêkujê za pomoc.", 30);
 	
 	dialog0.addNode(30, L"IdŸ i uwa¿aj na siebie dzieciaku.").
@@ -1081,7 +1467,7 @@ void GameBuilder::generateNewGame()
 
 	/************************************************************************************************************/
 	//level 1 - rozmowa z kowalem
-	Creature kowal = Creature(Position(8,1, 3), ImageRes::DEALER);
+	Creature kowal = Creature(Position(7,5, 3), ImageRes::DEALER);
 	
 	Dialog dialog1;
 
@@ -1115,7 +1501,7 @@ void GameBuilder::generateNewGame()
 
 	/************************************************************************************************************/
 	////level 1 - rozmowa z medrcem
-	Creature medrzec = Creature(Position(8,1, 4), ImageRes::DEALER);
+	Creature medrzec = Creature(Position(5,2, 4), ImageRes::DEALER);
 	
 	Dialog dialog2;
 
@@ -1148,7 +1534,7 @@ void GameBuilder::generateNewGame()
 
 	/************************************************************************************************************/
 	////level 2 - rozmowa z pijakiem
-	Creature pijak = Creature(Position(8,1, 5), ImageRes::DEALER);
+	Creature pijak = Creature(Position(69,10+(rand()%3), 5), ImageRes::DEALER);
 	
 	Dialog dialog3;
 
@@ -1192,7 +1578,7 @@ void GameBuilder::generateNewGame()
 
 	/************************************************************************************************************/
 	////level 3 - rozmowa z rzemieslnikiem
-	Creature rzemieslnik2 = Creature(Position(8,1, 9), ImageRes::DEALER);
+	Creature rzemieslnik2 = Creature(Position(5,3, 9), ImageRes::DEALER);
 	
 	Dialog dialog4;
 
@@ -1219,7 +1605,7 @@ void GameBuilder::generateNewGame()
 
 	/************************************************************************************************************/
 	////level 3 - rozmowa z kolesiem
-	Creature koles = Creature(Position(8,1, 11), ImageRes::DEALER);
+	Creature koles = Creature(Position(30,postaw, 8), ImageRes::DEALER);
 	
 	Dialog dialog5;
 
@@ -1247,7 +1633,7 @@ void GameBuilder::generateNewGame()
 
 	/************************************************************************************************************/
 	////level 3 - rozmowa z medrcem
-	Creature medrzec2 = Creature(Position(8,1, 10), ImageRes::DEALER);
+	Creature medrzec2 = Creature(Position(6,2, 10), ImageRes::DEALER);
 	
 	Dialog dialog6;
 
@@ -1280,8 +1666,42 @@ void GameBuilder::generateNewGame()
 	game.creatures.push_back( medrzec2 );
 
 	/************************************************************************************************************/
+	////level 3 - rozmowa z ludŸmi w barze
+	Creature klient = Creature(Position(3,3, 11), ImageRes::DEALER);
+	Dialog dialog14;
+	dialog14 = Dialog();
+	dialog14.addNode(Dialog::START_DIALOG, L"To miejsce jest zajête!").
+		addOption(L". . .", Dialog::END_DIALOG);	
+	klient.addDialog(dialog14);
+	klient.setType(Creature::Type::DIALOG);
+	game.creatures.push_back( klient );
+	/**********************************************/
+	Creature klient2 = Creature(Position(4,5, 11), ImageRes::DEALER);
+	Dialog dialog15;
+	dialog15 = Dialog();
+	dialog15.addNode(Dialog::START_DIALOG, L"To miejsce jest zajête!").
+		addOption(L". . .", Dialog::END_DIALOG);
+	klient2.addDialog(dialog15);
+	klient2.setType(Creature::Type::DIALOG);
+	game.creatures.push_back( klient2 );
+
+	/***********************************************/
+	Creature barman = Creature(Position(8, 4, 11), ImageRes::DEALER);
+	Dialog dialog16;
+	dialog16=Dialog();
+	dialog16.addNode(Dialog::START_DIALOG, L"Coœ podaæ?").
+		addOption(L"Nie, dziêkujê", Dialog::END_DIALOG).
+		addOption(L"Piwo.", 111);
+	dialog16.addNode(111, L"Ju¿ siê robi.").
+		addGiveItem(Item(L"Piwo", L"Piwo")).
+		addOption(L". . .", Dialog::END_DIALOG);
+	barman.addDialog(dialog16);
+	barman.setType(Creature::Type::DIALOG);
+	game.creatures.push_back(barman);
+
+	/************************************************************************************************************/
 	////level 3 - rozmowa ze stra¿nikiem
-	Creature straznik = Creature(Position(8,1, 8), ImageRes::DEALER);
+	Creature straznik = Creature(Position(98,postaw2, 8), ImageRes::DEALER);
 	
 	Dialog dialog7;
 
@@ -1312,7 +1732,7 @@ void GameBuilder::generateNewGame()
 
 	/************************************************************************************************************/
 	////level 4 - rozmowa z kolesiem
-	Creature koles2 = Creature(Position(8,1, 12), ImageRes::DEALER);
+	Creature koles2 = Creature(Position(33,postaw3, 12), ImageRes::DEALER);
 	
 	Dialog dialog8;
 
@@ -1339,7 +1759,7 @@ void GameBuilder::generateNewGame()
 
 	/************************************************************************************************************/
 	////level 4 - rozmowa ze zbieraczem narzedzi
-	Creature zbieracz = Creature(Position(8,1, 13), ImageRes::DEALER);
+	Creature zbieracz = Creature(Position(4,4, 13), ImageRes::DEALER);
 	
 	Dialog dialog9;
 
@@ -1379,7 +1799,7 @@ void GameBuilder::generateNewGame()
 
 	/************************************************************************************************************/
 	////level 5 - rozmowa z rzemieslnikiem
-	Creature rzemieslnik3 = Creature(Position(8,1, 17), ImageRes::DEALER);
+	Creature rzemieslnik3 = Creature(Position(2,6, 17), ImageRes::DEALER);
 	
 	Dialog dialog10;
 
@@ -1412,7 +1832,7 @@ void GameBuilder::generateNewGame()
 
 	/************************************************************************************************************/
 	////level 5 - rozmowa z medrcem
-	Creature medrzec3 = Creature(Position(8,1, 18), ImageRes::DEALER);
+	Creature medrzec3 = Creature(Position(4,4, 18), ImageRes::DEALER);
 	
 	Dialog dialog11;
 
@@ -1435,7 +1855,7 @@ void GameBuilder::generateNewGame()
 
 	/************************************************************************************************************/
 	////level 5 - rozmowa z cinkcarzem
-	Creature cinkciarz2 = Creature(Position(8,1, 16), ImageRes::DEALER);
+	Creature cinkciarz2 = Creature(Position(5,3, 16), ImageRes::DEALER);
 	
 	Dialog dialog12;
 
@@ -1476,7 +1896,7 @@ void GameBuilder::generateNewGame()
 
 	/************************************************************************************************************/
 	////level 5 - rozmowa z medrcem (powrot)
-	Creature medrzec4 = Creature(Position(8,1, 18), ImageRes::DEALER);
+	Creature medrzec4 = Creature(Position(4,4, 18), ImageRes::DEALER);
 	
 	Dialog dialog13;
 
@@ -1508,16 +1928,6 @@ void GameBuilder::generateNewGame()
 
 	medrzec4.setType(Creature::Type::DIALOG);
 	game.creatures.push_back( medrzec4 );
-	/////////////////////////////////////////////////////////////////////////////////
-
-	Creature losowypotwor = Creature(Position(10,5, 0), ImageRes::MONSTER);
-	losowypotwor.setSpeed(3); // doœæ wolny
-	losowypotwor.setAI(Creature::AI::RANDOM_WALK); // losowo b³¹dzi
-	losowypotwor.setType(Creature::Type::HOSTILE); // wrogi
-	losowypotwor.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
-	game.creatures.push_back( losowypotwor );
-
-
 }
 
 //void GameBuilder::loadFromFile() { }

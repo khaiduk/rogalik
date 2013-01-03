@@ -25,6 +25,13 @@ public:
 	 */
 	void draw(sf::RenderWindow& rw, int x, int y) const;
 	/**
+	 * Wyœwietla miniaturow¹ kafelkê na ekranie w zadanym miejscu
+	 * @param rw okno rysowania
+	 * @param x przesuniêcie wzglêdem pocz¹tku okna
+	 * @param y przesuniêcie wzglêdem pocz¹tku okna
+	 */
+	void drawMini(sf::RenderWindow& rw, int x, int y) const;
+	/**
 	 * Ustawia wygl¹d kafelki na img
 	 * @param img identyfikator obrazka
 	 */
@@ -68,6 +75,7 @@ public:
 private:
 	Position pos;
 	sf::Sprite sprite;
+	int imgId;
 	bool solid;
 	bool warp;
 	Position warpTo;

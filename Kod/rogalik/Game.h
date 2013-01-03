@@ -40,19 +40,26 @@ public:
 		INVENTORY,
 		ATRIBUTES,
 		GAMEMENU,
-		DIALOG
+		DIALOG,
+		TRADE
 	};
 
 	/**
 	 * Zwraca obecny stan gry
 	 */
 	GameState getState() const;
-
+	
 	/**
 	 * Ustawia stan gry na dialog z postaci¹
 	 * @param dialog Obiekt dialogu
 	 */
 	void setDialog(Dialog& dialog);
+	
+	/**
+	 * Ustawia stan gry na handel z postaci¹
+	 * @param dialog Obiekt dialogu
+	 */
+	void setTrade(Trading& trade);
 private:
 	Terrain terrain;
 	Player player;
@@ -60,6 +67,7 @@ private:
 	GameState gameState;
 	Menu m;
 	Dialog *currentDialog;
+	Trading *currentTrade;
 
 	friend class GameBuilder;
 };

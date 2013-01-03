@@ -23,6 +23,10 @@ public:
 	 */
 	void draw(sf::RenderWindow& rw, int level, const Position& shift) const;
 	/**
+	 * Wyœwietla minimapê
+	 */
+	void drawMinimap(sf::RenderWindow& rw, int level) const;
+	/**
 	 * Oblicza docelowe przesuniêcie mapy.
 	 * Na podstawie po³o¿enia gracza oblicza o ile pikseli musi byæ przesuniêty ka¿dy element œwiata gry.
 	 */

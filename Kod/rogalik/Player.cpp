@@ -1,10 +1,9 @@
 #include "Player.h"
 
-Player::Player(Position pos) : Creature(pos, ImageRes::HERO), mana(0.60)
+Player::Player(Position pos) : Creature(pos, ImageRes::HERO), defLevel(1), attLevel(1), slotWeapon(NULL), slotArmor(NULL)
 {
-	hudimg.LoadFromFile("Images/hud.png");
-	hbarimg.LoadFromFile("Images/healthbar.png");
-	mbarimg.LoadFromFile("Images/manabar.png");
+	hudimg.LoadFromFile("hud.png");
+	hbarimg.LoadFromFile("healthbar.png");
 	setType(PLAYER);
 }
 
@@ -17,11 +16,6 @@ void Player::drawHud(sf::RenderWindow& rw) const
 	sf::Sprite hbar(hbarimg, sf::Vector2f(42, 376 + hbarimg.GetHeight() - hbarheight));
 	hbar.SetSubRect(sf::IntRect(0, hbarimg.GetHeight() - hbarheight, hbarimg.GetWidth(), hbarimg.GetHeight()));
 	rw.Draw(hbar);
-
-	int mbarheight= mana * mbarimg.GetHeight();
-	sf::Sprite mbar(mbarimg, sf::Vector2f(642, 376 + mbarimg.GetHeight() - mbarheight));
-	mbar.SetSubRect(sf::IntRect(0, mbarimg.GetHeight() - mbarheight, mbarimg.GetWidth(), mbarimg.GetHeight()));
-	rw.Draw(mbar);
 }
 
 void Player::drawInventory(sf::RenderWindow& rw) const
@@ -62,6 +56,15 @@ void Player::drawAtributes(sf::RenderWindow& rw) const
 	}
 	sf::Sprite tloH(tlo);
 	rw.Draw(tloH);
+	
+	std::wstringstream ss;
+	ss << L"Exp: " << xp << L"\n";
+	ss << L"Poziom obrony (+): " << defLevel << L"\n";
+	ss << L"Poziom ataku (+): " << attLevel << L"\n";
+	sf::String t(ss.str(), font, 30.f);
+	t.SetColor(sf::Color(20, 18, 160));
+	t.SetPosition(20.f, 20.0);
+	rw.Draw(t);
 }
 void Player::replenishHealth()
 {
@@ -73,6 +76,7 @@ void Player::replenishHealth()
 void Player::step(float dt, const Terrain& terrain, std::list<Creature> &creatures, Game& game)
 {
 	replenishHealth();
+	hitRegen();
 	walk(walkDir, terrain, creatures, *this, game);
 }
 
@@ -121,4 +125,14 @@ void Player::getInput(const sf::Event& e)
 void Player::giveItem(const Item& item)
 {
 	inventory.push_back(item);
+}
+
+float Player::getAttack()
+{
+	return 0.02 * attLevel;
+}
+
+float Player::getDefence()
+{
+	return 0.2 * defLevel;
 }

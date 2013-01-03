@@ -84,6 +84,7 @@
     <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="TextArea.cpp" />
     <ClCompile Include="Tile.cpp" />
+    <ClCompile Include="Trading.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Creature.h" />
@@ -98,6 +99,7 @@
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="TextArea.h" />
     <ClInclude Include="Tile.h" />
+    <ClInclude Include="Trading.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

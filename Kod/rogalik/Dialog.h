@@ -5,6 +5,9 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "TextArea.h"
+#include "Item.h"
+
+class Player;
 
 /**
  * Dialog postaci gracza z postaciami niezale¿nymi
@@ -32,12 +35,18 @@ public:
 		 */
 		Node& addOption(std::wstring asw, int id);
 
+		/**
+		 * Dodaje przedmiot dawany postaci gracza po znaleznieniu siê w tym wêŸle.
+		 * @param item Dawany przedmiot
+		 */
+		Node& addGiveItem(const Item& item);
+
 		friend class Dialog;
 	private:
 		std::wstring message;
 		std::vector<std::wstring> optsAns;
 		std::vector<int> optsDest;
-
+		std::vector<Item> giveItems;
 	};
 
 	Dialog(void);
@@ -58,8 +67,9 @@ public:
 	/**
 	 * Pobiera wejœcie
 	 * @param e Przekazywane zdarzenie
+	 * @param player Postaæ gracza
 	 */
-	bool getInput(const sf::Event& e);
+	bool getInput(const sf::Event& e, Player& player);
 	/**
 	 * Przywraca dialog do stanu pocz¹tkowego
 	 */
