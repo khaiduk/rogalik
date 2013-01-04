@@ -7,6 +7,7 @@
 #include "TextArea.h"
 #include "Item.h"
 
+class Creature;
 class Player;
 
 /**
@@ -36,17 +37,81 @@ public:
 		Node& addOption(std::wstring asw, int id);
 
 		/**
+		 * Dodaje opcjê dialogow¹, widoczn¹ gdy postaæ gracza ma dany przedmiot
+		 * @param item Nazwa przedmiotu
+		 * @param asw OdpowiedŸ postaci gracza
+		 * @param id Identyfikator wêz³a docelowego
+		 */
+		Node& addOptionIfHas(std::wstring item, std::wstring asw, int id);
+
+		/**
+		 * Dodaje opcjê dialogow¹, widoczn¹ gdy postaæ gracza nie ma danego przedmiotu
+		 * @param item Nazwa przedmiotu
+		 * @param asw OdpowiedŸ postaci gracza
+		 * @param id Identyfikator wêz³a docelowego
+		 */
+		Node& addOptionIfHasNot(std::wstring item, std::wstring asw, int id);
+		
+		/**
+		 * Dodaje opcjê dialogow¹, widoczn¹ gdy postaæ gracza ma podan¹ liczbê monet (lub wiêcej)
+		 * @param coins liczba monet
+		 * @param asw OdpowiedŸ postaci gracza
+		 * @param id Identyfikator wêz³a docelowego
+		 */
+		Node& addOptionIfHasMoney(int coins, std::wstring asw, int id);
+
+		/**
+		 * Dodaje opcjê dialogow¹, widoczn¹ gdy postaæ gracza nie ma podanej liczby monet
+		 * @param coins liczba monet
+		 * @param asw OdpowiedŸ postaci gracza
+		 * @param id Identyfikator wêz³a docelowego
+		 */
+		Node& addOptionIfHasNotMoney(int coins, std::wstring asw, int id);
+
+		/**
+		 * Zwraca czy dana opcja powinna zostaæ pokazana
+		 * @param i numer opcji
+		 * @param player Postaæ gracza
+		 */
+		bool optionIsShown(int i, const Player& player);
+
+		/**
 		 * Dodaje przedmiot dawany postaci gracza po znaleznieniu siê w tym wêŸle.
 		 * @param item Dawany przedmiot
 		 */
 		Node& addGiveItem(const Item& item);
 
+		/**
+		 * Po znalezieniu siê w wêŸle graczowi ¿ycie spadnie o 20%
+		 */
+		Node& addLoseHealth();
+
+		/**
+		 * Po znalezieniu siê w wêŸle graczowi zostan¹ zabrane monety
+		 * @param coins liczba monet do zabrania
+		 */
+		Node& addTakeCoins(int coins);
+
+		/**
+		 * Po znalezieniu siê w wêŸle graczowi zostanie zabrany przedmiot
+		 * @param item nazwa przedmiotu
+		 */
+		Node& addTakeItem(std::wstring item);
+
 		friend class Dialog;
 	private:
 		std::wstring message;
+		std::vector<Item> giveItems;
+		bool losehp;
+		int takeCoins;
+		std::vector<std::wstring> takeItems;
+
+
 		std::vector<std::wstring> optsAns;
 		std::vector<int> optsDest;
-		std::vector<Item> giveItems;
+		std::vector<std::wstring> optNeedsItem;
+		std::vector<std::wstring> optNeedsNoItem;
+		std::vector<int> optNeedsMoney;
 	};
 
 	Dialog(void);
@@ -63,7 +128,7 @@ public:
 	 * Rysuje okno (interfejs) dialogu postaci
 	 * @param rw Obiekt okna na którym bêdzie rysowany dialog
 	 */
-	void draw(sf::RenderWindow& rw);
+	void draw(sf::RenderWindow& rw, const Player& player);
 	/**
 	 * Pobiera wejœcie
 	 * @param e Przekazywane zdarzenie

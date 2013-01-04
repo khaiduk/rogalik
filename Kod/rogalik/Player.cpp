@@ -1,6 +1,8 @@
 #include "Player.h"
 
-Player::Player(Position pos) : Creature(pos, ImageRes::HERO), defLevel(1), attLevel(1), selectedAttribute(0), weapon(-1), armor(-1), selectedItem(0)
+Player::Player(Position pos) : Creature(pos, ImageRes::HERO),
+	defLevel(1), attLevel(1), selectedAttribute(0),
+	coins(0), weapon(-1), armor(-1), selectedItem(0)
 {
 	hudimg.LoadFromFile("hud.png");
 	hbarimg.LoadFromFile("healthbar.png");
@@ -32,6 +34,13 @@ void Player::drawInventory(sf::RenderWindow& rw) const
 
 	sf::Sprite tloH(tlo);
 	rw.Draw(tloH);
+	
+	std::stringstream ss;
+	ss<<"Masz " << coins << " $";
+	sf::String t(ss.str(), font, 30.f);
+	t.SetColor(sf::Color(20, 18, 160));
+	t.SetPosition(600.f, 30.f);
+	rw.Draw(t);
 
 	float posy = 30.0;
 	int i = 0;
@@ -150,7 +159,7 @@ void Player::getInput(const sf::Event& e)
 	}
 }
 
-void Player::getInputInventory(const sf::Event& e)
+void Player::getInputInventory(const sf::Event& e, std::list<Creature>& creatures)
 {
 	if(e.Type == sf::Event::KeyPressed)
 	{
@@ -185,6 +194,24 @@ void Player::getInputInventory(const sf::Event& e)
 			else if(inventory[selectedItem].getProperty() == Item::LIFEPOTION)
 			{
 				health = 1;
+				deleteItem(selectedItem);
+			}
+			else if(inventory[selectedItem].getProperty() == Item::SLEEPDUST)
+			{
+				for(std::list<Creature>::iterator i = creatures.begin(); i != creatures.end(); i++)
+				{
+					if(i->isHostile())
+						i->setAI(AI::SLEEP);
+				}
+				deleteItem(selectedItem);
+			}
+			else if(inventory[selectedItem].getProperty() == Item::MAGICSAND)
+			{
+				for(std::list<Creature>::iterator i = creatures.begin(); i != creatures.end(); i++)
+				{
+					if(i->isHostile())
+						i->setAI(AI::RANDOM_WALK);
+				}
 				deleteItem(selectedItem);
 			}
 		}
@@ -232,6 +259,43 @@ void Player::getInputAtributes(const sf::Event& e)
 void Player::giveItem(const Item& item)
 {
 	inventory.push_back(item);
+}
+
+void Player::takeItem(const std::wstring& item)
+{
+	for(std::vector<Item>::const_iterator it = inventory.begin(); it != inventory.end(); it++)
+	{
+		if(it->getName() == item)
+		{
+			inventory.erase(it);
+			return;
+		}
+	}
+}
+
+void Player::giveMoney(int coins)
+{
+	this->coins += coins;
+}
+
+void Player::takeMoney(int coins)
+{
+	this->coins -= coins;
+}
+
+bool Player::hasItem(const std::wstring& item) const
+{
+	for(std::vector<Item>::const_iterator it = inventory.begin(); it != inventory.end(); it++)
+	{
+		if(it->getName() == item)
+			return true;
+	}
+	return false;
+}
+
+int Player::hasMoney() const
+{
+	return coins;
 }
 
 float Player::getAttack()

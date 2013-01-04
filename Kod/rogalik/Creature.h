@@ -70,6 +70,7 @@ public:
 	enum AI
 	{
 		IDLE,
+		SLEEP, //sen - budzi siê po losowym czasie
 		RANDOM_WALK, // losowe b³¹dzenie - ciê¿ko z³apaæ
 		OFFENSIVE_SLOW, //pod¹¿a tam, gdzie przed chwil¹ by³ gracz
 		OFFENSIVE_FAST, //pod¹¿a tam, gdzie teraz jest gracz
@@ -100,8 +101,14 @@ public:
 	 * Oddaje posiadane przedmioty jako ³up postaci gracza
 	 */
 	void giveLootToPlayer(Player& player);
+
+	/**
+	 * Zwraca true gdy postaæ jest wrogiem
+	 */
+	bool isHostile() {return type==HOSTILE;}
 	
 	friend class GameBuilder;
+	friend class Player;
 
 protected:
 	/**
@@ -147,6 +154,11 @@ protected:
 	void addLoot(const Item& item);
 
 	/**
+	 * Dodaje monety ³upu
+	 */
+	void addLootMoney(int coins);
+
+	/**
 	 * Ustawia obiekt dialogu
 	 */
 	void addDialog(const Dialog& dialog);
@@ -189,11 +201,13 @@ protected:
 
 
 	AI ai;
+	AI aiAfterSleep;
 	Type type;
 
 	float health;
 
 	std::list<Item> loot;
+	int lootMoney;
 	Dialog dialog;
 	Trading trading;
 

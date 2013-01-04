@@ -38,7 +38,7 @@ void Game::getInput(const sf::Event& e)
 		}
 		else
 		{
-			player.getInputInventory(e);
+			player.getInputInventory(e, creatures);
 		}
 	}
 	else if(gameState == ATRIBUTES)
@@ -151,7 +151,7 @@ void Game::draw(sf::RenderWindow& rw)
 	}
 	else if(gameState == DIALOG)
 	{
-		currentDialog->draw(rw);
+		currentDialog->draw(rw, player);
 	}
 	else if(gameState == ATRIBUTES)
 	{

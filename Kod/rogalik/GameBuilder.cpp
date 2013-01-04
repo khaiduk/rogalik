@@ -91,6 +91,7 @@ void GameBuilder::generateNewGame()
 			losowypotwor2.setAI(Creature::AI::RANDOM_WALK); // losowo b³¹dzi
 			losowypotwor2.setType(Creature::Type::HOSTILE); // wrogi
 			losowypotwor2.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!").setProperty(Item::WEAPON, 0.05) );
+			losowypotwor2.addLootMoney(1);
 			game.creatures.push_back( losowypotwor2 );
 		}
 		//cwaniaczek na koncu wioski 1
@@ -101,7 +102,7 @@ void GameBuilder::generateNewGame()
 			cwaniaczek.setAI(Creature::AI::IDLE); // losowo b³¹dzi
 			cwaniaczek.setType(Creature::Type::HOSTILE); // wrogi
 			cwaniaczek.addLoot( Item(L"Trunek", L"Butelka wina.") );
-			cwaniaczek.addLoot(Item(L"Moneta", L"Sakwa monet."));
+			cwaniaczek.addLootMoney(10);
 			game.creatures.push_back( cwaniaczek );
 		}
 
@@ -542,7 +543,7 @@ void GameBuilder::generateNewGame()
 			rozbojnik.setAI(Creature::AI::IDLE); // losowo b³¹dzi
 			rozbojnik.setType(Creature::Type::HOSTILE); // wrogi
 			rozbojnik.addLoot( Item(L"Miecz", L"Miecz") );
-			rozbojnik.addLoot(Item(L"Moneta", L"Sakwa monet."));
+			rozbojnik.addLootMoney(10);
 			game.creatures.push_back( rozbojnik );
 		}
 

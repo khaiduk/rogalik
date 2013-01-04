@@ -11,6 +11,8 @@ public:
 		WEAPON,
 		ARMOR,
 		LIFEPOTION,
+		SLEEPDUST,
+		MAGICSAND,
 		DUMB
 	};
 	/**

@@ -2,7 +2,9 @@
 #include "Player.h"
 #include "Game.h"
 
-Creature::Creature(const Position pos, int img) : pos(pos), walkDir(0,0), lastDir(0,0), walkPower(0), speed(10), fightPower(0), xp(1), att(0.01), def(0.1), hitrate(0.1), ai(AI::IDLE), type(Type::DIALOG), health(1),
+Creature::Creature(const Position pos, int img) : pos(pos), walkDir(0,0), lastDir(0,0),
+	walkPower(0), speed(10), fightPower(0), xp(1), att(0.01), def(0.1),
+	hitrate(0.1), ai(AI::IDLE), type(Type::DIALOG), health(1), lootMoney(0),
 	newPos(pos), cpos(pos), fightState(true)
 {
 	loot.clear();
@@ -169,6 +171,8 @@ void Creature::setHitrate(int hitrate)
 
 void Creature::setAI(const AI ai)
 {
+	if(ai == SLEEP)
+		this->aiAfterSleep = this->ai;
 	this->ai = ai;
 }
 	
@@ -178,6 +182,11 @@ void Creature::step(float dt, const Terrain& terrain, std::list<Creature> &creat
 	if(ai == AI::IDLE)
 	{
 		//nic nie rob
+	}
+	if(ai == AI::SLEEP)
+	{
+		if(rand()% 500 == 0)
+			ai = aiAfterSleep;
 	}
 	else if(ai == AI::RANDOM_WALK)
 	{
@@ -342,6 +351,7 @@ void Creature::giveLootToPlayer(Player& player)
 		player.giveItem(*i);
 	}
 	loot.erase(loot.begin(), loot.end());
+	player.giveMoney(lootMoney);
 }
 
 void Creature::setType(const Type type)
@@ -352,6 +362,11 @@ void Creature::setType(const Type type)
 void Creature::addLoot(const Item& item)
 {
 	loot.push_back(item);
+}
+
+void Creature::addLootMoney(int coins)
+{
+	lootMoney += coins;
 }
 
 void Creature::addDialog(const Dialog& dialog)

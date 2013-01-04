@@ -53,8 +53,9 @@ public:
 	/**
 	 * Pobiera wejœcie do ekranu ekwipunku
 	 * @param e Przekazywane zdarzenie
+	 * @param cretures lista postaci
 	 */
-	void getInputInventory(const sf::Event& e);
+	void getInputInventory(const sf::Event& e, std::list<Creature>& creatures);
 
 	/**
 	 * Pobiera wejœcie do ekranu atrybutów
@@ -67,6 +68,35 @@ public:
 	 * @param item przedmiot dawany postaci
 	 */
 	void giveItem(const Item& item);
+
+	/**
+	 * Bierze od postaci gracza dany przedmiot
+	 * @param item nazwa przedmiotu
+	 */
+	void takeItem(const std::wstring& item);
+	
+	/**
+	 * Daje postaci gracza monety
+	 * @param coins liczba dawanych monet
+	 */
+	void giveMoney(int coins);
+
+	/**
+	 * Bierze od postaci gracza monety
+	 * @param coins liczba branych monet
+	 */
+	void takeMoney(int coins);
+
+	/**
+	 * Zwraca true gdy postaæ ma przedmiot o zadanej nazwie
+	 * @param item nazwa przedmiotu
+	 */
+	bool hasItem(const std::wstring& item) const;
+
+	/**
+	 * Zwraca liczbê monet posiadanych przez postaæ
+	 */
+	int hasMoney() const;
 
 	friend class GameBuilder;
 private:
@@ -91,8 +121,11 @@ private:
 	int selectedAttribute;
 
 	std::vector<Item> inventory;
+	int coins;
 	int weapon;
 	int armor;
 	int selectedItem;
+
+	friend Dialog;
 };
 
