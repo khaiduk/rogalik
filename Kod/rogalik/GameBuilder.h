@@ -8,7 +8,5 @@ private:
 public:
 	Game& getGame();
 	void generateNewGame();
-	//void loadFromFile();
-	//void saveGame(const Game&); // tutaj nie jestemn pewien
 };
 
