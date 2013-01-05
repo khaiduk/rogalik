@@ -55,7 +55,6 @@ void GameBuilder::generateNewGame()
 	
 	for(int x=1;x<100;x++)
 	{
-		//y=y1;
 		y+=(rand()%3-1);
 		
 		if(y<1)
@@ -84,7 +83,7 @@ void GameBuilder::generateNewGame()
 
 		
 		//srand(time(NULL));
-		if(x%30==0)
+		if(x%40==0)
 		{
 			Creature losowypotwor2 = Creature(Position(x,y, 0), ImageRes::MONSTER);
 			losowypotwor2.setSpeed(5); // wolny
@@ -92,6 +91,7 @@ void GameBuilder::generateNewGame()
 			losowypotwor2.setType(Creature::Type::HOSTILE); // wrogi
 			losowypotwor2.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!").setProperty(Item::WEAPON, 0.05) );
 			losowypotwor2.addLootMoney(1);
+			losowypotwor2.setExp(2);
 			game.creatures.push_back( losowypotwor2 );
 		}
 		//cwaniaczek na koncu wioski 1
@@ -104,6 +104,7 @@ void GameBuilder::generateNewGame()
 			cwaniaczek.addLoot( Item(L"Trunek", L"Butelka wina.") );
 			cwaniaczek.addLoot(Item(L"Moneta", L"Sakwa monet."));
 			cwaniaczek.addLootMoney(10);
+			cwaniaczek.setExp(6);
 			game.creatures.push_back( cwaniaczek );
 		}
 
@@ -449,6 +450,8 @@ void GameBuilder::generateNewGame()
 	troll.setAI(Creature::AI::FIGHT_AND_FLEE); 
 	troll.setType(Creature::Type::HOSTILE); // wrogi
 	troll.addLoot( Item(L"Czapka", L"Czapka").setProperty(Item::ARMOR, 0.1) );
+	troll.addLootMoney(1);
+	troll.setExp(4);
 	game.creatures.push_back( troll );
 
 	srand(time(NULL));
@@ -545,6 +548,7 @@ void GameBuilder::generateNewGame()
 			rozbojnik.setType(Creature::Type::HOSTILE); // wrogi
 			rozbojnik.addLoot( Item(L"Miecz", L"Miecz").setProperty(Item::WEAPON, 0.5) );
 			rozbojnik.addLootMoney(10);
+			rozbojnik.setExp(8);
 			game.creatures.push_back( rozbojnik );
 		}
 
@@ -637,6 +641,8 @@ void GameBuilder::generateNewGame()
 			losowypotwor6.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo b³¹dzi
 			losowypotwor6.setType(Creature::Type::HOSTILE); // wrogi
 			//losowypotwor6.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
+			losowypotwor6.addLootMoney(1);
+			losowypotwor6.setExp(2);
 			game.creatures.push_back( losowypotwor6 );
 		}
 		if(x==30) postaw=y;
@@ -837,6 +843,8 @@ void GameBuilder::generateNewGame()
 	troll2.setAI(Creature::AI::OFFENSIVE_FAST); //tam gdzie gracz
 	troll2.setType(Creature::Type::HOSTILE); // wrogi
 	//troll2.addLoot( Item(L"Czapka", L"Czapka") );
+	troll2.addLootMoney(1);
+	troll2.setExp(4);
 	game.creatures.push_back( troll2 );
 	for(int x=1;x<100;x++)
 	{		
@@ -863,12 +871,14 @@ void GameBuilder::generateNewGame()
 		}
 		if(x%20==0)
 		{
-			Creature losowypotwor6 = Creature(Position(x,y, 12), ImageRes::MONSTER);
-			losowypotwor6.setSpeed(4); // wolny
-			losowypotwor6.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo b³¹dzi
-			losowypotwor6.setType(Creature::Type::HOSTILE); // wrogi
+			Creature losowypotwor0 = Creature(Position(x,y, 12), ImageRes::MONSTER);
+			losowypotwor0.setSpeed(4); // wolny
+			losowypotwor0.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo b³¹dzi
+			losowypotwor0.setType(Creature::Type::HOSTILE); // wrogi
 			//losowypotwor6.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
-			game.creatures.push_back( losowypotwor6 );
+			losowypotwor0.addLootMoney(1);
+			losowypotwor0.setExp(2);
+			game.creatures.push_back( losowypotwor0 );
 		}
 		if(x==50)
 		{
@@ -877,6 +887,8 @@ void GameBuilder::generateNewGame()
 			goral.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo
 			goral.setType(Creature::Type::HOSTILE); // wrogi
 			goral.addLoot( Item(L"Ciupaga", L"Ciupaga").setProperty(Item::WEAPON, 0.3) );
+			goral.setExp(4);
+
 			game.creatures.push_back( goral );
 		}
 		if(x==33) postaw3=y;
@@ -1258,19 +1270,25 @@ void GameBuilder::generateNewGame()
 	//ENEMY
 	/////////////////////////////////////////////////////////////////////////////////
 	//poziom 1 - losowe potwory
-	Creature losowypotwor3 = Creature(Position(45,13, 0), ImageRes::MONSTER);
+	/*Creature losowypotwor3 = Creature(Position(45,13, 0), ImageRes::MONSTER);
 	losowypotwor3.setSpeed(6); // doœæ wolny
 	losowypotwor3.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo b³¹dzi
 	losowypotwor3.setType(Creature::Type::HOSTILE); // wrogi
 	//losowypotwor3.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
 	game.creatures.push_back( losowypotwor3 );
 	/********************************************************************************/
-	Creature losowypotwor = Creature(Position(75,21, 0), ImageRes::MONSTER);
-	losowypotwor.setSpeed(3); // doœæ wolny
+	srand(time(NULL));
+	for(int i=0; i<3;i++)
+	{
+	Creature losowypotwor = Creature(Position(rand()%85+1,rand()%25+1, 0), ImageRes::MONSTER);
+	losowypotwor.setSpeed(1+i); // doœæ wolny
 	losowypotwor.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo b³¹dzi
 	losowypotwor.setType(Creature::Type::HOSTILE); // wrogi
 	//losowypotwor.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
+	losowypotwor.addLootMoney(1);
+	losowypotwor.setExp(2);
 	game.creatures.push_back( losowypotwor );
+	}
 	////////////////////////////////////////////////////////////////////////////////////
 	//poziom 2 - losowe potwory
 	Creature zbir = Creature(Position(2,7, 6), ImageRes::MONSTER);
@@ -1278,68 +1296,91 @@ void GameBuilder::generateNewGame()
 	zbir.setAI(Creature::AI::OFFENSIVE_FAST); // losowo b³¹dzi
 	zbir.setType(Creature::Type::HOSTILE); // wrogi
 	//zbir.addLoot( Item(L"Czapka", L"Czapka") );
+	zbir.addLootMoney(1);
+	zbir.setExp(3);
 	game.creatures.push_back( zbir );
 
 	Creature zbir2 = Creature(Position(0,10, 6), ImageRes::MONSTER);
 	zbir2.setSpeed(4); // wolny
 	zbir2.setAI(Creature::AI::OFFENSIVE_FAST); // losowo b³¹dzi
 	zbir2.setType(Creature::Type::HOSTILE); // wrogi
-	//zbir.addLoot( Item(L"Czapka", L"Czapka") );
+	zbir2.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
+	zbir2.addLootMoney(1);
+	zbir2.setExp(3);
 	game.creatures.push_back( zbir2 );
 
 	Creature zbir3 = Creature(Position(0,6, 6), ImageRes::MONSTER);
 	zbir3.setSpeed(4); // wolny
 	zbir3.setAI(Creature::AI::OFFENSIVE_FAST); // losowo b³¹dzi
 	zbir3.setType(Creature::Type::HOSTILE); // wrogi
-	//zbir.addLoot( Item(L"Czapka", L"Czapka") );
+	zbir3.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
+	zbir3.addLootMoney(1);
+	zbir3.setExp(3);
 	game.creatures.push_back( zbir3 );
 
 	Creature zbir4 = Creature(Position(2,9, 6), ImageRes::MONSTER);
 	zbir4.setSpeed(4); // wolny
-	zbir4.setAI(Creature::AI::OFFENSIVE_FAST); // losowo b³¹dzi
+	zbir4.setAI(Creature::AI::OFFENSIVE_FAST); // losowo
 	zbir4.setType(Creature::Type::HOSTILE); // wrogi
 	//zbir.addLoot( Item(L"Czapka", L"Czapka") );
+	zbir4.addLootMoney(1);
+	zbir4.setExp(3);
 	game.creatures.push_back( zbir4 );
 
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//poziom 3 - losowe potwory
-	Creature losowypotwor4 = Creature(Position(35,23, 3), ImageRes::MONSTER);
+	/*Creature losowypotwor4 = Creature(Position(35,23, 3), ImageRes::MONSTER);
 	losowypotwor4.setSpeed(6); // doœæ wolny
 	losowypotwor4.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo
 	losowypotwor4.setType(Creature::Type::HOSTILE); // wrogi
-	//losowypotwor4.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
+	losowypotwor4.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
 	game.creatures.push_back( losowypotwor4 );
 	/********************************************************************************/
-	Creature losowypotwor5 = Creature(Position(75,11, 3), ImageRes::MONSTER);
+	for(int i=1;i<5;i++)
+	{
+	Creature losowypotwor5 = Creature(Position(rand()%95+1,rand()%25, 3), ImageRes::MONSTER);
 	losowypotwor5.setSpeed(3); // doœæ wolny
 	losowypotwor5.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo 
 	losowypotwor5.setType(Creature::Type::HOSTILE); // wrogi
-	//losowypotwor5.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
+	if(i%2==0)
+	losowypotwor5.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
+	losowypotwor5.setExp(2);
 	game.creatures.push_back( losowypotwor5 );
+	}
 	//////////////////////////////////////////////////////////////////////////////////
 	//poziom 4 - losowe potwory
-	Creature losowypotwor7 = Creature(Position(76,20, 12), ImageRes::MONSTER);
+	/*Creature losowypotwor7 = Creature(Position(76,20, 12), ImageRes::MONSTER);
 	losowypotwor7.setSpeed(4); // wolny
 	losowypotwor7.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo b³¹dzi
 	losowypotwor7.setType(Creature::Type::HOSTILE); // wrogi
 	//losowypotwor7.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
 	game.creatures.push_back( losowypotwor7 );
 	/********************************************************************************/
-	Creature losowypotwor8 = Creature(Position(85,20, 12), ImageRes::MONSTER);
+	for(int i=1;i<6;i++)
+	{
+	Creature losowypotwor8 = Creature(Position(rand()%85+1,rand()%25, 12), ImageRes::MONSTER);
 	losowypotwor8.setSpeed(3); // doœæ wolny
 	losowypotwor8.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo b³¹dzi
 	losowypotwor8.setType(Creature::Type::HOSTILE); // wrogi
-	//losowypotwor8.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
+	if(i%2==0)
+	losowypotwor8.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
+	losowypotwor8.setExp(2);
 	game.creatures.push_back( losowypotwor8 );
+	}
 	////////////////////////////////////////////////////////////////////////////////////
 	//poziom 5
-	Creature losowypotwor9 = Creature(Position(2,yp3, 14), ImageRes::MONSTER);
+	for(int i=1;i<5;i++)
+	{
+	Creature losowypotwor9 = Creature(Position(rand()%75+1,rand()%20, 14), ImageRes::MONSTER);
 	losowypotwor9.setSpeed(3); // doœæ wolny
 	losowypotwor9.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo b³¹dzi
 	losowypotwor9.setType(Creature::Type::HOSTILE); // wrogi
-	//losowypotwor9.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
+	if(i%2==0)
+	losowypotwor9.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
+	losowypotwor9.setExp(2);
 	game.creatures.push_back( losowypotwor9 );
+	}
 	/********************************************************************************/
 	//poziom 5 straznicy przed domem
 	Creature warta = Creature(Position(79,5, 14), ImageRes::MONSTER);
@@ -1347,20 +1388,23 @@ void GameBuilder::generateNewGame()
 	warta.setAI(Creature::AI::IDLE); // losowo b³¹dzi
 	warta.setType(Creature::Type::HOSTILE); // wrogi
 	//straznik.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
+	warta.setExp(3);
 	game.creatures.push_back( warta );
 	
 	Creature warta2 = Creature(Position(78,8, 14), ImageRes::MONSTER);
 	warta2.setSpeed(3); // doœæ wolny
-	warta2.setAI(Creature::AI::IDLE); // losowo b³¹dzi
+	warta2.setAI(Creature::AI::IDLE); // bezczynny
 	warta2.setType(Creature::Type::HOSTILE); // wrogi
 	//straznik2.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
+	warta2.setExp(3);
 	game.creatures.push_back( warta2 );
 
 	Creature warta3 = Creature(Position(79,11, 14), ImageRes::MONSTER);
 	warta3.setSpeed(3); // doœæ wolny
-	warta3.setAI(Creature::AI::IDLE); // losowo b³¹dzi
+	warta3.setAI(Creature::AI::IDLE); // bezczynny
 	warta3.setType(Creature::Type::HOSTILE); // wrogi
 	//straznik3.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
+	warta3.setExp(3);
 	game.creatures.push_back( warta3 );
 	/********************************************************************************/
 	//straznicy w korytarzu
@@ -1371,6 +1415,7 @@ void GameBuilder::generateNewGame()
 	warta4.setAI(Creature::AI::OFFENSIVE_FAST); // losowo b³¹dzi
 	warta4.setType(Creature::Type::HOSTILE); // wrogi
 	//straznik4.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
+	warta4.setExp(4);
 	game.creatures.push_back( warta4 );
 	}
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1865,7 +1910,7 @@ void GameBuilder::generateNewGame()
 	dialog10 = Dialog();
 
 	dialog10.addNode(Dialog::START_DIALOG, L"Co bêdzie?").
-		addOption(L"Nic nie chcê.", Dialog::END_DIALOG).
+		addOption(L"Nic nie chcê.", 19).
 		addOption(L"Chcia³bym kupiæ zbroje.", 21);
 	dialog10.addNode(21, L"Nie wygl¹dacie na kogoœ kto ma tyle pieniêdzy.").
 		addOption(L"Pozory myl¹.", 211).
@@ -1942,19 +1987,12 @@ void GameBuilder::generateNewGame()
 		addOption(L"Dziêkujê!", Dialog::END_DIALOG). //KONIEC
 		addOption(L"Podobno mieszka w nim jakiœ straszny potwór, to prawda?", 240);
 
-	dialog12.addNode(240, L"O tak! Przyda³aby Ci siê jakaœ czarodziejska sztuczka. Wybierz siê do mêdrca. Na pewno coœ wymyœli. Przyda Ci sie pochodnia, któr¹ znajdziesz na pocz¹tku korytarza prowadz¹cego do miejsca gdzie znajduje sie Rogalik.").
-		addOption(L"Ale czym j¹ rozpalê?", 2401).
+	dialog12.addNode(240, L"O tak! Przyda³aby Ci siê jakaœ czarodziejska sztuczka. Uwa¿aj, w korytarzu prowadz¹cym do miejsca gdzie znajduje sie Rogalik jest stra¿.").
+		addOption(L"Ciê¿ko z ni¹ walczyæ?", 2401).
 		addOption(L"Zapamiêtam te wskazówki.", Dialog::END_DIALOG);
 
-	dialog12.addNode(2401, L"Mam coœ takiego jak rozpa³ka do ognia.").
-		addOption(L"Z chêci¹ kupiê!", Dialog::END_DIALOG). //KONIEC
-		addOption(L"Chcesz mnie naci¹gn¹æ!", 2402);
-
-	dialog12.addNode(2402, L"Bêdziesz ¿a³owa³ i jeszcze po ni¹ wrócis!").
-		addOption(L". . .", Dialog::END_DIALOG); //KONIEC
-	
-	dialog12.addNode(212, L"Ka¿dy cwany. Zaraz znajdê coœ odpowiedniego.").
-		addOption(L". . .", Dialog::END_DIALOG); //KONIEC
+	dialog12.addNode(2401, L"S³ysza³em, ¿e s¹ tam najlepsi szkoleni ludzie.").
+		addOption(L"Bêdê uwa¿a³!", Dialog::END_DIALOG);//KONIEC
 
 	cinkciarz2.addDialog(dialog12);
 
@@ -1971,7 +2009,7 @@ void GameBuilder::generateNewGame()
 
 	dialog13.addNode(Dialog::START_DIALOG, L"Widzê, ¿e o czymœ sobie przypomnia³eœ!").
 		addOption(L"Potrzebujê jakiejœ <<magicznej sztuczki>>.", 26).
-		addOption(L"Wybieram sie do szlachcica. Dowiedzia³em siê, ¿e bêdê potrzebowa³ jakiejœ <<magicznej sztuczki>>. Moglibyœcie mi jakoœ pomóc?", 261);
+		addOption(L"Wybieram sie do szlachcica. Du¿o s³ysza³em i myœlê, ¿e przyda³aby mi siê jakaœ <<magiczna sztuczka>>. Moglibyœcie mi jakoœ pomóc?", 261);
 		
 	dialog13.addNode(26, L"Niewiele mi to mówi. Musisz siê bardziej postaraæ.").
 		addOption(L"Idê do szlachcica.", 261).
