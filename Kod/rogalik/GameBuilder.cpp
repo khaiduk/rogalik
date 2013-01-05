@@ -1479,7 +1479,12 @@ void GameBuilder::generateNewGame()
 	dialog1.addNode(Dialog::START_DIALOG, L"Czego tu szukasz?").
 		addOption(L"Chcia³em zobaczyæ czym siê tutaj zajmujecie.", 5).
 		addOption(L"Ale¿ jest Pan mi³y!", 6).
-		addOption(L"Handel", 30);
+		addOption(L"Handel", 29);
+	dialog1.addNode(29,L"Panie chcesz cos kupic czy sprzedac").
+		addOption(L"Kupic",30).
+		addOption(L"Sprzedac",31).
+		addOption(L"Rozmyslilem sie", Dialog::END_DIALOG);
+	dialog1.addNode(31,L"Pokaz Panie co posiadasz");
 	dialog1.addNode(30, L"Zbroje tylko u mnie !!!").
 		addOptionIfHasMoney(5, L"Tania zbroja skórzana (5 monet)", 301).
         addOptionIfHasMoney(15, L"Zwyk³a zbroja z br¹zu (15 monet)", 302).
@@ -1860,25 +1865,33 @@ void GameBuilder::generateNewGame()
 	dialog10 = Dialog();
 
 	dialog10.addNode(Dialog::START_DIALOG, L"Co bêdzie?").
-		addOption(L"Nic nie chcê.", 19).
+		addOption(L"Nic nie chcê.", Dialog::END_DIALOG).
 		addOption(L"Chcia³bym kupiæ zbroje.", 21);
-		
-	dialog10.addNode(19, L"To po co przychodzisz?").
-		addOption(L"Chcia³em zbrojê, ale tutaj nie widzê nic co by³oby odpowiednie.", 190);
-
-	dialog10.addNode(190, L"Ka¿dy cwany. Jeœli siê jednak zdecydujecie, wiecie gdzie wróciæ. Lepszych nigdzie nei znajdziecie.").
-		addOption(L". . .", Dialog::END_DIALOG); //KONIEC
-
 	dialog10.addNode(21, L"Nie wygl¹dacie na kogoœ kto ma tyle pieniêdzy.").
 		addOption(L"Pozory myl¹.", 211).
 		addOption(L"Proszê sobie oszczêdziæ takich komentarzy..",212);
-
 	dialog10.addNode(211, L"Oczywiœcie zaraz znajdê coœ odpowiedniego.").
-		addOption(L". . .", Dialog::END_DIALOG); //KONIEC
-	
-	dialog10.addNode(212, L"Ka¿dy cwany. Zaraz znajdê coœ odpowiedniego.").
-		addOption(L". . .", Dialog::END_DIALOG);
-
+		addOptionIfHasMoney(5, L"Tania zbroja skórzana (5 monet)", 301).
+        addOptionIfHasMoney(15, L"Zwyk³a zbroja z br¹zu (15 monet)", 302).
+        addOptionIfHasMoney(25, L"Wytrzyma³a zbroja ¿elazna (25 monet)", 303).
+		addOptionIfHasMoney(25, L"Kolczuga Bilba(LOTR) (125 monet)", 304).
+        addOptionIfHasNotMoney(5, L"Nie posiadam pieniedzy . Dowidzenia !!!", Dialog::END_DIALOG); 
+	dialog10.addNode(301,L"Proszê, oto twoja zborja. Niech ci s³u¿y.").
+		addGiveItem( Item(L"Zbroja skorzana",L"Tania zbroja").setProperty(Item::ARMOR,0.1)).
+		addTakeCoins(5).
+		addOption(L"Dziekuje!", Dialog::END_DIALOG);
+	dialog10.addNode(302,L"Proszê, oto twoja zborja. Niech ci s³u¿y.").
+		addGiveItem( Item(L"Zbroja z br¹zu",L"Zbroja stworzona z br¹zu").setProperty(Item::ARMOR,0.3)).
+		addTakeCoins(15).
+		addOption(L"Dziekuje!", Dialog::END_DIALOG);
+	dialog10.addNode(303,L"Proszê, oto twoja zborja. Niech ci s³u¿y.").
+		addGiveItem( Item(L"Wytrzyma³a zbroja ¿elazna",L"Bardzo wytrzyma³a zbroja ¿elazna").setProperty(Item::ARMOR,0.5)).
+		addTakeCoins(25).
+		addOption(L"Dziekuje!", Dialog::END_DIALOG);
+	dialog10.addNode(304,L"Zbroja ktora nosil Frodo , prosze !! ").
+		addGiveItem( Item(L"Kolczuga Bilba",L"Kultowa kolczuaga").setProperty(Item::ARMOR,0.9)).
+		addTakeCoins(125).
+		addOption(L"Dziekuje!", Dialog::END_DIALOG);
 	rzemieslnik3.addDialog(dialog10);
 
 	rzemieslnik3.setType(Creature::Type::DIALOG);

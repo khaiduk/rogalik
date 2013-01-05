@@ -97,6 +97,10 @@ public:
 	 * Zwraca liczbê monet posiadanych przez postaæ
 	 */
 	int hasMoney() const;
+	/**
+	** Zwraca ekwipunek posiadany przez gracza
+	**/
+	const std::vector<Item> & getInventory()const;
 
 	friend class GameBuilder;
 private:

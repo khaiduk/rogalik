@@ -313,17 +313,21 @@ float Player::getDefence()
 	else
 		return 0.2 * defLevel;
 }
-	void Player::deleteItem(int i)
-	{
-		inventory.erase(inventory.begin() + i);
-		if(armor > i)
-			armor--;
-		if(weapon > i)
-			weapon--;
-		if(selectedItem >= i && i > 0)
-			selectedItem --;
-		if(armor == i)
-			armor = -1;
-		if(weapon == i)
-			weapon = -1;
-	}
+void Player::deleteItem(int i)
+{
+	inventory.erase(inventory.begin() + i);
+	if(armor > i)
+		armor--;
+	if(weapon > i)
+		weapon--;
+	if(selectedItem >= i && i > 0)
+		selectedItem --;
+	if(armor == i)
+		armor = -1;
+	if(weapon == i)
+		weapon = -1;
+}
+const std::vector<Item> &Player::getInventory()const
+{
+	return inventory;
+}

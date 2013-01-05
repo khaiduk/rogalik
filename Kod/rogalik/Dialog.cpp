@@ -104,7 +104,6 @@ Dialog::Node& Dialog::Node::addIfDontHave(const Item& item, const Player& player
 {
 	if(player.hasItem(item.getName()))
 	{
-		std::cout << "Kurwa przeciez mam tego kija";
 		return *this;
 	}
 	else
