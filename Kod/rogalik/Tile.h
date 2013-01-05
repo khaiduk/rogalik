@@ -25,12 +25,12 @@ public:
 	 */
 	void draw(sf::RenderWindow& rw, int x, int y) const;
 	/**
-	 * Wyœwietla miniaturow¹ kafelkê na ekranie w zadanym miejscu
-	 * @param rw okno rysowania
+	 * Wyœwietla miniaturow¹ kafelkê na obrazie
+	 * @param img obraz rysowania
 	 * @param x przesuniêcie wzglêdem pocz¹tku okna
 	 * @param y przesuniêcie wzglêdem pocz¹tku okna
 	 */
-	void drawMini(sf::RenderWindow& rw, int x, int y) const;
+	void drawMini(sf::Image& img, int x, int y) const;
 	/**
 	 * Ustawia wygl¹d kafelki na img
 	 * @param img identyfikator obrazka

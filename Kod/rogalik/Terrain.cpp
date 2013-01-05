@@ -40,13 +40,19 @@ void Terrain::draw(sf::RenderWindow& rw, int level, const Position& shift) const
 
 void Terrain::drawMinimap(sf::RenderWindow& rw, int level) const
 {
+	sf::Image buffer(map[level].size(), map[level][0].size(), sf::Color(0, 0, 120));
+	buffer.SetSmooth(false);
+	sf::Sprite bufferSprite(buffer);
+	bufferSprite.SetPosition(3,3);
+
 	for(int x=0;x<map[level].size();x++)
 	{
 		for(int y=0;y<map[level][x].size();y++)
 		{
-			map[level][x][y].drawMini(rw, x+3, y+3);
+			map[level][x][y].drawMini(buffer, x, y);
 		}
 	}
+	rw.Draw(bufferSprite);
 }
 	
 Tile Terrain::getTile(const Position& pos) const

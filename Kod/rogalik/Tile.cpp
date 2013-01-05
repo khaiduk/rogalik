@@ -21,10 +21,9 @@ void Tile::draw(sf::RenderWindow& rw, int x, int y) const
 	rw.Draw(s);
 }
 
-void Tile::drawMini(sf::RenderWindow& rw, int x, int y) const
+void Tile::drawMini(sf::Image& img, int x, int y) const
 {
-	sf::Shape rect = sf::Shape::Rectangle(x, y, x+1, y+1, ImageRes::getInstance().imgColor(imgId));
-	rw.Draw(rect);
+	img.SetPixel(x, y, ImageRes::getInstance().imgColor(imgId));
 }
 
 void Tile::setSolid(bool solid)
