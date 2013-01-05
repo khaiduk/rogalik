@@ -397,3 +397,7 @@ void Creature::hitRegen()
 		fightPower += hitrate;
 	}
 }
+void Creature::setExp(int xp)
+{
+	this->xp = xp;
+}

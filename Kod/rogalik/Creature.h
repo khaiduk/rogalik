@@ -182,6 +182,10 @@ protected:
 	 * Regenacja mo¿liwoœci ataku postaci
 	 */
 	void hitRegen();
+	/**
+	** Ustaw expa dla Creatury
+	**/
+	void setExp(int xp);
 protected:
 	
 
