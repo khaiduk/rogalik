@@ -26,6 +26,7 @@ void Game::getInput(const sf::Event& e)
 		}
 		else if ( e.Type == sf::Event::KeyPressed && e.Key.Code == sf::Key::Escape)
 		{
+			m.setOustsideGame(true);
 			gameState = GAMEMENU;
 		}
 	}
@@ -55,9 +56,13 @@ void Game::getInput(const sf::Event& e)
 	}
 	else if(gameState == GAMEMENU)
 	{
-		if( e.Type == sf::Event::KeyPressed && (e.Key.Code == sf::Key::Escape)) // wyjscie z menu gry
+		if( e.Type == sf::Event::KeyPressed && (e.Key.Code == sf::Key::Escape) || m.isOutsideGame() == false) // powrot do gry
 		{
 			gameState = INGAME;
+		}
+		else if(m.shouldExit())
+		{
+			gameState = EXIT;
 		}
 		else if(e.Type == sf::Event::KeyPressed || e.Type == sf::Event::KeyReleased)
 			m.ActionGameMenu(e);

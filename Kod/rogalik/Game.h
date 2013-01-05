@@ -41,7 +41,8 @@ public:
 		ATRIBUTES,
 		GAMEMENU,
 		DIALOG,
-		TRADE
+		TRADE,
+		EXIT
 	};
 
 	/**

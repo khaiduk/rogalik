@@ -31,6 +31,8 @@ int main()
 			{
 				m.Action(Event);
 			}
+			else if ( m.shouldExit())
+				App.Close();
 		}
 		if(m.isOutsideGame())
 		{
@@ -68,11 +70,17 @@ int main()
 			{
 				clock.Reset();
 			}
-
-			App.Clear();
-			game.draw(App);
+			if(game.getState() == Game::EXIT)
+			{
+				App.Close();
+			}
+			else
+			{
+				App.Clear();
+				game.draw(App);
 		
-			App.Display();
+				App.Display();
+			}
 		}
 	}
     return EXIT_SUCCESS;

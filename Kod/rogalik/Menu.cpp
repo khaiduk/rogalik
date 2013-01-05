@@ -5,6 +5,7 @@ Menu::Menu()
 	_indeks = 0;
 	tlo.LoadFromFile("Images/tlo.png");
 	var = true;
+	_exit = false;
 }
 Menu::~Menu()
 {
@@ -106,7 +107,7 @@ void Menu::Action(const sf::Event& e)
 			else if(_indeks == 2)
 				break;//opcje
 			else if(_indeks == 3)
-				break; //exit
+				_exit = true;
 	}
 }
 void Menu::ActionGameMenu(const sf::Event& e)
@@ -123,4 +124,18 @@ void Menu::ActionGameMenu(const sf::Event& e)
 		if(_indeks < 2)
 			_indeks++;
 	}
+	else if(e.Key.Code ==  sf::Key::Space && e.Type == sf::Event::KeyPressed)
+	{
+		for(int i = 0 ; i < 4 ; i++)
+			if(_indeks == 0)
+				var = false; // wroc
+			else if (_indeks == 1)
+				break; //Zapisz
+			else if(_indeks == 2)
+				_exit = true;// wyjscie
+	}
+}
+bool  Menu::shouldExit() const
+{
+	return _exit;
 }
