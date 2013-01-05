@@ -98,6 +98,11 @@ public:
 		 */
 		Node& addTakeItem(std::wstring item);
 
+		/**
+		** Dodaj item jezeli jeszcze go nie ma
+		** @param item przedmiot @param player postac
+		**/
+		Node& addIfDontHave(const Item& item, const Player& player);
 		friend class Dialog;
 	private:
 		std::wstring message;

@@ -1440,7 +1440,7 @@ void GameBuilder::generateNewGame()
 		addOption(L"Macie jakieœ narzêdzia do obrony?", 4);
 
 	dialog0.addNode(3, L"Oj dzieciaku! Nie poradzisz sobie w ¿yciu! Musisz byæ bardziej uwa¿ny. Na	pocz¹tek mogê daæ ci drewniany kij, bo jak s¹dzê pieniêdzy te¿ nie masz.").
-		addGiveItem(Item(L"kijek", L"kijek").setProperty(Item::WEAPON, 0.3)).
+		addIfDontHave(Item(L"Kijek", L"kijek").setProperty(Item::WEAPON, 0.3),game.player).
 		addOption(L"Dziêkujê za pomoc.", 30);
 	
 	dialog0.addNode(30, L"IdŸ i uwa¿aj na siebie dzieciaku.").
@@ -1457,11 +1457,11 @@ void GameBuilder::generateNewGame()
 		addOption(L"Przepraszam, nie to mia³em na myœli...", 4010);
 
 	dialog0.addNode(4010, L"Jeszcze musisz siê wiele nauczyæ. £ap kija i ju¿ idŸ.").
-		addGiveItem(Item(L"kijek", L"kijek").setProperty(Item::WEAPON, 0.3)).
+		addIfDontHave(Item(L"Kijek", L"kijek").setProperty(Item::WEAPON, 0.3),game.player).
 		addOption(L". . .", Dialog::END_DIALOG);//KONIEC
 
 	dialog0.addNode(402, L"Hmm myœlê, ¿e mogê pomóc... Proszê, oto drewniany kij.").
-		addGiveItem(Item(L"kijek", L"kijek").setProperty(Item::WEAPON, 0.3)).
+		addIfDontHave(Item(L"Kijek", L"kijek").setProperty(Item::WEAPON, 0.3),game.player).
 		addOption(L". . .", Dialog::END_DIALOG); //KONIEC
 	 
 	rzemieslnik.addDialog(dialog0);
