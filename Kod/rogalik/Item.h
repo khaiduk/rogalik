@@ -10,6 +10,7 @@ public:
 	{
 		WEAPON,
 		ARMOR,
+		HELMET,
 		LIFEPOTION,
 		SLEEPDUST,
 		MAGICSAND,

@@ -1472,15 +1472,31 @@ void GameBuilder::generateNewGame()
 	/************************************************************************************************************/
 	//level 1 - rozmowa z kowalem
 	Creature kowal = Creature(Position(7,5, 3), ImageRes::DEALER);
-	
 	Dialog dialog1;
 
 	dialog1 = Dialog();
 
 	dialog1.addNode(Dialog::START_DIALOG, L"Czego tu szukasz?").
 		addOption(L"Chcia³em zobaczyæ czym siê tutaj zajmujecie.", 5).
-		addOption(L"Ale¿ jest Pan mi³y!", 6);
-
+		addOption(L"Ale¿ jest Pan mi³y!", 6).
+		addOption(L"Handel", 30);
+	dialog1.addNode(30, L"Zbroje tylko u mnie !!!").
+		addOptionIfHasMoney(5, L"Tania zbroja skórzana (5 monet)", 301).
+        addOptionIfHasMoney(15, L"Zwyk³a zbroja z br¹zu (15 monet)", 302).
+        addOptionIfHasMoney(25, L"Wytrzyma³a zbroja ¿elazna (25 monet)", 303).
+        addOptionIfHasNotMoney(5, L"Nie posiadam pieniedzy . Dowidzenia !!!", Dialog::END_DIALOG); 
+	dialog1.addNode(301,L"Proszê, oto twoja zborja. Niech ci s³u¿y.").
+		addGiveItem( Item(L"Zbroja skorzana",L"Tania zbroja").setProperty(Item::ARMOR,0.1)).
+		addTakeCoins(5).
+		addOption(L"Dziekuje!", Dialog::END_DIALOG);
+	dialog1.addNode(302,L"Proszê, oto twoja zborja. Niech ci s³u¿y.").
+		addGiveItem( Item(L"Zbroja z br¹zu",L"Zbroja stworzona z br¹zu").setProperty(Item::ARMOR,0.3)).
+		addTakeCoins(15).
+		addOption(L"Dziekuje!", Dialog::END_DIALOG);
+	dialog1.addNode(303,L"Proszê, oto twoja zborja. Niech ci s³u¿y.").
+		addGiveItem( Item(L"Wytrzyma³a zbroja ¿elazna",L"Bardzo wytrzyma³a zbroja ¿elazna").setProperty(Item::ARMOR,0.5)).
+		addTakeCoins(25).
+		addOption(L"Dziekuje!", Dialog::END_DIALOG);
 	dialog1.addNode(6, L"WyjdŸ, nie mam nastroju do rozmów!").
 		addOption(L"[uciekaj]", Dialog::END_DIALOG);
 	
@@ -1592,18 +1608,30 @@ void GameBuilder::generateNewGame()
 	dialog4 = Dialog();
 
 	dialog4.addNode(Dialog::START_DIALOG, L"W czym mogê pomóc?").
-		addOption(L"Chcia³bym kupiæ zbroje.", 10).
+		addOption(L"Szukam odzienia na g³owe.", 10).
 		addOption(L"Tylko siê rozgl¹dam.", Dialog::END_DIALOG);
 
-	dialog4.addNode(10, L"A jakieœ konkretne wymagania?").
-		addOption(L"Nie wiem. Nie znam siê.", 101).
-		addOption(L"Mam niewiele pieniêdzy. Nie wiem na jak¹ mnie staæ.", 102);
+	dialog4.addNode(10, L"Nie mog³eœ lepiej trafiæ , tylko u mnie najlepsze he³my!!!").
+		addOption(L"Poka¿ waœæ co posiadasz.", 101).
+		addOption(L"Rozmyœli³em siê.", Dialog::END_DIALOG);
 
 	dialog4.addNode(101, L"Mam tego doœæ sporo, rozejrzyj siê, a kiedy coœ znajdziesz - powiedz.").
-		addOption(L". . .", Dialog::END_DIALOG); //KONIEC
-
-	dialog4.addNode(102, L"Zbroja jest wa¿na. Warto zap³aciæ za ni¹ wiêcej. Wróæ jak ju¿ bêdziesz mia³ wystarczaj¹co du¿o monet.").
-		addOption(L". . .", Dialog::END_DIALOG); //KONIEC
+		addOptionIfHasMoney(5, L"Czapka wieœniaka (5 monet)", 102).
+        addOptionIfHasMoney(15, L"He³m bojowy (15 monet)", 103).
+        addOptionIfHasMoney(25, L"Diadem Zeusa (25 monet)", 104).
+        addOptionIfHasNotMoney(5, L"Nie posiadam pieniedzy . Dowidzenia !!!", Dialog::END_DIALOG); 
+	dialog4.addNode(102,L"Trzymaj , oto twoj nowy he³m. Zapraszam ponownie !!!").
+		addGiveItem( Item(L"Czapka wieœniaka",L"Tanie odzienie").setProperty(Item::HELMET,0.1)).
+		addTakeCoins(5).
+		addOption(L"Dziekuje!", Dialog::END_DIALOG);
+	dialog4.addNode(103,L"Trzymaj , oto twoj nowy he³m. Zapraszam ponownie !!!").
+		addGiveItem( Item(L"He³m bojowy",L"Metalowy solidny he³m").setProperty(Item::HELMET,0.3)).
+		addTakeCoins(15).
+		addOption(L"Dziekuje!", Dialog::END_DIALOG);
+	dialog4.addNode(104,L"Trzymaj , oto twoj nowy he³m. Zapraszam ponownie !!!").
+		addGiveItem( Item(L"Didaem Zeusa",L"Wykuty przez samego Hefajstosa").setProperty(Item::HELMET,0.5)).
+		addTakeCoins(25).
+		addOption(L"Dziekuje!", Dialog::END_DIALOG);
 
 	rzemieslnik2.addDialog(dialog4);
 
@@ -1650,8 +1678,25 @@ void GameBuilder::generateNewGame()
 
 	dialog6.addNode(Dialog::START_DIALOG, L"Czego szukasz, drogi wêdrowcze?").
 		addOption(L"Potrzebujê czegoœ na wzmocnienie.", 14).
-		addOption(L"Nic konkretnego.", 15);
-
+		addOption(L"Nic konkretnego.", 15).
+		addOption(L"Panie potrzebuje broni , czy nie wiecie gdzie mo¿na j¹ dostaæ?",163);
+	dialog6.addNode(163,L"Moje dostawy skonczy³y siê ju¿ dawno temu , zosta³o tylko to. Rzuæ okiem.").
+		addOptionIfHasMoney(5, L"Magiczna ró¿dzka(5 monet)", 102).
+        addOptionIfHasMoney(15, L"Bojowy Kij (15 monet)", 103).
+        addOptionIfHasMoney(25, L"Magiczny Kij Gandalfa (25 monet)", 104).
+		addOptionIfHasNotMoney(5, L"Nie posiadam pieniedzy . Dowidzenia !!!", Dialog::END_DIALOG);
+	dialog6.addNode(102,L"Dobry wybór panie! Prosze broñ jest Twoja.").
+		addGiveItem( Item(L"Magiczna ro¿dzka",L"Tania 'magiczna' ro¿dzka").setProperty(Item::WEAPON,0.1)).
+		addTakeCoins(5).
+		addOption(L"Dziekuje!", Dialog::END_DIALOG);
+	dialog6.addNode(103,L"Dobry wybór panie! Prosze broñ jest Twoja.").
+		addGiveItem( Item(L"Bojowy Kij",L"Nie jeden potwór nim oberwie").setProperty(Item::WEAPON,0.3)).
+		addTakeCoins(15).
+		addOption(L"Dziekuje!", Dialog::END_DIALOG);
+	dialog6.addNode(104,L"Dobry wybór panie! Prosze broñ jest Twoja.").
+		addGiveItem( Item(L"Magiczny Kij Gandalfa",L"Sam Sauron sie go obawia").setProperty(Item::WEAPON,0.5)).
+		addTakeCoins(25).
+		addOption(L"Dziekuje!", Dialog::END_DIALOG);
 	dialog6.addNode(14, L"Hmm dobrym rozwi¹zaniem bêdzie eliksir ¿ycia.").
 		addOption(L"W takim razie biorê!", 140);
 
@@ -1723,7 +1768,7 @@ void GameBuilder::generateNewGame()
 	dialog7.addNode(16, L"To zale¿y jak poprosisz! (œmiech)").
 		addOption(L"Mam zap³aciæ?",161).
 		addOption(L"Pewnie chcecie pieniêdzy? Otwieranie bramy jest waszym obowi¹zkiem!", 162);
-
+		
 	dialog7.addNode(161, L"Myœlê, ¿e powinno wystarczyæ.").
 		addOption(L"[zaplac]", Dialog::END_DIALOG);//KONIEC
 

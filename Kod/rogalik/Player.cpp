@@ -2,10 +2,10 @@
 
 Player::Player(Position pos) : Creature(pos, ImageRes::HERO),
 	defLevel(1), attLevel(1), selectedAttribute(0),
-	coins(0), weapon(-1), armor(-1), selectedItem(0)
+	coins(100), weapon(-1), armor(-1), selectedItem(0)
 {
-	hudimg.LoadFromFile("hud.png");
-	hbarimg.LoadFromFile("healthbar.png");
+	hudimg.LoadFromFile("Images/hud.png");
+	hbarimg.LoadFromFile("Images/healthbar.png");
 	setType(PLAYER);
 }
 
@@ -25,9 +25,9 @@ void Player::drawInventory(sf::RenderWindow& rw) const
 	static bool firstRun = true;
 	static sf::Image tlo;
 	static sf::Font font;
-	if(firstRun)
+	if(firstRun) 
 	{
-		tlo.LoadFromFile("inv.png");
+		tlo.LoadFromFile("Images/inv.png");
 		firstRun = false;
 		font.LoadFromFile("silesiana.otf", 50,  L"A•BC∆DE FGHIJKL£MN—O”PRSåTUWYZèØaπbcÊdeÍfghijkl≥mnÒoÛprsútuwyzüøXxVvQq0123456789~!@#$%^&*()_-[]\\;',./{}:\"<>?=-+ ");
 	}
@@ -78,7 +78,7 @@ void Player::drawAtributes(sf::RenderWindow& rw) const
 	static sf::Font font;
 	if(firstRun)
 	{
-		tlo.LoadFromFile("atr.png");
+		tlo.LoadFromFile("Images/tlo.png");
 		firstRun = false;
 		font.LoadFromFile("silesiana.otf", 50,  L"A•BC∆DE FGHIJKL£MN—O”PRSåTUWYZèØaπbcÊdeÍfghijkl≥mnÒoÛprsútuwyzüøXxVvQq0123456789~!@#$%^&*()_-[]\\;',./{}:\"<>?=-+ ");
 	}
