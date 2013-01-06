@@ -118,6 +118,10 @@ private:
 	 * Usuwa przedmiot z ekwipunku
 	 */
 	void deleteItem(int i);
+	/**
+	** Zwraca wielkosc inventory
+	**/
+	int InventorySize()const;
 	sf::Image hbarimg, hudimg;
 
 	int defLevel;

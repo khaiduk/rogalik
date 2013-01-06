@@ -1,7 +1,7 @@
 #include "Item.h"
 
 
-Item::Item(const std::wstring name, const std::wstring desc) : name(name), desc(desc), type(DUMB), boost(0)
+Item::Item(const std::wstring name, const std::wstring desc) : name(name), desc(desc), type(DUMB), boost(0),wartosc(0)
 {
 }
 
@@ -29,4 +29,20 @@ Item::Type Item::getProperty() const
 float Item::getPropertyBoost() const
 {
 	return boost;
+}
+Item::Item(const std::wstring name , const std::wstring desc , int wartosc):name(name),desc(desc),type(DUMB),boost(0),wartosc(wartosc)
+{
+
+}
+int Item::getWartosc() const
+{
+	return wartosc;
+}
+std::wstring Item::getWartoscString()const
+{
+	std::wstringstream ss;
+	ss << wartosc;
+	std::wstring var = ss.str(); 
+
+	return var;
 }

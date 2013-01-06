@@ -1495,11 +1495,11 @@ void GameBuilder::generateNewGame()
 
 	/************************************************************************************************************/
 	//level 1 - rozmowa z kowalem
-	Creature kowal = Creature(Position(7,5, 3), ImageRes::DEALER);
+	Creature kowal = Creature(Position(1,1, 0), ImageRes::DEALER);
 	Dialog dialog1;
 
 	dialog1 = Dialog();
-
+	int size = game.player.InventorySize()+100;
 	dialog1.addNode(Dialog::START_DIALOG, L"Czego tu szukasz?").
 		addOption(L"Chcia³em zobaczyæ czym siê tutaj zajmujecie.", 5).
 		addOption(L"Ale¿ jest Pan mi³y!", 6).
@@ -1508,7 +1508,15 @@ void GameBuilder::generateNewGame()
 		addOption(L"Kupic",30).
 		addOption(L"Sprzedac",31).
 		addOption(L"Rozmyslilem sie", Dialog::END_DIALOG);
-	dialog1.addNode(31,L"Pokaz Panie co posiadasz");
+	dialog1.addNode(31,L"Pokaz Panie co posiadasz").
+		showWhatYouGot(game.player).
+		addOption(L"Wyjscie ",Dialog::END_DIALOG);
+	for(int i = 100 ; i <= size ; i++)
+	{
+		dialog1.addNode(i,L"Dzieki Panie").
+		addTakeItem(game.player,i).
+		addOption(L"Wyjscie " , Dialog::END_DIALOG);
+	}
 	dialog1.addNode(30, L"Zbroje tylko u mnie !!!").
 		addOptionIfHasMoney(5, L"Tania zbroja skórzana (5 monet)", 301).
         addOptionIfHasMoney(15, L"Zwyk³a zbroja z br¹zu (15 monet)", 302).

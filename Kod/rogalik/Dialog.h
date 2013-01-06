@@ -103,12 +103,23 @@ public:
 		** @param item przedmiot @param player postac
 		**/
 		Node& addIfDontHave(const Item& item, const Player& player);
+		/**
+		** wyswietl inventory
+		**/
+		Node& showWhatYouGot(const Player& player);
+		/**
+		** Zabiera item od gracza
+		** @param player - gracz
+		** @param i  - id/(miejsce w ekwipunku gracza) itemu
+		**/
+		Node& addTakeItem(Player &player,int i);
 		friend class Dialog;
 	private:
 		std::wstring message;
 		std::vector<Item> giveItems;
 		bool losehp;
 		int takeCoins;
+		int giveCoins;
 		std::vector<std::wstring> takeItems;
 
 

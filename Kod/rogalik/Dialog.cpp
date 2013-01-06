@@ -100,6 +100,21 @@ Dialog::Node& Dialog::Node::addTakeItem(std::wstring item)
 	takeItems.push_back(item);
 	return *this;
 }
+Dialog::Node& Dialog::Node::addTakeItem(Player &player, int i)
+{
+	int w = 100;
+	std::wstring name,desc;
+	for(std::vector<Item>::const_iterator it = player.getInventory().begin(); it != player.getInventory().end(); it++)
+	{
+		w++;
+		if(w == i)
+		{
+			takeItems.push_back(it->getName());
+			giveCoins += it->getWartosc();
+		}
+	}
+	return *this;
+}
 Dialog::Node& Dialog::Node::addIfDontHave(const Item& item, const Player& player)
 {
 	if(player.hasItem(item.getName()))
@@ -115,6 +130,22 @@ Dialog::Node& Dialog::addNode(int id, std::wstring msg)
 {
 	nodes[id] = Dialog::Node(msg);
 	return nodes[id];
+}
+Dialog::Node& Dialog::Node::showWhatYouGot(const Player& player)
+{
+	int i = 100;
+	std::wstring name,desc;
+	for(std::vector<Item>::const_iterator it = player.getInventory().begin(); it != player.getInventory().end(); it++)
+	{
+		i++;
+		name = it->getName();
+		desc = it->getDesc();
+		name = name + L"     (" + it->getWartoscString() + L") monet";
+		this->addOption(name,i);
+	}
+	optNeedsItem.push_back(L"");
+	optNeedsNoItem.push_back(L"");
+	return *this;
 }
 
 void Dialog::draw(sf::RenderWindow& rw, const Player& player)
@@ -216,6 +247,7 @@ bool Dialog::getInput(const sf::Event& e, Player &player)
 				player.takeMoney(nodes[currentNode].takeCoins);
 			else
 				player.takeMoney(player.hasMoney());
+			player.giveMoney(nodes[currentNode].giveCoins);
 		}
 	}
 	return true;

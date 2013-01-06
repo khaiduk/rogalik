@@ -22,7 +22,13 @@ public:
 	 * @param desc Opis przedmiotu w grze
 	 */
 	Item(const std::wstring name, const std::wstring desc);
-	
+	/**
+	** Tworzy przedmiot o zadanej wartosci
+	** @param name Krotka nazwa przedmiotu
+	** @param desc Opis przedmiout
+	** @param wartosc Wartosc przedmiotu
+	**/
+	Item(const std::wstring name , const std::wstring desc , int wartosc);
 	/**
 	 * Zwraca krótk¹ nazwê danego przedmiotu
 	 */
@@ -32,7 +38,14 @@ public:
 	 * Zwraca opis danego przedmiotu
 	 */
 	std::wstring getDesc() const;
-
+	/**
+	** Zwraca wartosc danego przedmiotu
+	**/
+	int getWartosc() const;
+	/**
+	** Zwraca wartosc w formacie wstring
+	**/
+	std::wstring getWartoscString()const;
 	/**
 	 * Ustawia w³asnoœæ danego przedmiotu
 	 * Uwaga - dany przedmiot mo¿e mieæ tylko jedn¹ w³asnoœæ - np. broñ nie mo¿e byæ jednoczeœnie zbroj¹
@@ -53,6 +66,7 @@ public:
 private:	
 	std::wstring name;
 	std::wstring desc;
+	int wartosc;
 	Type type;
 	float boost;
 };

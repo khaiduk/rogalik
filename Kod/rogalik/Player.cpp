@@ -7,6 +7,10 @@ Player::Player(Position pos) : Creature(pos, ImageRes::HERO),
 	hudimg.LoadFromFile("Images/hud.png");
 	hbarimg.LoadFromFile("Images/healthbar.png");
 	setType(PLAYER);
+	Item item = Item(L"name",L"desc",10);
+	inventory.push_back(item);
+	item = Item(L"Cos",L"Ktos",50);
+	inventory.push_back(item);
 }
 
 void Player::drawHud(sf::RenderWindow& rw) const
@@ -70,6 +74,10 @@ void Player::drawInventory(sf::RenderWindow& rw) const
 		desc.SetPosition(300, 50);
 		rw.Draw(desc);
 	}
+}
+int Player::InventorySize()const
+{
+	return inventory.size();
 }
 void Player::drawAtributes(sf::RenderWindow& rw) const
 {
