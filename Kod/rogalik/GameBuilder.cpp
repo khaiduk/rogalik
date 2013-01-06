@@ -1278,10 +1278,10 @@ void GameBuilder::generateNewGame()
 	}
 	////////////////////////////////////////////////////////////////////////////////////
 	//poziom 2 - losowe potwory
-	for(int i=0;i<5;i++)
+	for(int i=0;i<8;i++)
 	{
 	Creature zbir = Creature(Position(rand()%10+1,rand()%8+4, 6), ImageRes::MONSTER);
-	zbir.setSpeed(4); // wolny
+	zbir.setSpeed(10); // wolny
 	zbir.setAI(Creature::AI::OFFENSIVE_FAST); // losowo b³¹dzi
 	zbir.setType(Creature::Type::HOSTILE); // wrogi
 	//zbir.addLoot( Item(L"Czapka", L"Czapka") );
