@@ -55,6 +55,7 @@ void GameBuilder::generateNewGame()
 	
 	for(int x=1;x<100;x++)
 	{
+		//y=y1;
 		y+=(rand()%3-1);
 		
 		if(y<1)
@@ -83,28 +84,26 @@ void GameBuilder::generateNewGame()
 
 		
 		//srand(time(NULL));
-		if(x%40==0)
+		if(x%30==0)
 		{
 			Creature losowypotwor2 = Creature(Position(x,y, 0), ImageRes::MONSTER);
-			losowypotwor2.setSpeed(5); // wolny
+			losowypotwor2.setSpeed(2); // wolny
 			losowypotwor2.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo b³¹dzi
 			losowypotwor2.setType(Creature::Type::HOSTILE); // wrogi
 			losowypotwor2.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!").setProperty(Item::WEAPON, 0.05) );
 			losowypotwor2.addLootMoney(1);
-			losowypotwor2.setExp(2);
 			game.creatures.push_back( losowypotwor2 );
 		}
 		//cwaniaczek na koncu wioski 1
 		if(x==95)
 		{
 			Creature cwaniaczek = Creature(Position(x,y, 0), ImageRes::MONSTER);
-			cwaniaczek.setSpeed(3); // doœæ wolny
-			cwaniaczek.setAI(Creature::AI::IDLE); // tam gdzie gracz
+			cwaniaczek.setSpeed(4); // doœæ wolny
+			cwaniaczek.setAI(Creature::AI::FIGHT_AND_FLEE); // tam gdzie gracz
 			cwaniaczek.setType(Creature::Type::HOSTILE); // wrogi
 			cwaniaczek.addLoot( Item(L"Trunek", L"Butelka wina.") );
 			cwaniaczek.addLoot(Item(L"Moneta", L"Sakwa monet."));
 			cwaniaczek.addLootMoney(10);
-			cwaniaczek.setExp(6);
 			game.creatures.push_back( cwaniaczek );
 		}
 
@@ -446,12 +445,10 @@ void GameBuilder::generateNewGame()
 	}
 	//troll
 	Creature troll = Creature(Position(1,10+(rand()%3), 5), ImageRes::MONSTER);
-	troll.setSpeed(4); // doœæ wolny
+	troll.setSpeed(5); // doœæ wolny
 	troll.setAI(Creature::AI::FIGHT_AND_FLEE); 
 	troll.setType(Creature::Type::HOSTILE); // wrogi
 	troll.addLoot( Item(L"Czapka", L"Czapka").setProperty(Item::ARMOR, 0.1) );
-	troll.addLootMoney(1);
-	troll.setExp(4);
 	game.creatures.push_back( troll );
 
 	srand(time(NULL));
@@ -543,12 +540,11 @@ void GameBuilder::generateNewGame()
 		if(x==20)
 		{
 			Creature rozbojnik = Creature(Position(x,y, 7), ImageRes::MONSTER);
-			rozbojnik.setSpeed(4); // wolny
+			rozbojnik.setSpeed(5); // wolny
 			rozbojnik.setAI(Creature::AI::OFFENSIVE_FAST); // tam gdzie gracz
 			rozbojnik.setType(Creature::Type::HOSTILE); // wrogi
 			rozbojnik.addLoot( Item(L"Miecz", L"Miecz").setProperty(Item::WEAPON, 0.5) );
 			rozbojnik.addLootMoney(10);
-			rozbojnik.setExp(8);
 			game.creatures.push_back( rozbojnik );
 		}
 
@@ -637,12 +633,10 @@ void GameBuilder::generateNewGame()
 		if(x%25==0)
 		{
 			Creature losowypotwor6 = Creature(Position(x,y, 8), ImageRes::MONSTER);
-			losowypotwor6.setSpeed(4); // wolny
+			losowypotwor6.setSpeed(2); // wolny
 			losowypotwor6.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo b³¹dzi
 			losowypotwor6.setType(Creature::Type::HOSTILE); // wrogi
 			//losowypotwor6.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
-			losowypotwor6.addLootMoney(1);
-			losowypotwor6.setExp(2);
 			game.creatures.push_back( losowypotwor6 );
 		}
 		if(x==30) postaw=y;
@@ -843,8 +837,6 @@ void GameBuilder::generateNewGame()
 	troll2.setAI(Creature::AI::OFFENSIVE_FAST); //tam gdzie gracz
 	troll2.setType(Creature::Type::HOSTILE); // wrogi
 	//troll2.addLoot( Item(L"Czapka", L"Czapka") );
-	troll2.addLootMoney(1);
-	troll2.setExp(4);
 	game.creatures.push_back( troll2 );
 	for(int x=1;x<100;x++)
 	{		
@@ -871,14 +863,12 @@ void GameBuilder::generateNewGame()
 		}
 		if(x%20==0)
 		{
-			Creature losowypotwor0 = Creature(Position(x,y, 12), ImageRes::MONSTER);
-			losowypotwor0.setSpeed(4); // wolny
-			losowypotwor0.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo b³¹dzi
-			losowypotwor0.setType(Creature::Type::HOSTILE); // wrogi
+			Creature losowypotwor6 = Creature(Position(x,y, 12), ImageRes::MONSTER);
+			losowypotwor6.setSpeed(2); // wolny
+			losowypotwor6.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo b³¹dzi
+			losowypotwor6.setType(Creature::Type::HOSTILE); // wrogi
 			//losowypotwor6.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
-			losowypotwor0.addLootMoney(1);
-			losowypotwor0.setExp(2);
-			game.creatures.push_back( losowypotwor0 );
+			game.creatures.push_back( losowypotwor6 );
 		}
 		if(x==50)
 		{
@@ -887,8 +877,6 @@ void GameBuilder::generateNewGame()
 			goral.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo
 			goral.setType(Creature::Type::HOSTILE); // wrogi
 			goral.addLoot( Item(L"Ciupaga", L"Ciupaga").setProperty(Item::WEAPON, 0.3) );
-			goral.setExp(4);
-
 			game.creatures.push_back( goral );
 		}
 		if(x==33) postaw3=y;
@@ -1286,27 +1274,26 @@ void GameBuilder::generateNewGame()
 	losowypotwor.setType(Creature::Type::HOSTILE); // wrogi
 	//losowypotwor.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
 	losowypotwor.addLootMoney(1);
-	losowypotwor.setExp(2);
 	game.creatures.push_back( losowypotwor );
 	}
 	////////////////////////////////////////////////////////////////////////////////////
 	//poziom 2 - losowe potwory
-	Creature zbir = Creature(Position(2,7, 6), ImageRes::MONSTER);
+	for(int i=0;i<5;i++)
+	{
+	Creature zbir = Creature(Position(rand()%10+1,rand()%8+4, 6), ImageRes::MONSTER);
 	zbir.setSpeed(4); // wolny
 	zbir.setAI(Creature::AI::OFFENSIVE_FAST); // losowo b³¹dzi
 	zbir.setType(Creature::Type::HOSTILE); // wrogi
 	//zbir.addLoot( Item(L"Czapka", L"Czapka") );
 	zbir.addLootMoney(1);
-	zbir.setExp(3);
 	game.creatures.push_back( zbir );
-
-	Creature zbir2 = Creature(Position(0,10, 6), ImageRes::MONSTER);
+	}
+	/*Creature zbir2 = Creature(Position(0,10, 6), ImageRes::MONSTER);
 	zbir2.setSpeed(4); // wolny
 	zbir2.setAI(Creature::AI::OFFENSIVE_FAST); // losowo b³¹dzi
 	zbir2.setType(Creature::Type::HOSTILE); // wrogi
 	zbir2.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
 	zbir2.addLootMoney(1);
-	zbir2.setExp(3);
 	game.creatures.push_back( zbir2 );
 
 	Creature zbir3 = Creature(Position(0,6, 6), ImageRes::MONSTER);
@@ -1315,17 +1302,15 @@ void GameBuilder::generateNewGame()
 	zbir3.setType(Creature::Type::HOSTILE); // wrogi
 	zbir3.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
 	zbir3.addLootMoney(1);
-	zbir3.setExp(3);
 	game.creatures.push_back( zbir3 );
 
 	Creature zbir4 = Creature(Position(2,9, 6), ImageRes::MONSTER);
 	zbir4.setSpeed(4); // wolny
-	zbir4.setAI(Creature::AI::OFFENSIVE_FAST); // losowo
+	zbir4.setAI(Creature::AI::OFFENSIVE_FAST); // losowo b³¹dzi
 	zbir4.setType(Creature::Type::HOSTILE); // wrogi
 	//zbir.addLoot( Item(L"Czapka", L"Czapka") );
 	zbir4.addLootMoney(1);
-	zbir4.setExp(3);
-	game.creatures.push_back( zbir4 );
+	game.creatures.push_back( zbir4 );*/
 
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1345,7 +1330,6 @@ void GameBuilder::generateNewGame()
 	losowypotwor5.setType(Creature::Type::HOSTILE); // wrogi
 	if(i%2==0)
 	losowypotwor5.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
-	losowypotwor5.setExp(2);
 	game.creatures.push_back( losowypotwor5 );
 	}
 	//////////////////////////////////////////////////////////////////////////////////
@@ -1365,7 +1349,6 @@ void GameBuilder::generateNewGame()
 	losowypotwor8.setType(Creature::Type::HOSTILE); // wrogi
 	if(i%2==0)
 	losowypotwor8.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
-	losowypotwor8.setExp(2);
 	game.creatures.push_back( losowypotwor8 );
 	}
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1378,33 +1361,30 @@ void GameBuilder::generateNewGame()
 	losowypotwor9.setType(Creature::Type::HOSTILE); // wrogi
 	if(i%2==0)
 	losowypotwor9.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
-	losowypotwor9.setExp(2);
 	game.creatures.push_back( losowypotwor9 );
 	}
 	/********************************************************************************/
 	//poziom 5 straznicy przed domem
 	Creature warta = Creature(Position(79,5, 14), ImageRes::MONSTER);
-	warta.setSpeed(3); // doœæ wolny
-	warta.setAI(Creature::AI::IDLE); // losowo b³¹dzi
+	warta.setSpeed(2); // doœæ wolny
+	warta.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo walczy
 	warta.setType(Creature::Type::HOSTILE); // wrogi
 	//straznik.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
-	warta.setExp(3);
 	game.creatures.push_back( warta );
-	
-	Creature warta2 = Creature(Position(78,8, 14), ImageRes::MONSTER);
+	for(int i=6;i<=10;i++)
+	{
+	Creature warta2 = Creature(Position(78,i, 14), ImageRes::MONSTER);
 	warta2.setSpeed(3); // doœæ wolny
-	warta2.setAI(Creature::AI::IDLE); // bezczynny
+	warta2.setAI(Creature::AI::IDLE); // losowo b³¹dzi
 	warta2.setType(Creature::Type::HOSTILE); // wrogi
 	//straznik2.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
-	warta2.setExp(3);
 	game.creatures.push_back( warta2 );
-
+	}
 	Creature warta3 = Creature(Position(79,11, 14), ImageRes::MONSTER);
 	warta3.setSpeed(3); // doœæ wolny
-	warta3.setAI(Creature::AI::IDLE); // bezczynny
+	warta3.setAI(Creature::AI::IDLE); // losowo b³¹dzi
 	warta3.setType(Creature::Type::HOSTILE); // wrogi
 	//straznik3.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
-	warta3.setExp(3);
 	game.creatures.push_back( warta3 );
 	/********************************************************************************/
 	//straznicy w korytarzu
@@ -1415,7 +1395,6 @@ void GameBuilder::generateNewGame()
 	warta4.setAI(Creature::AI::OFFENSIVE_FAST); // losowo b³¹dzi
 	warta4.setType(Creature::Type::HOSTILE); // wrogi
 	//straznik4.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
-	warta4.setExp(4);
 	game.creatures.push_back( warta4 );
 	}
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1747,19 +1726,40 @@ void GameBuilder::generateNewGame()
 		addGiveItem( Item(L"Magiczny Kij Gandalfa",L"Sam Sauron sie go obawia").setProperty(Item::WEAPON,0.5)).
 		addTakeCoins(25).
 		addOption(L"Dziekuje!", Dialog::END_DIALOG);
-	dialog6.addNode(14, L"Hmm dobrym rozwi¹zaniem bêdzie eliksir ¿ycia.").
+
+	dialog6.addNode(14, L"Hmm dobrym rozwi¹zaniem bêdzie eliksir ¿ycia. Zobacz co jeszcze mam.").
+		addOptionIfHasMoney(35, L"Kolorowy piasek (20 monet)", 105).
+		addOptionIfHasMoney(45, L"Eliksir ¿yca (15 monet)", 106).
+		addOptionIfHasMoney(55, L"Proszek sypiajacy (25 monet)", 107).
+		addOptionIfHasNotMoney(5, L"Nie posiadam pieniedzy . Do widzenia!", Dialog::END_DIALOG);
+	dialog6.addNode(105,L"Dobry wybór panie! Prosze piasek jest Twój.").
+		addGiveItem( Item(L"Kolorowy piasek",L"Odwraca uwagê.").setProperty(Item::MAGICSAND)).
+		addTakeCoins(20).
+		addOption(L"W takim razie biorê!", 140);
+		//addOption(L"Dziekuje!", Dialog::END_DIALOG);
+	dialog6.addNode(106,L"Dobry wybór panie! Prosze eliksir jest Twój.").
+		addGiveItem( Item(L"Eliksir ¿ycia",L"Bêdziesz mia³ wiêcej energii do dzia³ania!").setProperty(Item::LIFEPOTION)).
+		addTakeCoins(15).
+		//addOption(L"Dziekuje!", Dialog::END_DIALOG);
+		addOption(L"W takim razie biorê!", 140);
+
+	dialog6.addNode(107,L"Dobry wybór panie! Proszek jest Twój.").
+		addGiveItem( Item(L"Proszek usypiaj¹cy",L"Po nim ka¿dy ma \"kolorowe sny\"").setProperty(Item::SLEEPDUST)).
+		addTakeCoins(25).
+		//addOption(L"Dziekuje!", Dialog::END_DIALOG);
 		addOption(L"W takim razie biorê!", 140);
 
 	dialog6.addNode(140, L"A mo¿e by³byœ zainteresowany czymœ jeszcze?").
 		addOption(L"Nie, dziêkujê. Myœlê, ¿e na razie wystarczy.", Dialog::END_DIALOG).
 		addOption(L"Macie coœ do zaproponowania?", 1400);
 
-	dialog6.addNode(1400, L"Doskona³y z³oty proszek usypiaj¹cy. Ka¿demu w koñcu siê przydaje.").
+	dialog6.addNode(1400, L"Doskona³y z³oty proszek usypiaj¹cy. Ka¿demu w koñcu siê przydaje. Nic nowego nie wyci¹gnê. Widzicie co tu mam.").
 		addOption(L"Hmm. Mo¿e innym razem. Dziêkujê!", Dialog::END_DIALOG). //KONIEC
 		addOption(L"Skoro tak twierdzicie to mo¿e i mnie siê przyda.",1401);
 
 	dialog6.addNode(1401, L"Z pewnoœci¹.").
-		addOption(L". . .", Dialog::END_DIALOG); //KONIEC
+		addOptionIfHasMoney(55, L"Proszek sypiajacy (25 monet)", 107).
+		addOptionIfHasNotMoney(5, L"Nie posiadam pieniedzy . Do widzenia!", Dialog::END_DIALOG);
 
 	dialog6.addNode(15, L"Mo¿e móg³bym coœ zaproponowaæ?").
 		addOption(L"Z chêci¹ pos³ucham.", 1400);
@@ -1910,7 +1910,7 @@ void GameBuilder::generateNewGame()
 	dialog10 = Dialog();
 
 	dialog10.addNode(Dialog::START_DIALOG, L"Co bêdzie?").
-		addOption(L"Nic nie chcê.", 19).
+		addOption(L"Nic nie chcê.", Dialog::END_DIALOG).
 		addOption(L"Chcia³bym kupiæ zbroje.", 21);
 	dialog10.addNode(21, L"Nie wygl¹dacie na kogoœ kto ma tyle pieniêdzy.").
 		addOption(L"Pozory myl¹.", 211).
@@ -1921,15 +1921,15 @@ void GameBuilder::generateNewGame()
         addOptionIfHasMoney(25, L"Wytrzyma³a zbroja ¿elazna (25 monet)", 303).
 		addOptionIfHasMoney(25, L"Kolczuga Bilba(LOTR) (125 monet)", 304).
         addOptionIfHasNotMoney(5, L"Nie posiadam pieniedzy . Dowidzenia !!!", Dialog::END_DIALOG); 
-	dialog10.addNode(301,L"Proszê, oto twoja zborja. Niech ci s³u¿y.").
+	dialog10.addNode(301,L"Proszê, oto twoja zbroja. Niech ci s³u¿y.").
 		addGiveItem( Item(L"Zbroja skorzana",L"Tania zbroja").setProperty(Item::ARMOR,0.1)).
 		addTakeCoins(5).
 		addOption(L"Dziekuje!", Dialog::END_DIALOG);
-	dialog10.addNode(302,L"Proszê, oto twoja zborja. Niech ci s³u¿y.").
+	dialog10.addNode(302,L"Proszê, oto twoja zbroja. Niech ci s³u¿y.").
 		addGiveItem( Item(L"Zbroja z br¹zu",L"Zbroja stworzona z br¹zu").setProperty(Item::ARMOR,0.3)).
 		addTakeCoins(15).
 		addOption(L"Dziekuje!", Dialog::END_DIALOG);
-	dialog10.addNode(303,L"Proszê, oto twoja zborja. Niech ci s³u¿y.").
+	dialog10.addNode(303,L"Proszê, oto twoja zbroja. Niech ci s³u¿y.").
 		addGiveItem( Item(L"Wytrzyma³a zbroja ¿elazna",L"Bardzo wytrzyma³a zbroja ¿elazna").setProperty(Item::ARMOR,0.5)).
 		addTakeCoins(25).
 		addOption(L"Dziekuje!", Dialog::END_DIALOG);
@@ -1949,17 +1949,66 @@ void GameBuilder::generateNewGame()
 	Dialog dialog11;
 
 	dialog11 = Dialog();
-
+	
 	dialog11.addNode(Dialog::START_DIALOG, L"Co przygotowaæ?").
 		addOption(L"Potrzebujê eliksiru ¿ycia.", 22).
 		addOption(L"Sam nie wiem czego chcê.", 23);
 		
 	dialog11.addNode(22, L"Tylko go nie marnuj...").
-		addOption(L". . .", Dialog::END_DIALOG); //KONIEC
+		addOption(L"Postaram siê.", 222); //KONIEC
 
 	dialog11.addNode(23, L"Wróæ kiedy bêdziesz czegoœ potrzebowa³.").
 		addOption(L". . .", Dialog::END_DIALOG); //KONIEC
 
+	dialog11.addNode(222, L"Mo¿e chcesz coœ jeszcze?").
+		addOption(L"Potrzebujê jakiejœ \"magicznej sztuczki\".", 26).
+		addOption(L"Wybieram sie do szlachcica. Du¿o s³ysza³em i myœlê, ¿e przyda³aby mi siê jakaœ \"magiczna sztuczka\". Moglibyœcie mi jakoœ pomóc?", 261);
+		
+	dialog11.addNode(26, L"Niewiele mi to mówi. Musisz siê bardziej postaraæ.").
+		addOption(L"Idê do szlachcica.", 261).
+		addOption(L"Nie powinno Was to interesowaæ.",  262);
+
+	dialog11.addNode(262, L"W takim razie nie mogê pomóc.").
+		addOption(L". . .", Dialog::END_DIALOG); //KONIEC
+
+	dialog11.addNode(261, L"Ach! Do szlachcica. Pewnie zainteresowa³ Ciê Rogalik.").
+		addOption(L"Pewnie jak wielu innych.", 2611).
+		addOption(L"To ju¿ nie Wasz sprawa.", 2612);
+
+
+	dialog11.addNode(2611, L"Niech pomyœlê... niewiele tego mam, wiêc mogê zaproponowaæ najwy¿ej kolorowy piasek, ale zobacz co tu jeszcze jest i wybierz coœ.").
+		//dialog11.addNode(163,L"Moje dostawy skonczy³y siê ju¿ dawno temu , zosta³o tylko to. Rzuæ okiem.").
+		addOptionIfHasMoney(5, L"Magiczna ró¿dzka(5 monet)", 102).
+        addOptionIfHasMoney(15, L"Bojowy Kij (15 monet)", 103).
+        addOptionIfHasMoney(25, L"Magiczny Kij Gandalfa (25 monet)", 104).
+		addOptionIfHasMoney(35, L"Kolorowy piasek (20 monet)", 105).
+		addOptionIfHasMoney(45, L"Eliksir ¿yca ( 15 monet)", 106).
+		addOptionIfHasNotMoney(5, L"Nie posiadam pieniedzy . Do widzenia!", Dialog::END_DIALOG);
+	dialog11.addNode(102,L"Dobry wybór panie! Prosze broñ jest Twoja.").
+		addGiveItem( Item(L"Magiczna ro¿dzka",L"Tania 'magiczna' ro¿dzka").setProperty(Item::WEAPON,0.1)).
+		addTakeCoins(5).
+		addOption(L"Dziekuje!", Dialog::END_DIALOG);
+	dialog11.addNode(103,L"Dobry wybór panie! Prosze broñ jest Twoja.").
+		addGiveItem( Item(L"Bojowy Kij",L"Nie jeden potwór nim oberwie").setProperty(Item::WEAPON,0.3)).
+		addTakeCoins(15).
+		addOption(L"Dziekuje!", Dialog::END_DIALOG);
+	dialog11.addNode(104,L"Dobry wybór panie! Prosze broñ jest Twoja.").
+		addGiveItem( Item(L"Magiczny Kij Gandalfa",L"Sam Sauron sie go obawia").setProperty(Item::WEAPON,0.5)).
+		addTakeCoins(25).
+		addOption(L"Dziekuje!", Dialog::END_DIALOG);
+	dialog11.addNode(105,L"Dobry wybór panie! Prosze piasek jest Twój.").
+		addGiveItem( Item(L"Kolorowy piasek",L"Odwraca uwagê.").setProperty(Item::MAGICSAND)).
+		addTakeCoins(20).
+		addOption(L"Dziekuje!", Dialog::END_DIALOG);
+	dialog11.addNode(106,L"Dobry wybór panie! Prosze eliksir jest Twój.").
+		addGiveItem( Item(L"Eliksir ¿ycia",L"Bêdziesz mia³ wiêcej energii do dzia³ania!").setProperty(Item::LIFEPOTION)).
+		addTakeCoins(15).
+		addOption(L"Dziekuje!", Dialog::END_DIALOG);
+		//addOption(L"Mam nadziejê, ¿e i ja siê dowiem.", Dialog::END_DIALOG); //KONIEC
+
+	dialog11.addNode(2612, L"Nie mogê pomóc jeœli nie wiem o co chodzi.").
+		addOption(L"Hmm... no dobrze. Zainteresowa³ mnie i to bardzo. Pomo¿ecie?", 2611);
+		
 	medrzec3.addDialog(dialog11);
 
 	medrzec3.setType(Creature::Type::DIALOG);
@@ -1987,12 +2036,19 @@ void GameBuilder::generateNewGame()
 		addOption(L"Dziêkujê!", Dialog::END_DIALOG). //KONIEC
 		addOption(L"Podobno mieszka w nim jakiœ straszny potwór, to prawda?", 240);
 
-	dialog12.addNode(240, L"O tak! Przyda³aby Ci siê jakaœ czarodziejska sztuczka. Uwa¿aj, w korytarzu prowadz¹cym do miejsca gdzie znajduje sie Rogalik jest stra¿.").
-		addOption(L"Ciê¿ko z ni¹ walczyæ?", 2401).
+	dialog12.addNode(240, L"O tak! Przyda³aby Ci siê jakaœ czarodziejska sztuczka. Wybierz siê do mêdrca. Na pewno coœ wymyœli. Przyda Ci sie pochodnia, któr¹ znajdziesz na pocz¹tku korytarza prowadz¹cego do miejsca gdzie znajduje sie Rogalik.").
+		addOption(L"Ale czym j¹ rozpalê?", 2401).
 		addOption(L"Zapamiêtam te wskazówki.", Dialog::END_DIALOG);
 
-	dialog12.addNode(2401, L"S³ysza³em, ¿e s¹ tam najlepsi szkoleni ludzie.").
-		addOption(L"Bêdê uwa¿a³!", Dialog::END_DIALOG);//KONIEC
+	dialog12.addNode(2401, L"Mam coœ takiego jak rozpa³ka do ognia.").
+		addOption(L"Z chêci¹ kupiê!", Dialog::END_DIALOG). //KONIEC
+		addOption(L"Chcesz mnie naci¹gn¹æ!", 2402);
+
+	dialog12.addNode(2402, L"Bêdziesz ¿a³owa³ i jeszcze po ni¹ wrócis!").
+		addOption(L". . .", Dialog::END_DIALOG); //KONIEC
+	
+	dialog12.addNode(212, L"Ka¿dy cwany. Zaraz znajdê coœ odpowiedniego.").
+		addOption(L". . .", Dialog::END_DIALOG); //KONIEC
 
 	cinkciarz2.addDialog(dialog12);
 
@@ -2001,7 +2057,7 @@ void GameBuilder::generateNewGame()
 
 	/************************************************************************************************************/
 	////level 5 - rozmowa z medrcem (powrot)
-	Creature medrzec4 = Creature(Position(4,4, 18), ImageRes::DEALER);
+	/*Creature medrzec4 = Creature(Position(4,4, 18), ImageRes::DEALER);
 	
 	Dialog dialog13;
 
@@ -2032,7 +2088,7 @@ void GameBuilder::generateNewGame()
 	medrzec4.addDialog(dialog13);
 
 	medrzec4.setType(Creature::Type::DIALOG);
-	game.creatures.push_back( medrzec4 );
+	game.creatures.push_back( medrzec4 );*/
 }
 
 //void GameBuilder::loadFromFile() { }
