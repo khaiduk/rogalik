@@ -384,7 +384,16 @@ void GameBuilder::generateNewGame()
 			map[5][x][y-1].setWalkSpeed(30);
 			map[5][x][y+1].setWalkSpeed(30);
 		}
-		
+		if(x%30==0)
+		{
+			Creature las = Creature(Position(x,y, 5), ImageRes::MONSTER);
+			las.setSpeed(2); // wolny
+			las.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo b³¹dzi
+			las.setType(Creature::Type::HOSTILE); // wrogi
+			//losowypotwor2.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!").setProperty(Item::WEAPON, 0.05) );
+			las.addLootMoney(1);
+			game.creatures.push_back( las );
+		}
 		if(x==69)
 		{
 			for(int y=5;y<15;y++)
@@ -490,7 +499,16 @@ void GameBuilder::generateNewGame()
 			map[6][x][y].setWarp(Position(powrot_x1,powrot_y1,5));
 			map[6][x][y].setImage(ImageRes::EMPTY);
 		}
-		
+		if(x%8==0)
+		{
+			Creature wlesie = Creature(Position(x,y, 6), ImageRes::MONSTER);
+			wlesie.setSpeed(2); // wolny
+			wlesie.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo b³¹dzi
+			wlesie.setType(Creature::Type::HOSTILE); // wrogi
+			wlesie.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!").setProperty(Item::WEAPON, 0.05) );
+			wlesie.addLootMoney(1);
+			game.creatures.push_back( wlesie );
+		}
 		if(x==39)
 		{
 			map[6][x][y].setImage(ImageRes::EMPTY);
@@ -547,7 +565,16 @@ void GameBuilder::generateNewGame()
 			rozbojnik.addLootMoney(10);
 			game.creatures.push_back( rozbojnik );
 		}
-
+		if(x%10==0)
+		{
+			Creature wlesie2 = Creature(Position(x,y, 7), ImageRes::MONSTER);
+			wlesie2.setSpeed(2); // wolny
+			wlesie2.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo b³¹dzi
+			wlesie2.setType(Creature::Type::HOSTILE); // wrogi
+			wlesie2.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!").setProperty(Item::WEAPON, 0.05) );
+			wlesie2.addLootMoney(1);
+			game.creatures.push_back( wlesie2 );
+		}
 		if(x==39)
 		{
 			map[7][x][y].setImage(ImageRes::EMPTY);
@@ -630,7 +657,7 @@ void GameBuilder::generateNewGame()
 			map[8][x][y-1].setWalkSpeed(30);
 			map[8][x][y+1].setWalkSpeed(30);
 		}
-		if(x%25==0)
+		if(x%19==0)
 		{
 			Creature losowypotwor6 = Creature(Position(x,y, 8), ImageRes::MONSTER);
 			losowypotwor6.setSpeed(2); // wolny
@@ -861,7 +888,7 @@ void GameBuilder::generateNewGame()
 			map[12][x][y-1].setWalkSpeed(30);
 			map[12][x][y+1].setWalkSpeed(30);
 		}
-		if(x%20==0)
+		if(x%30==0)
 		{
 			Creature losowypotwor6 = Creature(Position(x,y, 12), ImageRes::MONSTER);
 			losowypotwor6.setSpeed(2); // wolny
@@ -1278,7 +1305,7 @@ void GameBuilder::generateNewGame()
 	}
 	////////////////////////////////////////////////////////////////////////////////////
 	//poziom 2 - losowe potwory
-	for(int i=0;i<8;i++)
+	for(int i=0;i<20;i++)
 	{
 	Creature zbir = Creature(Position(rand()%10+1,rand()%8+4, 6), ImageRes::MONSTER);
 	zbir.setSpeed(10); // wolny
@@ -1322,13 +1349,13 @@ void GameBuilder::generateNewGame()
 	losowypotwor4.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
 	game.creatures.push_back( losowypotwor4 );
 	/********************************************************************************/
-	for(int i=1;i<5;i++)
+	for(int i=1;i<8;i++)
 	{
-	Creature losowypotwor5 = Creature(Position(rand()%95+1,rand()%25, 3), ImageRes::MONSTER);
+	Creature losowypotwor5 = Creature(Position(rand()%95+1,rand()%25, 8), ImageRes::MONSTER);
 	losowypotwor5.setSpeed(3); // doœæ wolny
 	losowypotwor5.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo 
 	losowypotwor5.setType(Creature::Type::HOSTILE); // wrogi
-	if(i%2==0)
+	if(i%3==0)
 	losowypotwor5.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
 	game.creatures.push_back( losowypotwor5 );
 	}
@@ -1341,7 +1368,7 @@ void GameBuilder::generateNewGame()
 	//losowypotwor7.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
 	game.creatures.push_back( losowypotwor7 );
 	/********************************************************************************/
-	for(int i=1;i<6;i++)
+	for(int i=1;i<10;i++)
 	{
 	Creature losowypotwor8 = Creature(Position(rand()%85+1,rand()%25, 12), ImageRes::MONSTER);
 	losowypotwor8.setSpeed(3); // doœæ wolny
@@ -1353,7 +1380,7 @@ void GameBuilder::generateNewGame()
 	}
 	////////////////////////////////////////////////////////////////////////////////////
 	//poziom 5
-	for(int i=1;i<5;i++)
+	for(int i=1;i<10;i++)
 	{
 	Creature losowypotwor9 = Creature(Position(rand()%75+1,rand()%20, 14), ImageRes::MONSTER);
 	losowypotwor9.setSpeed(3); // doœæ wolny
@@ -1388,7 +1415,7 @@ void GameBuilder::generateNewGame()
 	game.creatures.push_back( warta3 );
 	/********************************************************************************/
 	//straznicy w korytarzu
-	for(int i=0;i<3;i++)
+	for(int i=0;i<5;i++)
 	{
 	Creature warta4 = Creature(Position(rand()%19+1,rand()%4+8, 15), ImageRes::MONSTER);
 	warta4.setSpeed(3); // doœæ wolny
