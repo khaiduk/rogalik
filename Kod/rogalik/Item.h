@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <sstream>
 /**
  * Przedmiot wystêpuj¹cy w grze
  */
