@@ -25,10 +25,24 @@ Item::Type Item::getProperty() const
 {
 	return type;
 }
+std::wstring Item::getPropertyName()const
+{
+	std::wstringstream ss;
+	ss << type;
+	std::wstring var = ss.str(); 	
+	return var;
+}
 
 float Item::getPropertyBoost() const
 {
 	return boost;
+}
+std::wstring Item::getBoost()const
+{	
+	std::wstringstream ss;
+	ss << boost;
+	std::wstring var = ss.str(); 	
+	return var;
 }
 Item::Item(const std::wstring name , const std::wstring desc , int wartosc):name(name),desc(desc),type(DUMB),boost(0),wartosc(wartosc)
 {

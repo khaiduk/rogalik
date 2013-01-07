@@ -73,6 +73,33 @@ void Player::drawInventory(sf::RenderWindow& rw) const
 		TextArea desc(inventory[selectedItem].getDesc(), 400, font);
 		desc.SetPosition(300, 50);
 		rw.Draw(desc);
+		Item::Type type = inventory[selectedItem].getProperty();
+		if(type == 0)
+		{
+			TextArea desc1(L"Bron - Atak + " +inventory[selectedItem].getBoost(), 400,font);
+			desc1.SetPosition(350,250);
+			rw.Draw(desc1);
+		}
+		else if(type == 1)
+		{
+			TextArea desc1(L"Zbroja - Obrona + " +inventory[selectedItem].getBoost(), 400,font);
+			desc1.SetPosition(350,250);
+			rw.Draw(desc1);
+		}
+		else if(type == 2)
+		{
+			TextArea desc1(L"Helm - Obrona + " +inventory[selectedItem].getBoost(), 400,font);
+			desc1.SetPosition(350,250);
+			rw.Draw(desc1);
+		}
+		else if(type == 3)
+		{
+			TextArea desc1(L"Mikstura", 460,font);
+			desc1.SetPosition(350,250);
+			rw.Draw(desc1);
+		}
+
+		
 	}
 }
 int Player::InventorySize()const

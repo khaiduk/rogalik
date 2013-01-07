@@ -54,12 +54,12 @@ public:
 	 * @param boost Wielkoœæ danej w³asnoœci (tylko WEAPON i ARMOR)
 	 */
 	Item& setProperty(Type type, float boost = 0);
-	
 	/**
 	 * Zwraca w³asnoœæ danego przedmiotu
 	 */
 	Type getProperty() const;
-
+	std::wstring getBoost()const;
+	std::wstring getPropertyName() const;
 	/**
 	 * Zwraca wielkoœæ w³asnoœci danego przedmiotu
 	 */
