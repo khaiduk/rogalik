@@ -46,6 +46,7 @@ public:
 	/**
 	 *Zwraca wartoœæ logiczn¹ odpowiadaj¹c¹ mo¿liwoœci przejscia przez kafelkê
 	 */
+	Tile & SetSolid(bool solid);
 	bool isSolid();
 
 	/**
@@ -69,6 +70,7 @@ public:
 	 * @param speed prêdkoœæ poruszania siê po danym kafelku
 	 */
 	void setWalkSpeed(int speed);
+	Tile & SetWalkSpeed(int speed);
 
 	/**
 	 * Zwraca prêdkoœæ poruszania siê po danym kafelku
