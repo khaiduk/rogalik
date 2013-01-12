@@ -36,7 +36,11 @@ void Tile::setSolid(bool solid)
 {
 	this->solid = solid;
 }
-
+Tile & Tile::SetSolid(bool solid)
+{
+	this->solid = solid;
+	return *this;
+}
 bool Tile::isSolid()
 {
 	return solid;
@@ -61,7 +65,11 @@ void Tile::setWalkSpeed(int speed)
 {
 	walkSpeed = speed;
 }
-
+Tile & Tile::SetWalkSpeed(int speed)
+{
+	walkSpeed = speed;
+	return *this;
+}
 int Tile::getWalkSpeed() const
 {
 	return walkSpeed;

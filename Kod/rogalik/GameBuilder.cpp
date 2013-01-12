@@ -43,7 +43,6 @@ void GameBuilder::buildHouse(std::vector< std::vector< std::vector<Tile> > > &ma
 	}
 	else
 	{
-		
 		map[level][x-1][y-2].setImage(ImageRes::ROOF2);
 		map[level][x-1][y-2].setSolid(true);
 		map[level][x][y-2].setImage(ImageRes::ROOF2);
@@ -87,24 +86,48 @@ void GameBuilder::generateNewGame()
 	//level 1
 	//wioska
 	map.insert(map.begin() + 0, emptyTerrainLevel(100, 30, 0)); // tworze poziom o numerze np. 0 i o wymiarach np. 20x20
-
+	srand(time(NULL));
+	int kafelek =0;
 	for(int x=0;x<map[0].size();x++)
 	{
 		for(int y=0;y<map[0][x].size();y++)
 		{
-			map[0][x][y].setImage(ImageRes::GRASS); //pobiera obrazek, z podanego obrazka tiles.png o numerze np.2
+			kafelek =  rand()%150+1;;
+			if(kafelek ==1)
+				map[0][x][y].SetImage(ImageRes::DEAD);
+			else if(kafelek == 2)
+				map[0][x][y].SetImage(ImageRes::TOMB).setSolid(true);
+			//else if (kafelek == 3)
+				//map[0][x][y].SetImage(ImageRes::BARREL).setSolid(true);
+			else if (kafelek %10 == 0)
+				map[0][x][y].SetImage(ImageRes::TREE1).setSolid(true);
+			else if (kafelek == 5)
+				map[0][x][y].SetImage(ImageRes::WOOD1).setSolid(true);
+			else if (kafelek == 6)
+				map[0][x][y].SetImage(ImageRes::ROOT);
+			else if (kafelek == 7)
+				map[0][x][y].SetImage(ImageRes::STONE1).setSolid(true);
+			else if (kafelek %14 == 0)
+				map[0][x][y].SetImage(ImageRes::FLOWER1);
+			else if (kafelek %15 == 0)
+				map[0][x][y].SetImage(ImageRes::FLOWER2);
+			else if (kafelek == 10)
+				map[0][x][y].SetImage(ImageRes::GRASS1);
+			else
+				map[0][x][y].setImage(ImageRes::GRASS); //pobiera obrazek, z podanego obrazka tiles.png o numerze np.2
+			
 		}
 	}
+	map[0][2][2].SetImage(ImageRes::FLOWER1);
 	int powrot_x1,powrot_y1;
 	int yp=10+(rand()%3);
 	//droga
-	srand(time(NULL));
 	int y=rand()%27+2;
 	game.player = Player( Position(0, 15) );
 	for(int l = 0 ; l < map[0].size();l++)
 	{
-		map[0][l][15].SetImage(ImageRes::ROAD).setWalkSpeed(30);
-		map[0][l][14].SetImage(ImageRes::ROAD).setWalkSpeed(30);
+		map[0][l][15].SetImage(ImageRes::ROAD).SetWalkSpeed(30).SetSolid(false);
+		map[0][l][14].SetImage(ImageRes::ROAD).SetWalkSpeed(30).SetSolid(false);
 	}
 	for(int x = 1 ; x <100 ; x++)
 	{
@@ -133,19 +156,18 @@ void GameBuilder::generateNewGame()
 		}
 
 		if(x==99)
-			{
-				map[0][x][y].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
-				map[0][x][y].setWarp(Position(0,yp,5));
-				powrot_x1=x;
-				powrot_y1=y;
-			}
-			
+		{
+			map[0][x][y].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
+			map[0][x][y].setWarp(Position(0,yp,5));
+			powrot_x1=x;
+			powrot_y1=y;
+		}
 	}
 	int i=rand()%25+1;
 	int j= 0 ;//=rand()%15+1;
 	bool war=true;
 	int house_x, house_y;
-	house_x = rand()%40+5;
+	house_x = rand()%10+5;
 	house_y = rand()%10+2;
 	std::cout << house_x << "  " << house_y << std::endl;
 	buildHouse(map,0,house_x,house_y,true,1);
@@ -154,8 +176,8 @@ void GameBuilder::generateNewGame()
 		if(i == house_x)
 		{
 			for(int j = 14 ; j > house_y+1 ; j--)
-				map[0][i][j].SetImage(ImageRes::ROAD).setWalkSpeed(30);
-			map[0][i][house_y+1].SetImage(ImageRes::ROADHOUSE);
+				map[0][i][j].SetImage(ImageRes::ROAD).SetWalkSpeed(30).SetSolid(false);
+			map[0][i][house_y+1].SetImage(ImageRes::ROADHOUSE).SetSolid(false);
 		}
 	}
 
@@ -193,10 +215,10 @@ void GameBuilder::generateNewGame()
 		if(i == house_x-2)
 		{
 			for(int j = 16 ; j < house_y+1 ; j++)
-				map[0][i][j].SetImage(ImageRes::ROAD).setWalkSpeed(30);
-			map[0][i][house_y+1].SetImage(ImageRes::ROADHOUSE);
-			map[0][i+1][house_y+1].SetImage(ImageRes::ROADHOUSE);
-			map[0][i+2][house_y+1].SetImage(ImageRes::ROADHOUSE);
+				map[0][i][j].SetImage(ImageRes::ROAD).SetWalkSpeed(30).SetSolid(false);
+			map[0][i][house_y+1].SetImage(ImageRes::ROADHOUSE).SetSolid(false);
+			map[0][i+1][house_y+1].SetImage(ImageRes::ROADHOUSE).SetSolid(false);
+			map[0][i+2][house_y+1].SetImage(ImageRes::ROADHOUSE).SetSolid(false);
 		}
 	}
 	
@@ -240,10 +262,10 @@ void GameBuilder::generateNewGame()
 		if(i == house_x-2)
 		{
 			for(int j = 16 ; j < house_y+1 ; j++)
-				map[0][i][j].SetImage(ImageRes::ROAD).setWalkSpeed(30);
-			map[0][i][house_y+1].SetImage(ImageRes::ROADHOUSE);
-			map[0][i+1][house_y+1].SetImage(ImageRes::ROADHOUSE);
-			map[0][i+2][house_y+1].SetImage(ImageRes::ROADHOUSE);
+				map[0][i][j].SetImage(ImageRes::ROAD).SetWalkSpeed(30).SetSolid(false);
+			map[0][i][house_y+1].SetImage(ImageRes::ROADHOUSE).SetSolid(false);
+			map[0][i+1][house_y+1].SetImage(ImageRes::ROADHOUSE).SetSolid(false);
+			map[0][i+2][house_y+1].SetImage(ImageRes::ROADHOUSE).SetSolid(false);
 		}
 	}	
 	//wnetrze chaty kowala
@@ -287,10 +309,10 @@ void GameBuilder::generateNewGame()
 		if(i == house_x-2)
 		{
 			for(int j = 16 ; j < house_y+1 ; j++)
-				map[0][i][j].SetImage(ImageRes::ROAD).setWalkSpeed(30);
-			map[0][i][house_y+1].SetImage(ImageRes::ROADHOUSE);
-			map[0][i+1][house_y+1].SetImage(ImageRes::ROADHOUSE);
-			map[0][i+2][house_y+1].SetImage(ImageRes::ROADHOUSE);
+				map[0][i][j].SetImage(ImageRes::ROAD).SetWalkSpeed(30).SetSolid(false);
+			map[0][i][house_y+1].SetImage(ImageRes::ROADHOUSE).SetSolid(false);
+			map[0][i+1][house_y+1].SetImage(ImageRes::ROADHOUSE).SetSolid(false);
+			map[0][i+2][house_y+1].SetImage(ImageRes::ROADHOUSE).SetSolid(false);
 		}
 	}
 	//wnetrze chaty medrca
