@@ -11,6 +11,12 @@ void Tile::setImage(int img)
 	imgId = img;
 	sprite=sf::Sprite(ImageRes::getInstance().getImage(img));
 }
+Tile & Tile::SetImage(int img)
+{
+	imgId = img;
+	sprite=sf::Sprite(ImageRes::getInstance().getImage(img));
+	return *this;
+}
 
 void Tile::draw(sf::RenderWindow& rw, int x, int y) const
 {

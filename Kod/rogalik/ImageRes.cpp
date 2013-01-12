@@ -28,7 +28,7 @@ sf::Color ImageRes::imgColor(int id)
 		case BRICK:
 		case WOOD: return sf::Color::Red;
 		case ROAD:
-		case FURNITURE:
+		case ROADHOUSE:
 		case DESK:
 		case WALL: return sf::Color(130, 130, 130);
 		case STAR: return sf::Color::Yellow;

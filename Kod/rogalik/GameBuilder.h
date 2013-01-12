@@ -16,7 +16,7 @@ public:
 	** @param y - wspolrzedna y wejscia 
 	** @param bool - domek pierwszy (otwarty  TRUE) czy zamkniety
 	**/
-	void buildHouse(std::vector< std::vector< std::vector<Tile> > > &map,int level , int x , int y,bool var=true);
+	void buildHouse(std::vector< std::vector< std::vector<Tile> > > &map,int level , int x , int y,bool var,int lvl);
 	void buildFurniture(std::vector< std::vector< std::vector<Tile> > > &map,int level , int x , int y);
 };
 

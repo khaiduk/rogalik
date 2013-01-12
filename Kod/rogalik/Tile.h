@@ -36,10 +36,12 @@ public:
 	 * @param img identyfikator obrazka
 	 */
 	void setImage(int img);
+	Tile & SetImage(int img);
 	/**
 	 * Ustawia niemo¿noœæ przejœcia przez kafelek
 	 * @param solid czy nie da siê przejœæ
 	 */
+	
 	void setSolid(bool solid);
 	/**
 	 *Zwraca wartoœæ logiczn¹ odpowiadaj¹c¹ mo¿liwoœci przejscia przez kafelkê
