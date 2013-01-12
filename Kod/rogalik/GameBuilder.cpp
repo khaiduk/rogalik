@@ -16,14 +16,74 @@ std::vector< std::vector<Tile> > GameBuilder::emptyTerrainLevel(int width, int h
 	}
 	return newLevel;
 }
+void GameBuilder::buildHouse(std::vector< std::vector< std::vector<Tile> > > &map,int level , int x , int y,bool var)
+{
+	if(var)
+	{
+		map[level][x-1][y-2].setImage(ImageRes::ROOF);
+		map[level][x-1][y-2].setSolid(true);
+		map[level][x][y-2].setImage(ImageRes::ROOF);
+		map[level][x][y-2].setSolid(true);
+		map[level][x+1][y-2].setImage(ImageRes::ROOF);
+		map[level][x+1][y-2].setSolid(true);
 
+		map[level][x-1][y-1].setImage(ImageRes::ROOFN);
+		map[level][x-1][y-1].setSolid(true);
+		map[level][x][y-1].setImage(ImageRes::ROOFN);
+		map[level][x][y-1].setSolid(true);
+		map[level][x+1][y-1].setImage(ImageRes::ROOFN);
+		map[level][x+1][y-1].setSolid(true);
+
+		map[level][x-1][y].setImage(ImageRes::WINDOW);
+		map[level][x-1][y].setSolid(true);
+		map[level][x][y].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
+		map[level][x][y].setWarp(Position(0,1,1));
+		map[level][x+1][y].setImage(ImageRes::WINDOW);
+		map[level][x+1][y].setSolid(true);
+	}
+	else
+	{
+		
+		map[level][x-1][y-2].setImage(ImageRes::ROOF2);
+		map[level][x-1][y-2].setSolid(true);
+		map[level][x][y-2].setImage(ImageRes::ROOF2);
+		map[level][x][y-2].setSolid(true);
+		map[level][x+1][y-2].setImage(ImageRes::ROOF2);
+		map[level][x+1][y-2].setSolid(true);
+
+		map[level][x-1][y-1].setImage(ImageRes::ROOFN2);
+		map[level][x-1][y-1].setSolid(true);
+		map[level][x][y-1].setImage(ImageRes::ROOFN2);
+		map[level][x][y-1].setSolid(true);
+		map[level][x+1][y-1].setImage(ImageRes::ROOFN2);
+		map[level][x+1][y-1].setSolid(true);
+
+		map[level][x-1][y].setImage(ImageRes::WINDOW2);
+		map[level][x-1][y].setSolid(true);
+		map[level][x][y].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
+		map[level][x][y].setWarp(Position(0,1,1));
+		map[level][x+1][y].setImage(ImageRes::WINDOW2);
+		map[level][x+1][y].setSolid(true);
+	}
+}
+void GameBuilder::buildFurniture(std::vector< std::vector< std::vector<Tile> > > &map,int level , int x , int y)
+{
+	map[level][x][y-1].setImage(ImageRes::FURN1A);
+	map[level][x][y-1].setSolid(true);
+	map[level][x][y].setImage(ImageRes::FURN1B);
+	map[level][x][y].setSolid(true);
+	map[level][x+1][y-1].setImage(ImageRes::FURN2A);
+	map[level][x+1][y-1].setSolid(true);
+	map[level][x+1][y].setImage(ImageRes::FURN2B);
+	map[level][x+1][y].setSolid(true);
+}
 void GameBuilder::generateNewGame()
 {
 	game = Game(); // nowa pusta gra
 	std::vector< std::vector< std::vector<Tile> > > &map = game.terrain.map;
 	
 	map.reserve(20);// rezerwacja ilosci poziomow
-	
+	//map[0][2][2].setImage(ImageRes::ROOF);
 	//level 1
 	//wioska
 	map.insert(map.begin() + 0, emptyTerrainLevel(100, 30, 0)); // tworze poziom o numerze np. 0 i o wymiarach np. 20x20
@@ -90,7 +150,7 @@ void GameBuilder::generateNewGame()
 			losowypotwor2.setSpeed(2); // wolny
 			losowypotwor2.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo b³¹dzi
 			losowypotwor2.setType(Creature::Type::HOSTILE); // wrogi
-			losowypotwor2.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!").setProperty(Item::WEAPON, 0.05) );
+			losowypotwor2.addLoot( Item(L"Badyl", L"Przepotê¿ny kostur? Totalnie badyl!").setProperty(Item::WEAPON, 0.05) );
 			losowypotwor2.addLootMoney(1);
 			game.creatures.push_back( losowypotwor2 );
 		}
@@ -116,7 +176,7 @@ void GameBuilder::generateNewGame()
 			}
 			
 	}
-
+	buildHouse(map,0,3,3,false);
 	//chata cinkciarza
 	/*int i=rand()%25+1;
 	int j=rand()%15+1;
@@ -139,12 +199,19 @@ void GameBuilder::generateNewGame()
 	}
 	*/
 	int i=rand()%25+1;
-	int j;//=rand()%15+1;
+	int j= 0 ;//=rand()%15+1;
 	bool war=true;
-	while(war)
-	{
-	j=rand()%15+1;
-	if( (j>0 && j<(y-4)) || (j>(y+2) && j<25) )
+	int house_x, house_y;
+	house_x = rand()%50+5;
+	house_y = rand()%15+3;
+	//std::cout << house_x << " " << house_y << std::endl;
+	buildHouse(map,0,house_x,house_y);
+	buildFurniture(map,0,6,6);
+	//while(war)
+	///{
+	//j=rand()%15+1;
+	/*
+	if( j<(y-4) || j>(y+2) )
 	{
 		for(int x=i;x<=i+3;x++)
 		{
@@ -157,7 +224,7 @@ void GameBuilder::generateNewGame()
 				}
 				else
 				{
-					map[0][x][y].setImage(ImageRes::BRICK);
+					map[0][x][y].setImage(ImageRes::ROOF);
 					map[0][x][y].setSolid(true);
 				}
 			}
@@ -166,8 +233,7 @@ void GameBuilder::generateNewGame()
 		war=false;
 	}
 	else continue;
-	}
-
+	}*/
 	//wnetrze chaty cinkciarza
 	map.insert(map.begin() + 1, emptyTerrainLevel(10, 8, 1));
 	for(int x=0;x<map[1].size();x++)

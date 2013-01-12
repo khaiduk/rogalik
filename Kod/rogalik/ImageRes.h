@@ -65,7 +65,18 @@ public:
 		STONE,
 		MONSTER,
 		DEALER,
-		GOLD
+		GOLD,
+		DEAD,
+		ROOF,
+		ROOFN,
+		WINDOW,
+		FURN1A,
+		FURN1B,
+		FURN2A,
+		FURN2B,
+		ROOF2,
+		ROOFN2,
+		WINDOW2,
 	};
 private:
 	ImageRes(void){}
