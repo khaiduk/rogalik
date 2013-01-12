@@ -10,7 +10,7 @@ Dialog::~Dialog(void)
 {
 }
 
-Dialog::Node::Node(std::wstring msg):message(msg), losehp(false)
+Dialog::Node::Node(std::wstring msg):message(msg), losehp(false), giveCoins(0)
 {
 }
 

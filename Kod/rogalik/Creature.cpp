@@ -297,11 +297,18 @@ void Creature::step(float dt, const Terrain& terrain, std::list<Creature> &creat
 	
 		if(fightState) // fight
 		{
-			newPos = player.pos; // w kierunku gracza
-			if((pos + walkDir) == player.pos) // gdy ju¿ atakujemy gracza ...
+			if(Position::distance(pos, player.pos) < 20) //gdy gracz jest blisko
 			{
-				fightState = (rand() % 5 != 0); //... rozwa¿my zmianê stanu
-				cpos = pos; // aktualizacja centrum b³¹dzenia
+				newPos = player.pos; // w kierunku gracza
+				if((pos + walkDir) == player.pos) // gdy ju¿ atakujemy gracza ...
+				{
+					fightState = (rand() % 5 != 0); //... rozwa¿my zmianê stanu
+					cpos = pos; // aktualizacja centrum b³¹dzenia
+				}
+			}
+			else
+			{
+				newPos = pos; //stój w miejscu
 			}
 		}
 		else //flee
