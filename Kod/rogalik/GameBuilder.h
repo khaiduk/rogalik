@@ -14,9 +14,9 @@ public:
 	** @param level - level na ktorym budujemy
 	** @param x - wspolrzedna x wejscia
 	** @param y - wspolrzedna y wejscia 
-	** @param bool - domek pierwszy (otwarty  TRUE) czy zamkniety
+	** @param var - domek o wygl¹dzie spod numeru var
 	**/
-	void buildHouse(std::vector< std::vector< std::vector<Tile> > > &map,int level , int x , int y,bool var,int lvl);
+	void buildHouse(std::vector< std::vector< std::vector<Tile> > > &map,int level , int x , int y,int var,int lvl);
 	void buildFurniture(std::vector< std::vector< std::vector<Tile> > > &map,int level , int x , int y);
 };
 

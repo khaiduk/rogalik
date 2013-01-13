@@ -16,9 +16,9 @@ std::vector< std::vector<Tile> > GameBuilder::emptyTerrainLevel(int width, int h
 	}
 	return newLevel;
 }
-void GameBuilder::buildHouse(std::vector< std::vector< std::vector<Tile> > > &map,int level , int x , int y,bool var,int lvl)
+void GameBuilder::buildHouse(std::vector< std::vector< std::vector<Tile> > > &map,int level , int x , int y,int var,int lvl)
 {
-	if(var)
+	if(var==1)
 	{
 		map[level][x-1][y-2].setImage(ImageRes::ROOF);
 		map[level][x-1][y-2].setSolid(true);
@@ -36,12 +36,13 @@ void GameBuilder::buildHouse(std::vector< std::vector< std::vector<Tile> > > &ma
 
 		map[level][x-1][y].setImage(ImageRes::WINDOW);
 		map[level][x-1][y].setSolid(true);
-		map[level][x][y].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
+		map[level][x][y].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o nr np 0
+		map[level][x][y].SetSolid(false);
 		map[level][x][y].setWarp(Position(0,1,lvl));
 		map[level][x+1][y].setImage(ImageRes::WINDOW);
 		map[level][x+1][y].setSolid(true);
 	}
-	else
+	else if(var==2)
 	{
 		map[level][x-1][y-2].setImage(ImageRes::ROOF2);
 		map[level][x-1][y-2].setSolid(true);
@@ -60,6 +61,7 @@ void GameBuilder::buildHouse(std::vector< std::vector< std::vector<Tile> > > &ma
 		map[level][x-1][y].setImage(ImageRes::WINDOW2);
 		map[level][x-1][y].setSolid(true);
 		map[level][x][y].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
+		map[level][x][y].SetSolid(false);
 		map[level][x][y].setWarp(Position(0,1,lvl));
 		map[level][x+1][y].setImage(ImageRes::WINDOW2);
 		map[level][x+1][y].setSolid(true);
@@ -85,7 +87,7 @@ void GameBuilder::generateNewGame()
 	//map[0][2][2].setImage(ImageRes::ROOF);
 	//level 1
 	//wioska
-	map.insert(map.begin() + 0, emptyTerrainLevel(100, 30, 0)); // tworze poziom o numerze np. 0 i o wymiarach np. 20x20
+	map.insert(map.begin() + 0, emptyTerrainLevel(100, 30, 0)); 
 	srand(time(NULL));
 	int kafelek =0;
 	for(int x=0;x<map[0].size();x++)
@@ -97,8 +99,6 @@ void GameBuilder::generateNewGame()
 				map[0][x][y].SetImage(ImageRes::DEAD);
 			else if(kafelek == 2)
 				map[0][x][y].SetImage(ImageRes::TOMB).setSolid(true);
-			//else if (kafelek == 3)
-				//map[0][x][y].SetImage(ImageRes::BARREL).setSolid(true);
 			else if (kafelek %10 == 0)
 				map[0][x][y].SetImage(ImageRes::TREE1).setSolid(true);
 			else if (kafelek == 5)
@@ -124,13 +124,16 @@ void GameBuilder::generateNewGame()
 	//droga
 	int y=rand()%27+2;
 	game.player = Player( Position(0, 15) );
-	for(int l = 0 ; l < map[0].size();l++)
+
+	for(int x = 0 ; x <100 ; x++)
 	{
-		map[0][l][15].SetImage(ImageRes::ROAD).SetWalkSpeed(30).SetSolid(false);
-		map[0][l][14].SetImage(ImageRes::ROAD).SetWalkSpeed(30).SetSolid(false);
-	}
-	for(int x = 1 ; x <100 ; x++)
-	{
+		int y=15+(rand()%2);
+		
+		
+			map[0][x][y].SetImage(ImageRes::ROAD).SetWalkSpeed(30).SetSolid(false);
+			map[0][x][y-1].SetImage(ImageRes::ROAD).SetWalkSpeed(30).SetSolid(false);
+			map[0][x][y+1].SetImage(ImageRes::ROAD).SetWalkSpeed(30).SetSolid(false);
+
 		//srand(time(NULL));
 		if(x%30==0)
 		{
@@ -170,7 +173,7 @@ void GameBuilder::generateNewGame()
 	house_x = rand()%10+5;
 	house_y = rand()%10+2;
 	std::cout << house_x << "  " << house_y << std::endl;
-	buildHouse(map,0,house_x,house_y,true,1);
+	buildHouse(map,0,house_x,house_y,1,1);
 	for(int i = 0 ; i < map[0].size() ; i++)
 	{
 		if(i == house_x)
@@ -201,15 +204,13 @@ void GameBuilder::generateNewGame()
 
 	map[1][0][2].setWarp(Position(house_x,house_y,0)); //miejsce przejscia z jednego poziomu np. 1 1 1 [z x y] do 13 12 0 [x y z]
 	map[1][0][2].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
-
 	//chata rzemieslnika
 	map.insert(map.begin() + 2, emptyTerrainLevel(10, 8, 2));
 	house_x = rand()%40+5;
 	house_y = rand()%11+18;
 	std::cout << house_x << "  " << house_y << std::endl;
-	buildHouse(map,0,house_x,house_y,false,2);
-	map[2][0][1].setWarp(Position(house_x,house_y,0)); //miejsce przejscia z jednego poziomu np. 1 1 1 [z x y] do 13 12 0 [x y z]
-	map[2][0][1].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
+	buildHouse(map,0,house_x,house_y,2,2);
+
 	for(int i = 0 ; i < map[0].size() ; i++)
 	{
 		if(i == house_x-2)
@@ -249,14 +250,15 @@ void GameBuilder::generateNewGame()
 			map[2][7][y].setImage(ImageRes::DESK);
 			map[2][7][y].setSolid(true);
 		}	
+	map[2][0][1].setWarp(Position(house_x,house_y,0)); //miejsce przejscia z jednego poziomu np. 1 1 1 [z x y] do 13 12 0 [x y z]
+	map[2][0][1].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
 	//chata kowala
 	map.insert(map.begin() + 3, emptyTerrainLevel(10, 8, 3));
 	house_x = rand()%10+50;
 	house_y = rand()%10+18;
 	std::cout << house_x << "  " << house_y << std::endl;
-	buildHouse(map,0,house_x,house_y,false,3);
-	map[3][0][1].setWarp(Position(house_x,house_y,0)); //miejsce przejscia z jednego poziomu np. 1 1 1 [z x y] do 13 12 0 [x y z]
-	map[3][0][1].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
+	buildHouse(map,0,house_x,house_y,2,3);
+	
 	for(int i = 0 ; i < map[0].size() ; i++)
 	{
 		if(i == house_x-2)
@@ -268,6 +270,7 @@ void GameBuilder::generateNewGame()
 			map[0][i+2][house_y+1].SetImage(ImageRes::ROADHOUSE).SetSolid(false);
 		}
 	}	
+	
 	//wnetrze chaty kowala
 
 	for(int x=0;x<map[3].size();x++)
@@ -295,15 +298,15 @@ void GameBuilder::generateNewGame()
 			map[3][x][y].setSolid(true);
 		}
 	}
-
+	map[3][0][1].setWarp(Position(house_x,house_y,0)); //miejsce przejscia z jednego poziomu np. 1 1 1 [z x y] do 13 12 0 [x y z]
+	map[3][0][1].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
 	//chata mêdrca
 	map.insert(map.begin() + 4, emptyTerrainLevel(10, 8, 4));
 	house_x = rand()%20+70;
 	house_y = rand()%5+24;
 	std::cout << house_x << "  " << house_y << std::endl;
-	buildHouse(map,0,house_x,house_y,false,4);
-	map[4][0][0].setWarp(Position(house_x,house_y,0));
-	map[4][0][0].setImage(ImageRes::EMPTY);
+	buildHouse(map,0,house_x,house_y,2,4);
+
 	for(int i = 0 ; i < map[0].size() ; i++)
 	{
 		if(i == house_x-2)
@@ -339,7 +342,8 @@ void GameBuilder::generateNewGame()
 		map[4][1][y].setImage(ImageRes::DESK);
 		map[4][1][y].setSolid(true);
 	}
-	
+	map[4][0][0].setWarp(Position(house_x,house_y,0));
+	map[4][0][0].setImage(ImageRes::EMPTY);
 	//LEVEL 2
 	//las
 	map.insert(map.begin() + 5, emptyTerrainLevel(100, 20, 5)); // tworze poziom o numerze np. 0 i o wymiarach np. 20x20
@@ -351,20 +355,27 @@ void GameBuilder::generateNewGame()
 			map[5][x][y].setImage(ImageRes::GRASS); //pobiera obrazek, z podanego obrazka tiles.png o numerze np.2
 		}
 	}
-	
+	srand(time(NULL));
+	for(int i=0; i<1200; ++i)
+	{
+		
+		int x=rand()%96+2;
+		//srand(time(NULL));
+		int y=rand()%19;
+		map[5][x][y].setImage(ImageRes::TREE);
+		map[5][x][y].setSolid(true);
+	}
 	for(int x=0;x<70;x++)
 	{
 		int y=10+(rand()%3);
 
 		if(x==0)
 		{
-			//game.player = Player( Position(x, y, 5) );
 			int y=yp;
-			//map[5][x][y].setImage(ImageRes::ROAD2);
-			map[5][x][y-1].setImage(ImageRes::ROAD2);
-			map[5][x][y+1].setImage(ImageRes::ROAD2);
+			map[5][x][y-1].SetImage(ImageRes::ROAD2).SetSolid(false);
+			map[5][x][y+1].SetImage(ImageRes::ROAD2).SetSolid(false);
 			map[5][x][y].setWarp(Position(powrot_x1,powrot_y1,0));
-			map[5][x][y].setImage(ImageRes::EMPTY);
+			map[5][x][y].SetImage(ImageRes::EMPTY).SetSolid(false);
 			
 			map[5][x][y].setWalkSpeed(30);
 			map[5][x][y-1].setWalkSpeed(30);
@@ -376,7 +387,6 @@ void GameBuilder::generateNewGame()
 			las.setSpeed(2); // wolny
 			las.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo b³¹dzi
 			las.setType(Creature::Type::HOSTILE); // wrogi
-			//losowypotwor2.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!").setProperty(Item::WEAPON, 0.05) );
 			las.addLootMoney(1);
 			game.creatures.push_back( las );
 		}
@@ -384,9 +394,9 @@ void GameBuilder::generateNewGame()
 		{
 			for(int y=5;y<15;y++)
 			{
-				map[5][x][y].setImage(ImageRes::ROAD2);
-				map[5][x+1][y].setImage(ImageRes::ROAD2);
-				map[5][x+2][y].setImage(ImageRes::ROAD2);
+				map[5][x][y].SetImage(ImageRes::ROAD2).SetSolid(false);
+				map[5][x+1][y].SetImage(ImageRes::ROAD2).SetSolid(false);
+				map[5][x+2][y].SetImage(ImageRes::ROAD2).SetSolid(false);
 				
 				map[5][x][y].setWalkSpeed(30);
 				map[5][x+1][y].setWalkSpeed(30);
@@ -395,9 +405,9 @@ void GameBuilder::generateNewGame()
 		}
 		else
 		{
-			map[5][x][y].setImage(ImageRes::ROAD2);
-			map[5][x][y-1].setImage(ImageRes::ROAD2);
-			map[5][x][y+1].setImage(ImageRes::ROAD2);
+			map[5][x][y].SetImage(ImageRes::ROAD2).SetSolid(false);
+			map[5][x][y-1].SetImage(ImageRes::ROAD2).SetSolid(false);
+			map[5][x][y+1].SetImage(ImageRes::ROAD2).SetSolid(false);
 			
 			map[5][x][y].setWalkSpeed(30);
 			map[5][x][y-1].setWalkSpeed(30);
@@ -409,18 +419,18 @@ void GameBuilder::generateNewGame()
 	for(int x=72;x<100;x++)
 	{
 		int y= 6+(rand()%3);
-		map[5][x][y].setImage(ImageRes::ROAD2);
-		map[5][x][y-1].setImage(ImageRes::ROAD2);
-		map[5][x][y+1].setImage(ImageRes::ROAD2);
+		map[5][x][y].SetImage(ImageRes::ROAD2).SetSolid(false);
+		map[5][x][y-1].SetImage(ImageRes::ROAD2).SetSolid(false);
+		map[5][x][y+1].SetImage(ImageRes::ROAD2).SetSolid(false);
 
 		map[5][x][y].setWalkSpeed(30);
 		map[5][x][y-1].setWalkSpeed(30);
 		map[5][x][y+1].setWalkSpeed(30);
 
 		int yy = 13+(rand()%3);
-		map[5][x][yy].setImage(ImageRes::ROAD2);
-		map[5][x][yy-1].setImage(ImageRes::ROAD2);
-		map[5][x][yy+1].setImage(ImageRes::ROAD2);
+		map[5][x][yy].SetImage(ImageRes::ROAD2).SetSolid(false);
+		map[5][x][yy-1].SetImage(ImageRes::ROAD2).SetSolid(false);
+		map[5][x][yy+1].SetImage(ImageRes::ROAD2).SetSolid(false);
 
 		map[5][x][yy].setWalkSpeed(30);
 		map[5][x][yy-1].setWalkSpeed(30);
@@ -428,11 +438,11 @@ void GameBuilder::generateNewGame()
 
 		if(x==99)
 		{
-			map[5][x][y].setImage(ImageRes::EMPTY);
+			map[5][x][y].SetImage(ImageRes::EMPTY).SetSolid(false);
 			map[5][x][y].setWarp(Position(0, 8, 6));
 			powrot_x1=x;
 			powrot_y1=y;
-			map[5][x][yy].setImage(ImageRes::EMPTY);
+			map[5][x][yy].SetImage(ImageRes::EMPTY).SetSolid(false);
 			map[5][x][yy].setWarp(Position(0, 8, 7));
 			powrot_x2=x;
 			powrot_y2=yy;
@@ -445,19 +455,8 @@ void GameBuilder::generateNewGame()
 	troll.setType(Creature::Type::HOSTILE); // wrogi
 	troll.addLoot( Item(L"Czapka", L"Czapka").setProperty(Item::ARMOR, 0.1) );
 	game.creatures.push_back( troll );
-
-	srand(time(NULL));
-	for(int i=0; i<200; ++i)
-	{
-		
-		int x=rand()%96+2;
-		//srand(time(NULL));
-		int y=rand()%19;
-		map[5][x][y].setImage(ImageRes::TREE);
-		map[5][x][y].setSolid(true);
-	}
 	
-	int yp4=rand()%27+1;
+	int yp4=15+(rand()%2);
 	//wybor drogi 1 (6)
 	map.insert(map.begin() + 6, emptyTerrainLevel(40, 14, 6)); // tworze poziom o numerze np. 0 i o wymiarach np. 20x20
 
@@ -468,13 +467,21 @@ void GameBuilder::generateNewGame()
 			map[6][x][y].setImage(ImageRes::GRASS); //pobiera obrazek, z podanego obrazka tiles.png o numerze np.2
 		}
 	}
-
+	srand(time(NULL));
+	for(int i=0; i<500; ++i)
+	{
+		
+		int x=rand()%36+2;
+		int y=rand()%14;
+		map[6][x][y].setImage(ImageRes::TREE);
+		map[6][x][y].setSolid(true);
+	}
 	for(int x=0;x<40;x++)
 	{
 		int y=7+(rand()%3);
-		map[6][x][y].setImage(ImageRes::ROAD2);
-		map[6][x][y-1].setImage(ImageRes::ROAD2);
-		map[6][x][y+1].setImage(ImageRes::ROAD2);
+		map[6][x][y].SetImage(ImageRes::ROAD2).SetSolid(false);
+		map[6][x][y-1].SetImage(ImageRes::ROAD2).SetSolid(false);
+		map[6][x][y+1].SetImage(ImageRes::ROAD2).SetSolid(false);
 
 		map[6][x][y].setWalkSpeed(30);
 		map[6][x][y-1].setWalkSpeed(30);
@@ -483,7 +490,7 @@ void GameBuilder::generateNewGame()
 		if(x==0)
 		{
 			map[6][x][y].setWarp(Position(powrot_x1,powrot_y1,5));
-			map[6][x][y].setImage(ImageRes::EMPTY);
+			map[6][x][y].SetImage(ImageRes::EMPTY).SetSolid(false);
 		}
 		if(x%8==0)
 		{
@@ -497,21 +504,13 @@ void GameBuilder::generateNewGame()
 		}
 		if(x==39)
 		{
-			map[6][x][y].setImage(ImageRes::EMPTY);
+			map[6][x][y].SetImage(ImageRes::EMPTY).SetSolid(false);
 			map[6][x][y].setWarp(Position(0, yp4, 8));
 			powrot_x1=x;
 			powrot_y1=y;
 		}
 	}
-	srand(time(NULL));
-	for(int i=0; i<100; ++i)
-	{
-		
-		int x=rand()%36+2;
-		int y=rand()%7;
-		map[6][x][y].setImage(ImageRes::TREE);
-		map[6][x][y].setSolid(true);
-	}
+
 
 	//wybor drogi 2 (7)
 	map.insert(map.begin() + 7, emptyTerrainLevel(40, 14, 7)); // tworze poziom o numerze np. 0 i o wymiarach np. 20x20
@@ -523,14 +522,23 @@ void GameBuilder::generateNewGame()
 			map[7][x][y].setImage(ImageRes::GRASS); //pobiera obrazek, z podanego obrazka tiles.png o numerze np.2
 		}
 	}
+	srand(time(NULL));
+	for(int i=0; i<500; ++i)
+	{
+		int x=rand()%36+2;
+		int y=rand()%14;
+		map[7][x][y].setImage(ImageRes::TREE);
+		map[7][x][y].setSolid(true);
+	}
+	
 	int lvl;
 	srand(time(NULL));
 	for(int x=0;x<40;x++)
 	{
 		int y=7+(rand()%3);
-		map[7][x][y].setImage(ImageRes::ROAD2);
-		map[7][x][y-1].setImage(ImageRes::ROAD2);
-		map[7][x][y+1].setImage(ImageRes::ROAD2);
+		map[7][x][y].SetImage(ImageRes::ROAD2).SetSolid(false);
+		map[7][x][y-1].SetImage(ImageRes::ROAD2).SetSolid(false);
+		map[7][x][y+1].SetImage(ImageRes::ROAD2).SetSolid(false);
 
 		map[7][x][y].setWalkSpeed(30);
 		map[7][x][y-1].setWalkSpeed(30);
@@ -539,7 +547,7 @@ void GameBuilder::generateNewGame()
 		if(x==0)
 		{
 			map[7][x][y].setWarp(Position(powrot_x2,powrot_y2,5));
-			map[7][x][y].setImage(ImageRes::EMPTY);
+			map[7][x][y].SetImage(ImageRes::EMPTY).SetSolid(false);
 		}
 		if(x==20)
 		{
@@ -563,52 +571,59 @@ void GameBuilder::generateNewGame()
 		}
 		if(x==39)
 		{
-			map[7][x][y].setImage(ImageRes::EMPTY);
+			map[7][x][y].SetImage(ImageRes::EMPTY).SetSolid(false);
 			map[7][x][y].setWarp(Position(0, yp4, 8));
 			powrot_x2=x;
 			powrot_y2=y;
 			lvl =7;
 		}
 	}
-	for(int i=0; i<100; ++i)
-	{
-		int x=rand()%36+2;
-		int y=rand()%7;
-		map[7][x][y].setImage(ImageRes::TREE);
-		map[7][x][y].setSolid(true);
-	}
-	
+
 	//LEVEL 3
 	//wioska
 	map.insert(map.begin() + 8, emptyTerrainLevel(100, 30, 8)); // tworze poziom o numerze np. 0 i o wymiarach np. 20x20
-
+	srand(time(NULL));
+	kafelek =0;
 	for(int x=0;x<map[8].size();x++)
 	{
 		for(int y=0;y<map[8][x].size();y++)
 		{
-			map[8][x][y].setImage(ImageRes::STONE); //pobiera obrazek, z podanego obrazka tiles.png o numerze np.2
+			kafelek =  rand()%150+1;;
+			if(kafelek ==1)
+				map[8][x][y].SetImage(ImageRes::DEAD);
+			else if (kafelek %10 == 0)
+				map[8][x][y].SetImage(ImageRes::TREE1).setSolid(true);
+			else if (kafelek == 5)
+				map[8][x][y].SetImage(ImageRes::WOOD1).setSolid(true);
+			else if (kafelek == 6 || kafelek ==2)
+				map[8][x][y].SetImage(ImageRes::ROOT);
+			else if (kafelek == 7)
+				map[8][x][y].SetImage(ImageRes::STONE1).setSolid(true);
+			else if (kafelek %14 == 0)
+				map[8][x][y].SetImage(ImageRes::FLOWER1);
+			else if (kafelek %15 == 0)
+				map[8][x][y].SetImage(ImageRes::FLOWER2);
+			else
+				map[8][x][y].setImage(ImageRes::GRASS); //pobiera obrazek, z podanego obrazka tiles.png o numerze np.2
+			
 		}
 	}
 
+
 	int x=0;
-	int yp2=rand()%17+1;
+	int yp2=15+(rand()%2);
 	srand(time(NULL));
 	//y=rand()%27+1;
 	y=yp4;
 
-	map[8][x][y].setImage(ImageRes::EMPTY);
+	map[8][x][y].SetImage(ImageRes::EMPTY).SetSolid(false);
 	if(lvl==7)
 	map[8][x][y].setWarp(Position(powrot_x2,powrot_y2,7));
 	else
-	//map[8][x][y].setImage(ImageRes::EMPTY);
 	map[8][x][y].setWarp(Position(powrot_x1,powrot_y1,6));
-	//map[8][x][y].setImage(ImageRes::EMPTY);
-	//map[8][x][y].setWarp(Position(powrot_x2,powrot_y2,7));
 
-
-	map[8][x][y].setImage(ImageRes::EMPTY);
-	map[8][x][y-1].setImage(ImageRes::ROAD);
-	map[8][x][y+1].setImage(ImageRes::ROAD);
+	map[8][x][y-1].SetImage(ImageRes::SAND).SetSolid(false);
+	map[8][x][y+1].SetImage(ImageRes::SAND).SetSolid(false);
 
 	map[8][x][y].setWalkSpeed(30);
 	map[8][x][y-1].setWalkSpeed(30);
@@ -617,39 +632,20 @@ void GameBuilder::generateNewGame()
 	int powrot_x3;
 	int powrot_y3;
 	int postaw, postaw2;
-	for(int x=1;x<100;x++)
+	for(int x=0;x<100;x++)
 	{
-		y+=(rand()%3-1);
+			int y=15+(rand()%2);
 		
-		if(y<1)
-		{
-			x--;
-			continue;
-		}
-		
-		else if(y>28)
-		{
-			x--;
-			continue;
-		}
-		
-		else
-		{
-			map[8][x][y-1].setImage(ImageRes::ROAD);
-			map[8][x][y].setImage(ImageRes::ROAD);
-			map[8][x][y+1].setImage(ImageRes::ROAD);
+			map[8][x][y].SetImage(ImageRes::SAND).SetWalkSpeed(30).SetSolid(false);
+			map[8][x][y-1].SetImage(ImageRes::SAND).SetWalkSpeed(30).SetSolid(false);
+			map[8][x][y+1].SetImage(ImageRes::SAND).SetWalkSpeed(30).SetSolid(false);
 
-			map[8][x][y].setWalkSpeed(30);
-			map[8][x][y-1].setWalkSpeed(30);
-			map[8][x][y+1].setWalkSpeed(30);
-		}
 		if(x%19==0)
 		{
 			Creature losowypotwor6 = Creature(Position(x,y, 8), ImageRes::MONSTER);
 			losowypotwor6.setSpeed(2); // wolny
 			losowypotwor6.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo b³¹dzi
 			losowypotwor6.setType(Creature::Type::HOSTILE); // wrogi
-			//losowypotwor6.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
 			game.creatures.push_back( losowypotwor6 );
 		}
 		if(x==30) postaw=y;
@@ -663,26 +659,21 @@ void GameBuilder::generateNewGame()
 			}
 			
 	}
-	//chata rzemieslnika
-	int r=rand()%25+1;
-	int z=rand()%25+1;
-	for(int x=r;x<=r+3;x++)
+	//chata rzemieslnika	
+	house_x = rand()%25+1;
+	house_y = rand()%10+2;
+	std::cout << house_x << "  " << house_y << std::endl;
+	buildHouse(map,8,house_x,house_y,2,9);
+	for(int i = 0 ; i < map[8].size() ; i++)
 	{
-		for(int y=z; y<=z+2;y++)
+		if(i == house_x)
 		{
-			if(x==r+1 && y==z+2)
-			{
-				map[8][x][y].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
-				map[8][x][y].setWarp(Position(0,1,9));
-			}
-			else
-				{
-					map[8][x][y].setImage(ImageRes::WOOD);
-					map[8][x][y].setSolid(true);
-				}
+			for(int j = 14 ; j > house_y+1 ; j--)
+				map[8][i][j].SetImage(ImageRes::SAND).SetWalkSpeed(30).SetSolid(false);
+			map[8][i][house_y+1].SetImage(ImageRes::SAND).SetSolid(false);
 		}
 	}
-	
+
 	//wnetrze chaty rzemieslnika
 	map.insert(map.begin() + 9, emptyTerrainLevel(10, 8, 9));
 	for(int x=0;x<map[9].size();x++)
@@ -711,28 +702,25 @@ void GameBuilder::generateNewGame()
 			map[9][7][y].setSolid(true);
 		}
 		
-		map[9][0][1].setWarp(Position(r+1,z+2,8)); //miejsce przejscia z jednego poziomu np. 1 1 1 [z x y] do 13 12 0 [x y z]
+		map[9][0][1].setWarp(Position(house_x,house_y,8)); //miejsce przejscia z jednego poziomu np. 1 1 1 [z x y] do 13 12 0 [x y z]
 		map[9][0][1].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
 	
 	//chata mêdrca
-	int m=rand()%25+28;
-	int d=rand()%25+1;
-	for(int x=m;x<=m+3;x++)
+	house_x = rand()%20+70;
+	house_y = rand()%5+24;
+	std::cout << house_x << "  " << house_y << std::endl;
+	buildHouse(map,8,house_x,house_y,2,10);
+	
+	for(int i = 0 ; i < map[8].size() ; i++)
 	{
-		for(int y=d; y<=d+2;y++)
+		if(i == house_x-2)
 		{
-			if(x==m+3 && y==d)
-			{
-				map[8][x][y].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
-				map[8][x][y].setWarp(Position(0,0,10));
-			}
-			else
-				{
-					map[8][x][y].setImage(ImageRes::WOOD);
-					map[8][x][y].setSolid(true);
-				}
+			for(int j = 16 ; j < house_y+1 ; j++)
+				map[8][i][j].SetImage(ImageRes::SAND).SetWalkSpeed(30).SetSolid(false);
+			map[8][i][house_y+1].SetImage(ImageRes::SAND).SetSolid(false);
+			map[8][i+1][house_y+1].SetImage(ImageRes::SAND).SetSolid(false);
+			map[8][i+2][house_y+1].SetImage(ImageRes::SAND).SetSolid(false);
 		}
-
 	}
 	//wnetrze chaty medrca
 	map.insert(map.begin() + 10, emptyTerrainLevel(10, 8, 10));
@@ -757,28 +745,22 @@ void GameBuilder::generateNewGame()
 		map[10][1][y].setImage(ImageRes::DESK);
 		map[10][1][y].setSolid(true);
 	}
-	map[10][0][0].setWarp(Position(m+3,d,8));
+	map[10][0][0].setWarp(Position(house_x,house_y,8));
 	map[10][0][0].setImage(ImageRes::EMPTY);
 	
 	//Bar
-	int b=rand()%20+55;
-	int a=rand()%25+1;
-	for(int x=b;x<=b+3;x++)
+	house_x = rand()%20+55;
+	house_y = rand()%10+2;
+	std::cout << house_x << "  " << house_y << std::endl;
+	buildHouse(map,8,house_x,house_y,2,11);
+	for(int i = 0 ; i < map[8].size() ; i++)
 	{
-		for(int y=a; y<=a+2;y++)
+		if(i == house_x)
 		{
-			if(x==b+2 && y==a)
-			{
-				map[8][x][y].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
-				map[8][x][y].setWarp(Position(0,1,11));
-			}
-			else
-				{
-					map[8][x][y].setImage(ImageRes::WOOD);
-					map[8][x][y].setSolid(true);
-				}
+			for(int j = 14 ; j > house_y+1 ; j--)
+				map[8][i][j].SetImage(ImageRes::SAND).SetWalkSpeed(30).SetSolid(false);
+			map[8][i][house_y+1].SetImage(ImageRes::SAND).SetSolid(false);
 		}
-
 	}
 	//wnetrze baru
 	map.insert(map.begin() + 11, emptyTerrainLevel(10, 8, 11));
@@ -808,37 +790,48 @@ void GameBuilder::generateNewGame()
 	}
 	for(int x = 4; x<=8; x++)
 	{
-		map[11][x][0].setImage(ImageRes::DESK);
+		map[11][x][0].setImage(ImageRes::SIT1);
 		map[11][x][0].setSolid(true);
-
-		map[11][x][7].setImage(ImageRes::DESK);
-		map[11][x][7].setSolid(true);
 	}
-	map[11][0][1].setWarp(Position(b+2,a,8)); //miejsce przejscia z jednego poziomu np. 1 1 1 [z x y] do 13 12 0 [x y z]
+		map[11][4][7].SetImage(ImageRes::BARREL1).setSolid(true);
+		map[11][5][7].SetImage(ImageRes::BARREL1).setSolid(true);
+
+	map[11][0][1].setWarp(Position(house_x,house_y,8)); //miejsce przejscia z jednego poziomu np. 1 1 1 [z x y] do 13 12 0 [x y z]
 	map[11][0][1].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
 	
 	//LEVEL 4
 	//gory
 	map.insert(map.begin() + 12, emptyTerrainLevel(100, 20, 12));
+	srand(time(NULL));
+	kafelek =0;
 	for(int x=0;x<map[12].size();x++)
 	{
 		for(int y=0;y<map[12][x].size();y++)
 		{
-			map[12][x][y].setImage(ImageRes::GORY);
+			kafelek =  rand()%150+1;;
+			if(kafelek ==1 || kafelek %14 == 0)
+				map[12][x][y].SetImage(ImageRes::DEAD2);
+			else if (kafelek %10 == 0 || kafelek == 5 || kafelek %15 == 0)
+				map[12][x][y].SetImage(ImageRes::TREE3).setSolid(true);
+			else if (kafelek == 6 || kafelek ==2 || kafelek == 7)
+				map[12][x][y].SetImage(ImageRes::TREE4).SetSolid(true);
+			else
+				map[12][x][y].setImage(ImageRes::WINTER); //pobiera obrazek, z podanego obrazka tiles.png o numerze np.2
+			
 		}
 	}
 
 	int powrot_x4;
 	int powrot_y4;
 	x=0;
-	int yp3=rand()%17+1;
+	int yp3=15+(rand()%2);
 	srand(time(NULL));
 	y=yp2;
 	int postaw3;
-	map[12][x][y].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
+	map[12][x][y].SetImage(ImageRes::EMPTY).SetSolid(false); // miejsce przejscia wyglada wg kafelka o numerze np 0
 	map[12][x][y].setWarp(Position(powrot_x3,powrot_y3,8));
-	map[12][x][y-1].setImage(ImageRes::ROAD);
-	map[12][x][y+1].setImage(ImageRes::ROAD);
+	map[12][x][y-1].SetImage(ImageRes::STONE).SetSolid(false);
+	map[12][x][y+1].SetImage(ImageRes::STONE).SetSolid(false);
 
 	map[12][x][y].setWalkSpeed(30);
 	map[12][x][y-1].setWalkSpeed(30);
@@ -849,38 +842,21 @@ void GameBuilder::generateNewGame()
 	troll2.setSpeed(4); // doœæ wolny
 	troll2.setAI(Creature::AI::OFFENSIVE_FAST); //tam gdzie gracz
 	troll2.setType(Creature::Type::HOSTILE); // wrogi
-	//troll2.addLoot( Item(L"Czapka", L"Czapka") );
 	game.creatures.push_back( troll2 );
 	for(int x=1;x<100;x++)
 	{		
-		y+=(rand()%3-1);
-		if(y<1)
-		{
-			x--;
-			continue;
-		}
-		else if(y>18)
-		{
-			x--;
-			continue;
-		}
-		else
-		{
-			map[12][x][y-1].setImage(ImageRes::ROAD);
-			map[12][x][y].setImage(ImageRes::ROAD);
-			map[12][x][y+1].setImage(ImageRes::ROAD);
+		int y=15+(rand()%2);
+		
+			map[12][x][y].SetImage(ImageRes::STONE).SetWalkSpeed(30).SetSolid(false);
+			map[12][x][y-1].SetImage(ImageRes::STONE).SetWalkSpeed(30).SetSolid(false);
+			map[12][x][y+1].SetImage(ImageRes::STONE).SetWalkSpeed(30).SetSolid(false);
 
-			map[12][x][y].setWalkSpeed(30);
-			map[12][x][y-1].setWalkSpeed(30);
-			map[12][x][y+1].setWalkSpeed(30);
-		}
 		if(x%30==0)
 		{
 			Creature losowypotwor6 = Creature(Position(x,y, 12), ImageRes::MONSTER);
 			losowypotwor6.setSpeed(2); // wolny
 			losowypotwor6.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo b³¹dzi
 			losowypotwor6.setType(Creature::Type::HOSTILE); // wrogi
-			//losowypotwor6.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
 			game.creatures.push_back( losowypotwor6 );
 		}
 		if(x==50)
@@ -902,27 +878,20 @@ void GameBuilder::generateNewGame()
 			}	
 	}
 	
-	//chata
-	i=rand()%95+1;
-	j=rand()%15+1;
-	for(int x=i;x<=i+3;x++)
+	//chata	
+	house_x = rand()%25+1;
+	house_y = rand()%10+2;
+	std::cout << house_x << "  " << house_y << std::endl;
+	buildHouse(map,12,house_x,house_y,2,13);
+	for(int i = 0 ; i < map[12].size() ; i++)
 	{
-		for(int y=j; y<=j+2;y++)
+		if(i == house_x)
 		{
-			if(x==i && y==j+1)
-			{
-				map[12][x][y].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
-				map[12][x][y].setWarp(Position(0,1,13));
-			}
-			else
-				{
-					map[12][x][y].setImage(ImageRes::BRICK);
-					map[12][x][y].setSolid(true);
-				}
+			for(int j = 14 ; j > house_y+1 ; j--)
+				map[12][i][j].SetImage(ImageRes::STONE).SetWalkSpeed(30).SetSolid(false);
+			map[12][i][house_y+1].SetImage(ImageRes::STONE).SetSolid(false);
 		}
-
 	}
-	
 	//wnetrze chaty
 	map.insert(map.begin() + 13, emptyTerrainLevel(10, 8, 13));
 	for(int x=0;x<map[13].size();x++)
@@ -960,30 +929,50 @@ void GameBuilder::generateNewGame()
 			map[13][9][y].setSolid(true);
 		}
 
-	map[13][0][1].setWarp(Position(i,j+1,12)); //miejsce przejscia z jednego poziomu np. 1 1 1 [z x y] do 13 12 0 [x y z]
+	map[13][0][1].setWarp(Position(house_x,house_y,12)); //miejsce przejscia z jednego poziomu np. 1 1 1 [z x y] do 13 12 0 [x y z]
 	map[13][0][1].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
 	
 	//LEVEL 5
 	//wioska
-	map.insert(map.begin() + 14, emptyTerrainLevel(100, 20, 14));
+	map.insert(map.begin() + 14, emptyTerrainLevel(100, 30, 14));
+
+	srand(time(NULL));
+	kafelek =0;
 	for(int x=0;x<map[14].size();x++)
 	{
 		for(int y=0;y<map[14][x].size();y++)
 		{
-			map[14][x][y].setImage(ImageRes::GRASS);
+			kafelek =  rand()%150+1;;
+			if(kafelek ==1)
+				map[14][x][y].SetImage(ImageRes::DEAD);
+			else if(kafelek == 2)
+				map[14][x][y].SetImage(ImageRes::TOMB).setSolid(true);
+			else if (kafelek %10 == 0)
+				map[14][x][y].SetImage(ImageRes::TREE1).setSolid(true);
+			else if (kafelek == 5)
+				map[14][x][y].SetImage(ImageRes::WOOD1).setSolid(true);
+			else if (kafelek == 6)
+				map[14][x][y].SetImage(ImageRes::ROOT);
+			else if (kafelek == 7)
+				map[14][x][y].SetImage(ImageRes::STONE1).setSolid(true);
+			else if (kafelek %14 == 0)
+				map[14][x][y].SetImage(ImageRes::FLOWER1);
+			else if (kafelek %15 == 0)
+				map[14][x][y].SetImage(ImageRes::FLOWER2);
+			else
+				map[14][x][y].SetImage(ImageRes::GRASS1);			
 		}
 	}
-
 	int powrot_x5;
 	int powrot_y5;
 	x=0;
 	srand(time(NULL));
 	y=yp3;
 	//game.player = Player( Position(0, y) );
-	map[14][x][y].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
+	map[14][x][y].SetImage(ImageRes::EMPTY).SetSolid(false); // miejsce przejscia wyglada wg kafelka o numerze np 0
 	map[14][x][y].setWarp(Position(powrot_x4,powrot_y4,12));
-	map[14][x][y-1].setImage(ImageRes::ROAD);
-	map[14][x][y+1].setImage(ImageRes::ROAD);
+	map[14][x][y-1].SetImage(ImageRes::ROAD).SetSolid(false);
+	map[14][x][y+1].SetImage(ImageRes::ROAD).SetSolid(false);
 
 	map[14][x][y].setWalkSpeed(30);
 	map[14][x][y-1].setWalkSpeed(30);
@@ -992,60 +981,30 @@ void GameBuilder::generateNewGame()
 	for(int x=1;x<80;x++)
 	{
 
-		y+=(rand()%3-1);
-		if(y<1)
-		{
-			x--;
-			continue;
-		}
-		if(y>18)
-		{
-			x--;
-			continue;
-		}
-		else
-		{
-			map[14][x][y-1].setImage(ImageRes::ROAD);
-			map[14][x][y].setImage(ImageRes::ROAD);
-			map[14][x][y+1].setImage(ImageRes::ROAD);
+		int y=15+(rand()%2);
 		
-			map[14][x][y].setWalkSpeed(30);
-			map[14][x][y-1].setWalkSpeed(30);
-			map[14][x][y+1].setWalkSpeed(30);
-		}
+			map[14][x][y].SetImage(ImageRes::ROAD).SetWalkSpeed(30).SetSolid(false);
+			map[14][x][y-1].SetImage(ImageRes::ROAD).SetWalkSpeed(30).SetSolid(false);
+			map[14][x][y+1].SetImage(ImageRes::ROAD).SetWalkSpeed(30).SetSolid(false);
+			
 		if(x==79)
 			{
 				x++;
 
-				for(int y=6; y<11;y++)
+				for(int y=14; y<17;y++)
 				{
 					if(x==80)
 					{
-						map[14][x][y].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
+						map[14][x][y].SetImage(ImageRes::EMPTY).SetSolid(false); // miejsce przejscia wyglada wg kafelka o numerze np 0
 						map[14][x][y].setWarp(Position(0,yp3,15));
 						powrot_x5=x;
 						powrot_y5=y;
 					}
 				}
 
-				for(int y= 4; y<15; y++)
-				//for(int x=80; x<100; x++)
-				{
+				for(int y= 11; y<22; y++)
 					for(int x=81; x<100; x++)
-					//for(int y= 4; y<15; y++)
-					{
-						/*if(x==80)
-						{
-							map[14][x][y].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
-							map[14][x][y].setWarp(Position(0,yp3,15));
-							powrot_x5=x;
-							powrot_y5=y;
-						}*/
-
-						map[14][x][y].setImage(ImageRes::GOLD);
-						map[14][x][y].setSolid(true);
-					}
-				}
+						map[14][x][y].SetImage(ImageRes::GOLD).SetSolid(true);
 
 			}
 	}
@@ -1062,11 +1021,8 @@ void GameBuilder::generateNewGame()
 
 	x=0;
 	y=yp3;
-	map[15][x][y].setImage(ImageRes::EMPTY);
+	map[15][x][y].SetImage(ImageRes::EMPTY).SetSolid(false);
 	map[15][x][y].setWarp(Position(powrot_x5, powrot_y5, 14));
-	map[15][x][y].setImage(ImageRes::EMPTY);
-	//map[15][x][y-1].setImage(ImageRes::ROAD);
-	//map[15][x][y+1].setImage(ImageRes::ROAD);
 
 	for(int y=0; y<8;y++)
 	{
@@ -1087,26 +1043,19 @@ void GameBuilder::generateNewGame()
 	}
 	//////////////////////////////////////////////////////////////////////////////////
 	//chata cinkciarza
-	int ii=rand()%23+50;
-	int jj=rand()%15+1;
-	for(int x=ii;x<=ii+3;x++)
+	house_x = rand()%23+50;
+	house_y = rand()%10+2;
+	std::cout << house_x << "  " << house_y << std::endl;
+	buildHouse(map,14,house_x,house_y,1,16);
+	for(int i = 0 ; i < map[14].size() ; i++)
 	{
-		for(int y=jj; y<=jj+2;y++)
+		if(i == house_x)
 		{
-			if(x==ii && y==jj+1)
-			{
-				map[14][x][y].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
-				map[14][x][y].setWarp(Position(0,1,16));
-			}
-			else
-				{
-					map[14][x][y].setImage(ImageRes::BRICK);
-					map[14][x][y].setSolid(true);
-				}
+			for(int j = 14 ; j > house_y+1 ; j--)
+				map[14][i][j].SetImage(ImageRes::ROAD).SetWalkSpeed(30).SetSolid(false);
+			map[14][i][house_y+1].SetImage(ImageRes::ROADHOUSE).SetSolid(false);
 		}
-
 	}
-	
 	//wnetrze chaty cinkciarza
 	map.insert(map.begin() + 16, emptyTerrainLevel(10, 8, 16));
 	for(int x=0;x<map[16].size();x++)
@@ -1141,31 +1090,27 @@ void GameBuilder::generateNewGame()
 			map[16][9][y].setSolid(true);
 		}
 		
-	map[16][0][1].setWarp(Position(ii,jj+1,14)); //miejsce przejscia z jednego poziomu np. 1 1 1 [z x y] do 13 12 0 [x y z]
+	map[16][0][1].setWarp(Position(house_x,house_y,14)); //miejsce przejscia z jednego poziomu np. 1 1 1 [z x y] do 13 12 0 [x y z]
 	map[16][0][1].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
 	
 	
 	//chata rzemieslnika
-	int rr=rand()%20+1;
-	int zz=rand()%15+1;
-	for(int x=rr;x<=rr+3;x++)
-	{
-		for(int y=zz; y<=zz+2;y++)
-		{
-			if(x==rr+1 && y==zz+2)
-			{
-				map[14][x][y].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
-				map[14][x][y].setWarp(Position(0,1,17));
-			}
-			else
-				{
-					map[14][x][y].setImage(ImageRes::WOOD);
-					map[14][x][y].setSolid(true);
-				}
-		}
+	house_x = rand()%20+1;
+	house_y = rand()%11+18;
+	std::cout << house_x << "  " << house_y << std::endl;
+	buildHouse(map,14,house_x,house_y,2,17);
 
+	for(int i = 0 ; i < map[14].size() ; i++)
+	{
+		if(i == house_x-2)
+		{
+			for(int j = 16 ; j < house_y+1 ; j++)
+				map[14][i][j].SetImage(ImageRes::ROAD).SetWalkSpeed(30).SetSolid(false);
+			map[14][i][house_y+1].SetImage(ImageRes::ROADHOUSE).SetSolid(false);
+			map[14][i+1][house_y+1].SetImage(ImageRes::ROADHOUSE).SetSolid(false);
+			map[14][i+2][house_y+1].SetImage(ImageRes::ROADHOUSE).SetSolid(false);
+		}
 	}
-	
 	//wnetrze chaty rzemieslnika
 	map.insert(map.begin() + 17, emptyTerrainLevel(10, 8, 17));
 	for(int x=0;x<map[17].size();x++)
@@ -1194,29 +1139,26 @@ void GameBuilder::generateNewGame()
 			map[17][7][y].setSolid(true);
 		}
 		
-		map[17][0][1].setWarp(Position(rr+1,zz+2,14)); //miejsce przejscia z jednego poziomu np. 1 1 1 [z x y] do 13 12 0 [x y z]
+		map[17][0][1].setWarp(Position(house_x,house_y,14)); //miejsce przejscia z jednego poziomu np. 1 1 1 [z x y] do 13 12 0 [x y z]
 		map[17][0][1].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
 	
 	//chata mêdrca
-	int mm=rand()%22+23;
-	int dd=rand()%15+1;
-	for(int x=mm;x<=mm+3;x++)
-	{
-		for(int y=dd; y<=dd+2;y++)
-		{
-			if(x==mm+3 && y==dd)
-			{
-				map[14][x][y].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
-				map[14][x][y].setWarp(Position(0,0,18));
-			}
-			else
-				{
-					map[14][x][y].setImage(ImageRes::WOOD);
-					map[14][x][y].setSolid(true);
-				}
-		}
+	house_x = rand()%22+23;
+	house_y = rand()%5+24;
+	std::cout << house_x << "  " << house_y << std::endl;
+	buildHouse(map,14,house_x,house_y,2,18);
 
-	}	
+	for(int i = 0 ; i < map[0].size() ; i++)
+	{
+		if(i == house_x-2)
+		{
+			for(int j = 16 ; j < house_y+1 ; j++)
+				map[14][i][j].SetImage(ImageRes::ROAD).SetWalkSpeed(30).SetSolid(false);
+			map[14][i][house_y+1].SetImage(ImageRes::ROADHOUSE).SetSolid(false);
+			map[14][i+1][house_y+1].SetImage(ImageRes::ROADHOUSE).SetSolid(false);
+			map[14][i+2][house_y+1].SetImage(ImageRes::ROADHOUSE).SetSolid(false);
+		}
+	}
 	//wnetrze chaty medrca
 	map.insert(map.begin() + 18, emptyTerrainLevel(10, 8, 18));
 	for(int x=0;x<map[18].size();x++)
@@ -1241,43 +1183,14 @@ void GameBuilder::generateNewGame()
 		map[18][1][y].setSolid(true);
 	}
 
-	map[18][0][0].setWarp(Position(mm+3,dd,14));
+	map[18][0][0].setWarp(Position(house_x,house_y,14));
 	map[18][0][0].setImage(ImageRes::EMPTY);
 	
-
-		/*//budynek finalowy - jest juz wyzej
-		if(x==79)
-			{
-				for(int x=80; x<100; x++)
-				{
-					for(int y= 4; y<15; y++)
-					{
-						if(x==80)
-						{
-							map[14][x][y].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
-							map[14][x][y].setWarp(Position(0,yp3,15));
-							powrot_x5=x;
-							powrot_y5=y;
-						}
-
-						map[14][x][y].setImage(ImageRes::STAR);
-					}
-				}
-			}*/
 	
-	
-	//game.player = Player( Position(0, 2) );
 	/////////////////////////////////////////////////////////////////////////////////
 	//ENEMY
 	/////////////////////////////////////////////////////////////////////////////////
 	//poziom 1 - losowe potwory
-	/*Creature losowypotwor3 = Creature(Position(45,13, 0), ImageRes::MONSTER);
-	losowypotwor3.setSpeed(6); // doœæ wolny
-	losowypotwor3.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo b³¹dzi
-	losowypotwor3.setType(Creature::Type::HOSTILE); // wrogi
-	//losowypotwor3.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
-	game.creatures.push_back( losowypotwor3 );
-	/********************************************************************************/
 	srand(time(NULL));
 	for(int i=0; i<3;i++)
 	{
@@ -1285,7 +1198,6 @@ void GameBuilder::generateNewGame()
 	losowypotwor.setSpeed(1+i); // doœæ wolny
 	losowypotwor.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo b³¹dzi
 	losowypotwor.setType(Creature::Type::HOSTILE); // wrogi
-	//losowypotwor.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
 	losowypotwor.addLootMoney(1);
 	game.creatures.push_back( losowypotwor );
 	}
@@ -1297,44 +1209,12 @@ void GameBuilder::generateNewGame()
 	zbir.setSpeed(10); // wolny
 	zbir.setAI(Creature::AI::OFFENSIVE_FAST); // losowo b³¹dzi
 	zbir.setType(Creature::Type::HOSTILE); // wrogi
-	//zbir.addLoot( Item(L"Czapka", L"Czapka") );
 	zbir.addLootMoney(1);
 	game.creatures.push_back( zbir );
 	}
-	/*Creature zbir2 = Creature(Position(0,10, 6), ImageRes::MONSTER);
-	zbir2.setSpeed(4); // wolny
-	zbir2.setAI(Creature::AI::OFFENSIVE_FAST); // losowo b³¹dzi
-	zbir2.setType(Creature::Type::HOSTILE); // wrogi
-	zbir2.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
-	zbir2.addLootMoney(1);
-	game.creatures.push_back( zbir2 );
-
-	Creature zbir3 = Creature(Position(0,6, 6), ImageRes::MONSTER);
-	zbir3.setSpeed(4); // wolny
-	zbir3.setAI(Creature::AI::OFFENSIVE_FAST); // losowo b³¹dzi
-	zbir3.setType(Creature::Type::HOSTILE); // wrogi
-	zbir3.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
-	zbir3.addLootMoney(1);
-	game.creatures.push_back( zbir3 );
-
-	Creature zbir4 = Creature(Position(2,9, 6), ImageRes::MONSTER);
-	zbir4.setSpeed(4); // wolny
-	zbir4.setAI(Creature::AI::OFFENSIVE_FAST); // losowo b³¹dzi
-	zbir4.setType(Creature::Type::HOSTILE); // wrogi
-	//zbir.addLoot( Item(L"Czapka", L"Czapka") );
-	zbir4.addLootMoney(1);
-	game.creatures.push_back( zbir4 );*/
-
 
 	////////////////////////////////////////////////////////////////////////////////////
 	//poziom 3 - losowe potwory
-	/*Creature losowypotwor4 = Creature(Position(35,23, 3), ImageRes::MONSTER);
-	losowypotwor4.setSpeed(6); // doœæ wolny
-	losowypotwor4.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo
-	losowypotwor4.setType(Creature::Type::HOSTILE); // wrogi
-	losowypotwor4.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
-	game.creatures.push_back( losowypotwor4 );
-	/********************************************************************************/
 	for(int i=1;i<8;i++)
 	{
 	Creature losowypotwor5 = Creature(Position(rand()%95+1,rand()%25, 8), ImageRes::MONSTER);
@@ -1347,13 +1227,6 @@ void GameBuilder::generateNewGame()
 	}
 	//////////////////////////////////////////////////////////////////////////////////
 	//poziom 4 - losowe potwory
-	/*Creature losowypotwor7 = Creature(Position(76,20, 12), ImageRes::MONSTER);
-	losowypotwor7.setSpeed(4); // wolny
-	losowypotwor7.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo b³¹dzi
-	losowypotwor7.setType(Creature::Type::HOSTILE); // wrogi
-	//losowypotwor7.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
-	game.creatures.push_back( losowypotwor7 );
-	/********************************************************************************/
 	for(int i=1;i<10;i++)
 	{
 	Creature losowypotwor8 = Creature(Position(rand()%85+1,rand()%25, 12), ImageRes::MONSTER);
@@ -1378,26 +1251,23 @@ void GameBuilder::generateNewGame()
 	}
 	/********************************************************************************/
 	//poziom 5 straznicy przed domem
-	Creature warta = Creature(Position(79,5, 14), ImageRes::MONSTER);
+	Creature warta = Creature(Position(79,13, 14), ImageRes::MONSTER);
 	warta.setSpeed(2); // doœæ wolny
-	warta.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo walczy
+	warta.setAI(Creature::AI::IDLE); // losowo walczy
 	warta.setType(Creature::Type::HOSTILE); // wrogi
-	//straznik.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
 	game.creatures.push_back( warta );
-	for(int i=6;i<=10;i++)
+	for(int i=14;i<=17;i++)
 	{
 	Creature warta2 = Creature(Position(78,i, 14), ImageRes::MONSTER);
 	warta2.setSpeed(3); // doœæ wolny
 	warta2.setAI(Creature::AI::IDLE); // losowo b³¹dzi
 	warta2.setType(Creature::Type::HOSTILE); // wrogi
-	//straznik2.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
 	game.creatures.push_back( warta2 );
 	}
-	Creature warta3 = Creature(Position(79,11, 14), ImageRes::MONSTER);
+	Creature warta3 = Creature(Position(79,18, 14), ImageRes::MONSTER);
 	warta3.setSpeed(3); // doœæ wolny
 	warta3.setAI(Creature::AI::IDLE); // losowo b³¹dzi
 	warta3.setType(Creature::Type::HOSTILE); // wrogi
-	//straznik3.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
 	game.creatures.push_back( warta3 );
 	/********************************************************************************/
 	//straznicy w korytarzu
@@ -1407,7 +1277,6 @@ void GameBuilder::generateNewGame()
 	warta4.setSpeed(3); // doœæ wolny
 	warta4.setAI(Creature::AI::OFFENSIVE_FAST); // losowo b³¹dzi
 	warta4.setType(Creature::Type::HOSTILE); // wrogi
-	//straznik4.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
 	game.creatures.push_back( warta4 );
 	}
 	////////////////////////////////////////////////////////////////////////////////////
@@ -2075,41 +1944,6 @@ void GameBuilder::generateNewGame()
 
 	cinkciarz2.setType(Creature::Type::DIALOG);
 	game.creatures.push_back( cinkciarz2 );
-
-	/************************************************************************************************************/
-	////level 5 - rozmowa z medrcem (powrot)
-	/*Creature medrzec4 = Creature(Position(4,4, 18), ImageRes::DEALER);
-	
-	Dialog dialog13;
-
-	dialog13 = Dialog();
-
-	dialog13.addNode(Dialog::START_DIALOG, L"Widzê, ¿e o czymœ sobie przypomnia³eœ!").
-		addOption(L"Potrzebujê jakiejœ <<magicznej sztuczki>>.", 26).
-		addOption(L"Wybieram sie do szlachcica. Du¿o s³ysza³em i myœlê, ¿e przyda³aby mi siê jakaœ <<magiczna sztuczka>>. Moglibyœcie mi jakoœ pomóc?", 261);
-		
-	dialog13.addNode(26, L"Niewiele mi to mówi. Musisz siê bardziej postaraæ.").
-		addOption(L"Idê do szlachcica.", 261).
-		addOption(L"Nie powinno Was to interesowaæ.",  262);
-
-	dialog13.addNode(262, L"W takim razie nie mogê pomóc.").
-		addOption(L". . .", Dialog::END_DIALOG); //KONIEC
-
-	dialog13.addNode(261, L"Ach! Do szlachcica. Pewnie zainteresowa³ Ciê Rogalik.").
-		addOption(L"Pewnie jak wielu innych.", 2611).
-		addOption(L"To ju¿ nie Wasz sprawa.", 2612);
-
-
-	dialog13.addNode(2611, L"Niech pomyœlê... proponujê kolorowy piasek. O jego w³aœciwoœciach nie mogê mówiæ, ka¿dy na swój sposób wie kiedy i jak go u¿yæ.").
-		addOption(L"Mam nadziejê, ¿e i ja siê dowiem.", Dialog::END_DIALOG); //KONIEC
-
-	dialog13.addNode(2612, L"Nie mogê pomóc jeœli nie wiem o co chodzi.").
-		addOption(L"Hmm... no dobrze. Zainteresowa³ mnie i to bardzo. Pomo¿ecie?", 2611);
-
-	medrzec4.addDialog(dialog13);
-
-	medrzec4.setType(Creature::Type::DIALOG);
-	game.creatures.push_back( medrzec4 );*/
 }
 
 //void GameBuilder::loadFromFile() { }
