@@ -74,7 +74,8 @@ public:
 		RANDOM_WALK, // losowe b³¹dzenie - ciê¿ko z³apaæ
 		OFFENSIVE_SLOW, //pod¹¿a tam, gdzie przed chwil¹ by³ gracz
 		OFFENSIVE_FAST, //pod¹¿a tam, gdzie teraz jest gracz
-		FIGHT_AND_FLEE // po³¹czenie OFFENSIVE_FAST z RANDOM_WALK - atakuje turami
+		FIGHT_AND_FLEE, // po³¹czenie OFFENSIVE_FAST z RANDOM_WALK - atakuje turami
+		FIGHT //atakuje gdy jest bardzo blisko
 	};
 	/**
 	 * Wykonuje krok symulacji
@@ -123,13 +124,13 @@ protected:
 	 * Ustawia wspó³czynnik ataku postaci
 	 * Wartoœæ domyœlna to 0.01
 	 */
-	void setAttack(int attack);
+	void setAttack(float attack);
 	
 	/**
 	 * Ustawia wspó³czynnik obrony postaci
 	 * Wartoœæ domyœlna to 0.1
 	 */
-	void setDefence(int defence);
+	void setDefence(float defence);
 
 	/**
 	 * Ustawia wspó³czynnik czêstoœci ataków postaci

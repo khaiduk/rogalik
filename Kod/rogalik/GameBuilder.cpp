@@ -137,8 +137,10 @@ void GameBuilder::generateNewGame()
 		//srand(time(NULL));
 		if(x%30==0)
 		{
-			Creature losowypotwor2 = Creature(Position(x,y, 0), ImageRes::MONSTER);
+			Creature losowypotwor2 = Creature(Position(x,y, 0), ImageRes::CHAR0);
 			losowypotwor2.setSpeed(2); // wolny
+			losowypotwor2.setAttack(0.009);
+			losowypotwor2.setDefence(0.05);
 			losowypotwor2.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo b³¹dzi
 			losowypotwor2.setType(Creature::Type::HOSTILE); // wrogi
 			losowypotwor2.addLoot( Item(L"Badyl", L"Przepotê¿ny kostur? Totalnie badyl!").setProperty(Item::WEAPON, 0.05) );
@@ -148,8 +150,10 @@ void GameBuilder::generateNewGame()
 		//cwaniaczek na koncu wioski 1
 		if(x==95)
 		{
-			Creature cwaniaczek = Creature(Position(x,y, 0), ImageRes::MONSTER);
+			Creature cwaniaczek = Creature(Position(x,y, 0), ImageRes::CHAR3);
 			cwaniaczek.setSpeed(4); // doœæ wolny
+			cwaniaczek.setAttack(0.01);
+			cwaniaczek.setDefence(0.08);
 			cwaniaczek.setAI(Creature::AI::FIGHT_AND_FLEE); // tam gdzie gracz
 			cwaniaczek.setType(Creature::Type::HOSTILE); // wrogi
 			cwaniaczek.addLoot( Item(L"Trunek", L"Butelka wina.") );
@@ -206,7 +210,7 @@ void GameBuilder::generateNewGame()
 	map[1][0][2].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
 	//chata rzemieslnika
 	map.insert(map.begin() + 2, emptyTerrainLevel(10, 8, 2));
-	house_x = rand()%40+5;
+	house_x = rand()%30+20;
 	house_y = rand()%11+18;
 	std::cout << house_x << "  " << house_y << std::endl;
 	buildHouse(map,0,house_x,house_y,2,2);
@@ -229,7 +233,7 @@ void GameBuilder::generateNewGame()
 	{
 		for(int y=0;y<map[2][x].size();y++)
 		{
-			map[2][x][y].setImage(ImageRes::WALL);
+			map[2][x][y].setImage(ImageRes::FLOOR2);
 		}
 	}
 
@@ -277,7 +281,7 @@ void GameBuilder::generateNewGame()
 	{
 		for(int y=0;y<map[3][x].size();y++)
 		{
-			map[3][x][y].setImage(ImageRes::DARK_WALL);
+			map[3][x][y].setImage(ImageRes::FLOOR3);
 		}
 	}
 
@@ -383,8 +387,10 @@ void GameBuilder::generateNewGame()
 		}
 		if(x%30==0)
 		{
-			Creature las = Creature(Position(x,y, 5), ImageRes::MONSTER);
+			Creature las = Creature(Position(x,y, 5), ImageRes::CHAR0);
 			las.setSpeed(2); // wolny
+			las.setAttack(0.007);
+			las.setDefence(0.07);
 			las.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo b³¹dzi
 			las.setType(Creature::Type::HOSTILE); // wrogi
 			las.addLootMoney(1);
@@ -449,8 +455,10 @@ void GameBuilder::generateNewGame()
 		}
 	}
 	//troll
-	Creature troll = Creature(Position(1,10+(rand()%3), 5), ImageRes::MONSTER);
+	Creature troll = Creature(Position(4,10+(rand()%3), 5), ImageRes::CHAR3);
 	troll.setSpeed(5); // doœæ wolny
+	troll.setAttack(0.009);
+	troll.setDefence(0.09);
 	troll.setAI(Creature::AI::FIGHT_AND_FLEE); 
 	troll.setType(Creature::Type::HOSTILE); // wrogi
 	troll.addLoot( Item(L"Czapka", L"Czapka").setProperty(Item::ARMOR, 0.1) );
@@ -494,11 +502,13 @@ void GameBuilder::generateNewGame()
 		}
 		if(x%8==0)
 		{
-			Creature wlesie = Creature(Position(x,y, 6), ImageRes::MONSTER);
+			Creature wlesie = Creature(Position(x,y, 6), ImageRes::CHAR0);
 			wlesie.setSpeed(2); // wolny
+			wlesie.setAttack(0.1);
+			wlesie.setDefence(1);
 			wlesie.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo b³¹dzi
 			wlesie.setType(Creature::Type::HOSTILE); // wrogi
-			wlesie.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!").setProperty(Item::WEAPON, 0.05) );
+			wlesie.addLoot( Item(L"Badyl", L"Przepotê¿ny kostur? Totalnie badyl!").setProperty(Item::WEAPON, 0.05) );
 			wlesie.addLootMoney(1);
 			game.creatures.push_back( wlesie );
 		}
@@ -551,8 +561,10 @@ void GameBuilder::generateNewGame()
 		}
 		if(x==20)
 		{
-			Creature rozbojnik = Creature(Position(x,y, 7), ImageRes::MONSTER);
+			Creature rozbojnik = Creature(Position(x,y, 7), ImageRes::CHAR3);
 			rozbojnik.setSpeed(5); // wolny
+			rozbojnik.setAttack(0.01);
+			rozbojnik.setDefence(0.1);
 			rozbojnik.setAI(Creature::AI::OFFENSIVE_FAST); // tam gdzie gracz
 			rozbojnik.setType(Creature::Type::HOSTILE); // wrogi
 			rozbojnik.addLoot( Item(L"Miecz", L"Miecz").setProperty(Item::WEAPON, 0.5) );
@@ -561,11 +573,13 @@ void GameBuilder::generateNewGame()
 		}
 		if(x%10==0)
 		{
-			Creature wlesie2 = Creature(Position(x,y, 7), ImageRes::MONSTER);
+			Creature wlesie2 = Creature(Position(x,y, 7), ImageRes::CHAR0);
 			wlesie2.setSpeed(2); // wolny
+			wlesie2.setAttack(0.009);
+			wlesie2.setDefence(0.08);
 			wlesie2.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo b³¹dzi
 			wlesie2.setType(Creature::Type::HOSTILE); // wrogi
-			wlesie2.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!").setProperty(Item::WEAPON, 0.05) );
+			wlesie2.addLoot( Item(L"Badyl", L"Przepotê¿ny kostur? Totalnie badyl!").setProperty(Item::WEAPON, 0.05) );
 			wlesie2.addLootMoney(1);
 			game.creatures.push_back( wlesie2 );
 		}
@@ -642,8 +656,10 @@ void GameBuilder::generateNewGame()
 
 		if(x%19==0)
 		{
-			Creature losowypotwor6 = Creature(Position(x,y, 8), ImageRes::MONSTER);
+			Creature losowypotwor6 = Creature(Position(x,y, 8), ImageRes::CHAR0);
 			losowypotwor6.setSpeed(2); // wolny
+			losowypotwor6.setAttack(0.02);
+			losowypotwor6.setDefence(0.1);
 			losowypotwor6.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo b³¹dzi
 			losowypotwor6.setType(Creature::Type::HOSTILE); // wrogi
 			game.creatures.push_back( losowypotwor6 );
@@ -680,7 +696,7 @@ void GameBuilder::generateNewGame()
 	{
 		for(int y=0;y<map[9][x].size();y++)
 		{
-			map[9][x][y].setImage(ImageRes::WALL);
+			map[9][x][y].setImage(ImageRes::FLOOR2);
 		}
 	}
 
@@ -838,8 +854,10 @@ void GameBuilder::generateNewGame()
 	map[12][x][y+1].setWalkSpeed(30);
 	
 	//troll
-	Creature troll2 = Creature(Position(1,y, 12), ImageRes::MONSTER);
+	Creature troll2 = Creature(Position(5,y, 12), ImageRes::CHAR3);
 	troll2.setSpeed(4); // doœæ wolny
+	troll2.setAttack(0.03);
+	troll2.setDefence(0.1);
 	troll2.setAI(Creature::AI::OFFENSIVE_FAST); //tam gdzie gracz
 	troll2.setType(Creature::Type::HOSTILE); // wrogi
 	game.creatures.push_back( troll2 );
@@ -853,16 +871,20 @@ void GameBuilder::generateNewGame()
 
 		if(x%30==0)
 		{
-			Creature losowypotwor6 = Creature(Position(x,y, 12), ImageRes::MONSTER);
+			Creature losowypotwor6 = Creature(Position(x,y, 12), ImageRes::CHAR0);
 			losowypotwor6.setSpeed(2); // wolny
+			losowypotwor6.setAttack(0.03);
+			losowypotwor6.setDefence(0.2);
 			losowypotwor6.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo b³¹dzi
 			losowypotwor6.setType(Creature::Type::HOSTILE); // wrogi
 			game.creatures.push_back( losowypotwor6 );
 		}
 		if(x==50)
 		{
-			Creature goral = Creature(Position(x, y, 12), ImageRes::MONSTER);
+			Creature goral = Creature(Position(x, y, 12), ImageRes::CHAR3);
 			goral.setSpeed(3); // doœæ wolny
+			goral.setAttack(0.05);
+			goral.setDefence(0.2);
 			goral.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo
 			goral.setType(Creature::Type::HOSTILE); // wrogi
 			goral.addLoot( Item(L"Ciupaga", L"Ciupaga").setProperty(Item::WEAPON, 0.3) );
@@ -1015,7 +1037,7 @@ void GameBuilder::generateNewGame()
 	{
 		for(int y=0;y<map[15][x].size();y++)
 		{
-			map[15][x][y].setImage(ImageRes::DARK_WALL);
+			map[15][x][y].setImage(ImageRes::FLOOR4);
 		}
 	}
 
@@ -1041,6 +1063,12 @@ void GameBuilder::generateNewGame()
 			map[15][x][y].setSolid(true);
 		}
 	}
+	
+	for(int x=1; x<25; x++)
+	{
+		map[15][x][7].SetImage(ImageRes::WINDOW).SetSolid(true);
+		map[15][x][12].SetImage(ImageRes::WINDOW).SetSolid(true);
+	}
 	//////////////////////////////////////////////////////////////////////////////////
 	//chata cinkciarza
 	house_x = rand()%23+50;
@@ -1065,7 +1093,16 @@ void GameBuilder::generateNewGame()
 			map[16][x][y].setImage(ImageRes::WOOD);
 		}
 	}
-	
+		for(int y=3;y<6;y++)
+	{
+		map[16][6][y].setImage(ImageRes::DESK);
+		map[16][6][y].setSolid(true);
+	}
+	buildFurniture(map,16,3,1);
+	buildFurniture(map,16,5,1);
+	map[16][9][7].SetImage(ImageRes::BED);
+	map[16][0][7].setImage(ImageRes::BARREL1);
+	/*
 	for(int y=3;y<6;y++)
 	{
 		map[16][6][y].setImage(ImageRes::DESK);
@@ -1088,7 +1125,7 @@ void GameBuilder::generateNewGame()
 		{
 			map[16][9][y].setImage(ImageRes::DESK);
 			map[16][9][y].setSolid(true);
-		}
+		}*/
 		
 	map[16][0][1].setWarp(Position(house_x,house_y,14)); //miejsce przejscia z jednego poziomu np. 1 1 1 [z x y] do 13 12 0 [x y z]
 	map[16][0][1].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
@@ -1117,7 +1154,7 @@ void GameBuilder::generateNewGame()
 	{
 		for(int y=0;y<map[17][x].size();y++)
 		{
-			map[17][x][y].setImage(ImageRes::WALL);
+			map[17][x][y].setImage(ImageRes::FLOOR2);
 		}
 	}
 	
@@ -1194,8 +1231,10 @@ void GameBuilder::generateNewGame()
 	srand(time(NULL));
 	for(int i=0; i<3;i++)
 	{
-	Creature losowypotwor = Creature(Position(rand()%85+1,rand()%25+1, 0), ImageRes::MONSTER);
+	Creature losowypotwor = Creature(Position(rand()%85+1,rand()%25+1, 0), ImageRes::CHAR0);
 	losowypotwor.setSpeed(1+i); // doœæ wolny
+	losowypotwor.setAttack(0.005);
+	losowypotwor.setDefence(0.05);
 	losowypotwor.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo b³¹dzi
 	losowypotwor.setType(Creature::Type::HOSTILE); // wrogi
 	losowypotwor.addLootMoney(1);
@@ -1205,8 +1244,10 @@ void GameBuilder::generateNewGame()
 	//poziom 2 - losowe potwory
 	for(int i=0;i<20;i++)
 	{
-	Creature zbir = Creature(Position(rand()%10+1,rand()%8+4, 6), ImageRes::MONSTER);
+	Creature zbir = Creature(Position(rand()%10+1,rand()%8+4, 6), ImageRes::CHAR3);
 	zbir.setSpeed(10); // wolny
+	zbir.setAttack(0.007);
+	zbir.setDefence(0.07);
 	zbir.setAI(Creature::AI::OFFENSIVE_FAST); // losowo b³¹dzi
 	zbir.setType(Creature::Type::HOSTILE); // wrogi
 	zbir.addLootMoney(1);
@@ -1217,65 +1258,79 @@ void GameBuilder::generateNewGame()
 	//poziom 3 - losowe potwory
 	for(int i=1;i<8;i++)
 	{
-	Creature losowypotwor5 = Creature(Position(rand()%95+1,rand()%25, 8), ImageRes::MONSTER);
+	Creature losowypotwor5 = Creature(Position(rand()%95+1,rand()%25, 8), ImageRes::CHAR0);
 	losowypotwor5.setSpeed(3); // doœæ wolny
+	losowypotwor5.setAttack(0.02);
+	losowypotwor5.setDefence(0.1);
 	losowypotwor5.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo 
 	losowypotwor5.setType(Creature::Type::HOSTILE); // wrogi
 	if(i%3==0)
-	losowypotwor5.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
+	losowypotwor5.addLoot( Item(L"Badyl", L"Przepotê¿ny kostur? Totalnie badyl!") );
 	game.creatures.push_back( losowypotwor5 );
 	}
 	//////////////////////////////////////////////////////////////////////////////////
 	//poziom 4 - losowe potwory
 	for(int i=1;i<10;i++)
 	{
-	Creature losowypotwor8 = Creature(Position(rand()%85+1,rand()%25, 12), ImageRes::MONSTER);
+	Creature losowypotwor8 = Creature(Position(rand()%85+1,rand()%19, 12), ImageRes::CHAR0);
 	losowypotwor8.setSpeed(3); // doœæ wolny
+	losowypotwor8.setAttack(0.03);
+	losowypotwor8.setDefence(0.2);
 	losowypotwor8.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo b³¹dzi
 	losowypotwor8.setType(Creature::Type::HOSTILE); // wrogi
 	if(i%2==0)
-	losowypotwor8.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
+	losowypotwor8.addLoot( Item(L"Badyl", L"Przepotê¿ny kostur? Totalnie badyl!") );
 	game.creatures.push_back( losowypotwor8 );
 	}
 	////////////////////////////////////////////////////////////////////////////////////
 	//poziom 5
 	for(int i=1;i<10;i++)
 	{
-	Creature losowypotwor9 = Creature(Position(rand()%75+1,rand()%20, 14), ImageRes::MONSTER);
+	Creature losowypotwor9 = Creature(Position(rand()%75+1,rand()%20, 14), ImageRes::CHAR0);
 	losowypotwor9.setSpeed(3); // doœæ wolny
+	losowypotwor9.setAttack(0.04);
+	losowypotwor9.setDefence(0.3);
 	losowypotwor9.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo b³¹dzi
 	losowypotwor9.setType(Creature::Type::HOSTILE); // wrogi
 	if(i%2==0)
-	losowypotwor9.addLoot( Item(L"Badyl¹ê", L"Przepotê¿ny kostur? Totalnie badyl!") );
+	losowypotwor9.addLoot( Item(L"Badyl", L"Przepotê¿ny kostur? Totalnie badyl!") );
 	game.creatures.push_back( losowypotwor9 );
 	}
 	/********************************************************************************/
 	//poziom 5 straznicy przed domem
-	Creature warta = Creature(Position(79,13, 14), ImageRes::MONSTER);
+	Creature warta = Creature(Position(79,13, 14), ImageRes::CHAR0);
 	warta.setSpeed(2); // doœæ wolny
-	warta.setAI(Creature::AI::IDLE); // losowo walczy
+	warta.setAttack(0.05);
+	warta.setDefence(0.03);
+	warta.setAI(Creature::AI::FIGHT); // losowo walczy
 	warta.setType(Creature::Type::HOSTILE); // wrogi
 	game.creatures.push_back( warta );
 	for(int i=14;i<=17;i++)
 	{
-	Creature warta2 = Creature(Position(78,i, 14), ImageRes::MONSTER);
+	Creature warta2 = Creature(Position(78,i, 14), ImageRes::CHAR0);
 	warta2.setSpeed(3); // doœæ wolny
-	warta2.setAI(Creature::AI::IDLE); // losowo b³¹dzi
+	warta2.setAttack(0.05);
+	warta2.setDefence(0.03);
+	warta2.setAI(Creature::AI::FIGHT); // losowo b³¹dzi
 	warta2.setType(Creature::Type::HOSTILE); // wrogi
 	game.creatures.push_back( warta2 );
 	}
-	Creature warta3 = Creature(Position(79,18, 14), ImageRes::MONSTER);
+	Creature warta3 = Creature(Position(79,18, 14), ImageRes::CHAR0);
 	warta3.setSpeed(3); // doœæ wolny
-	warta3.setAI(Creature::AI::IDLE); // losowo b³¹dzi
+	warta3.setAttack(0.05);
+	warta3.setDefence(0.03);
+	warta3.setAI(Creature::AI::FIGHT); // losowo b³¹dzi
 	warta3.setType(Creature::Type::HOSTILE); // wrogi
 	game.creatures.push_back( warta3 );
 	/********************************************************************************/
 	//straznicy w korytarzu
 	for(int i=0;i<5;i++)
 	{
-	Creature warta4 = Creature(Position(rand()%19+1,rand()%4+8, 15), ImageRes::MONSTER);
+	Creature warta4 = Creature(Position(rand()%19+1,rand()%4+8, 15), ImageRes::CHAR0);
 	warta4.setSpeed(3); // doœæ wolny
-	warta4.setAI(Creature::AI::OFFENSIVE_FAST); // losowo b³¹dzi
+	warta4.setAttack(0.05);
+	warta4.setDefence(0.05);
+	warta4.setAI(Creature::AI::FIGHT); // losowo b³¹dzi
 	warta4.setType(Creature::Type::HOSTILE); // wrogi
 	game.creatures.push_back( warta4 );
 	}
@@ -1284,7 +1339,7 @@ void GameBuilder::generateNewGame()
 	//////////////////////////////////////////////////////////////////////////////////
 
 	//level 1 - rozmowa z cinkciarzem
-	Creature cinkciarz = Creature(Position(8,1, 1), ImageRes::DEALER);
+	Creature cinkciarz = Creature(Position(8,1, 1), ImageRes::CHAR2);
 	
 	Dialog dialog;
 
@@ -1314,7 +1369,7 @@ void GameBuilder::generateNewGame()
 		addOption(L"Wybaczcie, mówiê tylko co s³ysza³em...", 2011);
 	
 	dialog.addNode(2011, L"To Ÿle us³yszeliœcie! Wynoœ siê!").
-		addOption(L"[uciekaj]", Dialog::END_DIALOG);
+		addOption(L". . .", Dialog::END_DIALOG);
 
 	dialog.addNode(202, L"Och! Nie jest tak piêknie jak mog³oby siê wydawaæ... Ale z³ego s³owa nikt nie powie. Wszyscy siê boj¹").
 		addOption(L"Co siê dzieje?", 2021);
@@ -1335,7 +1390,7 @@ void GameBuilder::generateNewGame()
 
 	/************************************************************************************************************/
 	//level 1 - rozmowa z rzemieœlnikiem
-	Creature rzemieslnik = Creature(Position(6,5, 2), ImageRes::DEALER);
+	Creature rzemieslnik = Creature(Position(6,5, 2), ImageRes::CHAR1);
 	
 	Dialog dialog0;
 
@@ -1377,7 +1432,7 @@ void GameBuilder::generateNewGame()
 
 	/************************************************************************************************************/
 	//level 1 - rozmowa z kowalem
-	Creature kowal = Creature(Position(1,1, 0), ImageRes::DEALER);
+	Creature kowal = Creature(Position(4,4, 3), ImageRes::CHAR2);
 	Dialog dialog1;
 
 	dialog1 = Dialog();
@@ -1441,7 +1496,7 @@ void GameBuilder::generateNewGame()
 
 	/************************************************************************************************************/
 	////level 1 - rozmowa z medrcem
-	Creature medrzec = Creature(Position(5,2, 4), ImageRes::DEALER);
+	Creature medrzec = Creature(Position(5,2, 4), ImageRes::CHAR1);
 	
 	Dialog dialog2;
 
@@ -1475,7 +1530,7 @@ void GameBuilder::generateNewGame()
 
 	/************************************************************************************************************/
 	////level 2 - rozmowa z pijakiem
-	Creature pijak = Creature(Position(69,10+(rand()%3), 5), ImageRes::DEALER);
+	Creature pijak = Creature(Position(69,10+(rand()%3), 5), ImageRes::CHAR1);
 	
 	Dialog dialog3;
 
@@ -1520,7 +1575,7 @@ void GameBuilder::generateNewGame()
 
 	/************************************************************************************************************/
 	////level 3 - rozmowa z rzemieslnikiem
-	Creature rzemieslnik2 = Creature(Position(5,3, 9), ImageRes::DEALER);
+	Creature rzemieslnik2 = Creature(Position(5,3, 9), ImageRes::CHAR1);
 	
 	Dialog dialog4;
 
@@ -1559,7 +1614,7 @@ void GameBuilder::generateNewGame()
 
 	/************************************************************************************************************/
 	////level 3 - rozmowa z kolesiem
-	Creature koles = Creature(Position(30,postaw, 8), ImageRes::DEALER);
+	Creature koles = Creature(Position(30,postaw, 8), ImageRes::CHAR3);
 	
 	Dialog dialog5;
 
@@ -1570,7 +1625,7 @@ void GameBuilder::generateNewGame()
 		addOption(L"Zgadza siê, powiesz mi jak trafiæ do domu Szlachcica?", 13);
 
 	dialog5.addNode(12, L"Hehe! Przypadkiem to mo¿esz z³apaæ guza!").
-		addOption(L"[walcz]", Dialog::END_DIALOG); //KONIEC I POJEDYNEK
+		addOption(L". . .", Dialog::END_DIALOG); //KONIEC I POJEDYNEK
 
 	dialog5.addNode(13, L"Wszyscy chc¹ siê czegoœ dowiedzieæ.").
 		addOption(L"Czyli siê nie dowiem? Mogê zap³aciæ", 130).
@@ -1589,7 +1644,7 @@ void GameBuilder::generateNewGame()
 
 	/************************************************************************************************************/
 	////level 3 - rozmowa z medrcem
-	Creature medrzec2 = Creature(Position(6,2, 10), ImageRes::DEALER);
+	Creature medrzec2 = Creature(Position(6,2, 10), ImageRes::CHAR2);
 	
 	Dialog dialog6;
 
@@ -1661,7 +1716,7 @@ void GameBuilder::generateNewGame()
 
 	/************************************************************************************************************/
 	////level 3 - rozmowa z ludŸmi w barze
-	Creature klient = Creature(Position(3,3, 11), ImageRes::DEALER);
+	Creature klient = Creature(Position(3,3, 11), ImageRes::CHAR1);
 	Dialog dialog14;
 	dialog14 = Dialog();
 	dialog14.addNode(Dialog::START_DIALOG, L"To miejsce jest zajête!").
@@ -1670,7 +1725,7 @@ void GameBuilder::generateNewGame()
 	klient.setType(Creature::Type::DIALOG);
 	game.creatures.push_back( klient );
 	/**********************************************/
-	Creature klient2 = Creature(Position(4,5, 11), ImageRes::DEALER);
+	Creature klient2 = Creature(Position(4,5, 11), ImageRes::CHAR2);
 	Dialog dialog15;
 	dialog15 = Dialog();
 	dialog15.addNode(Dialog::START_DIALOG, L"To miejsce jest zajête!").
@@ -1680,7 +1735,7 @@ void GameBuilder::generateNewGame()
 	game.creatures.push_back( klient2 );
 
 	/***********************************************/
-	Creature barman = Creature(Position(8, 4, 11), ImageRes::DEALER);
+	Creature barman = Creature(Position(8, 4, 11), ImageRes::CHAR1);
 	Dialog dialog16;
 	dialog16=Dialog();
 	dialog16.addNode(Dialog::START_DIALOG, L"Coœ podaæ?").
@@ -1688,6 +1743,7 @@ void GameBuilder::generateNewGame()
 		addOption(L"Piwo.", 111);
 	dialog16.addNode(111, L"Ju¿ siê robi.").
 		addGiveItem(Item(L"Piwo", L"Piwo").setProperty(Item::DUMB, 0.1)).
+		addTakeCoins(3).
 		addOption(L". . .", Dialog::END_DIALOG);
 	barman.addDialog(dialog16);
 	barman.setType(Creature::Type::DIALOG);
@@ -1695,7 +1751,7 @@ void GameBuilder::generateNewGame()
 
 	/************************************************************************************************************/
 	////level 3 - rozmowa ze stra¿nikiem
-	Creature straznik = Creature(Position(98,postaw2, 8), ImageRes::DEALER);
+	Creature straznik = Creature(Position(98,postaw2, 8), ImageRes::CHAR2);
 	
 	Dialog dialog7;
 
@@ -1710,7 +1766,8 @@ void GameBuilder::generateNewGame()
 		addOption(L"Pewnie chcecie pieniêdzy? Otwieranie bramy jest waszym obowi¹zkiem!", 162);
 		
 	dialog7.addNode(161, L"Myœlê, ¿e powinno wystarczyæ.").
-		addOption(L"[zaplac]", Dialog::END_DIALOG);//KONIEC
+		addTakeCoins(8).
+		addOption(L". . .", Dialog::END_DIALOG);//KONIEC
 
 	dialog7.addNode(162, L"Mo¿e trochê szacunku! Co?!").
 		addOption(L"Niby dlaczego?", 1620);
@@ -1726,7 +1783,7 @@ void GameBuilder::generateNewGame()
 
 	/************************************************************************************************************/
 	////level 4 - rozmowa z kolesiem
-	Creature koles2 = Creature(Position(33,postaw3, 12), ImageRes::DEALER);
+	Creature koles2 = Creature(Position(33,postaw3, 12), ImageRes::CHAR2);
 	
 	Dialog dialog8;
 
@@ -1741,10 +1798,10 @@ void GameBuilder::generateNewGame()
 		addOption(L"Mogê Ci sprzedaæ. Potrzebujê piniêdzy wiêc ka¿da moneta siê przyda.", 172);
 
 	dialog8.addNode(171, L"Och, jesteœcie tacy mi³osierni. Przyjmijcie w zamian eliksir ¿ycia.").
-		addOption(L"[zaplac]", Dialog::END_DIALOG);//KONIEC
+		addOption(L". . .", Dialog::END_DIALOG);//KONIEC
 
 	dialog8.addNode(172, L"No dobrze, mam kilka.").
-		addOption(L"[zaplac]", Dialog::END_DIALOG); //KONIEC
+		addOption(L". . .", Dialog::END_DIALOG); //KONIEC
 
 	koles2.addDialog(dialog8);
 
@@ -1753,7 +1810,7 @@ void GameBuilder::generateNewGame()
 
 	/************************************************************************************************************/
 	////level 4 - rozmowa ze zbieraczem narzedzi
-	Creature zbieracz = Creature(Position(4,4, 13), ImageRes::DEALER);
+	Creature zbieracz = Creature(Position(4,4, 13), ImageRes::CHAR1);
 	
 	Dialog dialog9;
 
@@ -1793,7 +1850,7 @@ void GameBuilder::generateNewGame()
 
 	/************************************************************************************************************/
 	////level 5 - rozmowa z rzemieslnikiem
-	Creature rzemieslnik3 = Creature(Position(2,6, 17), ImageRes::DEALER);
+	Creature rzemieslnik3 = Creature(Position(2,6, 17), ImageRes::CHAR1);
 	
 	Dialog dialog10;
 
@@ -1834,7 +1891,7 @@ void GameBuilder::generateNewGame()
 
 	/************************************************************************************************************/
 	////level 5 - rozmowa z medrcem
-	Creature medrzec3 = Creature(Position(4,4, 18), ImageRes::DEALER);
+	Creature medrzec3 = Creature(Position(4,4, 18), ImageRes::CHAR2);
 	
 	Dialog dialog11;
 
@@ -1906,7 +1963,7 @@ void GameBuilder::generateNewGame()
 
 	/************************************************************************************************************/
 	////level 5 - rozmowa z cinkcarzem
-	Creature cinkciarz2 = Creature(Position(5,3, 16), ImageRes::DEALER);
+	Creature cinkciarz2 = Creature(Position(5,3, 16), ImageRes::CHAR1);
 	
 	Dialog dialog12;
 

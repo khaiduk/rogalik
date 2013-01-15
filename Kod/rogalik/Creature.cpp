@@ -154,12 +154,12 @@ void Creature::setSpeed(int speed)
 	this->speed = speed;
 }
 
-void Creature::setAttack(int attack)
+void Creature::setAttack(float attack)
 {
 	this->att = attack;
 }
 
-void Creature::setDefence(int defence)
+void Creature::setDefence(float defence)
 {
 	this->def = defence;
 }
@@ -297,7 +297,7 @@ void Creature::step(float dt, const Terrain& terrain, std::list<Creature> &creat
 	
 		if(fightState) // fight
 		{
-			if(Position::distance(pos, player.pos) < 20) //gdy gracz jest blisko
+			if(Position::distance(pos, player.pos) < 15) //gdy gracz jest blisko
 			{
 				newPos = player.pos; // w kierunku gracza
 				if((pos + walkDir) == player.pos) // gdy ju¿ atakujemy gracza ...
@@ -311,12 +311,60 @@ void Creature::step(float dt, const Terrain& terrain, std::list<Creature> &creat
 				newPos = pos; //stój w miejscu
 			}
 		}
+	
 		else //flee
 		{
 			if(newPos == pos || rand() % 30 == 0) //zapobiega blokowanu siê na œcianach
 			{
 				newPos = Position(rand()%10-5 + cpos.GetX(), rand()%10-5 + cpos.GetY());
 				fightState = (rand() % 5 == 0);
+			}
+		}
+		if(pos.GetX() < newPos.GetX())
+		{
+			walkDir.SetX(1);
+		}
+		else if(pos.GetX() > newPos.GetX())
+		{
+			walkDir.SetX(-1);
+		}
+		else
+		{
+			walkDir.SetX(0);
+		}
+
+		if(pos.GetY() < newPos.GetY())
+		{
+			walkDir.SetY(1);
+		}
+		else if(pos.GetY() > newPos.GetY())
+		{
+			walkDir.SetY(-1);
+		}
+		else
+		{
+			walkDir.SetY(0);
+		}
+	}
+	else if(ai == AI::FIGHT)
+	{
+
+		walk(walkDir, terrain, creatures, player, game);
+	
+		if(fightState) // fight
+		{
+			if(Position::distance(pos, player.pos) < 3) //gdy gracz jest blisko
+			{
+				newPos = player.pos; // w kierunku gracza
+				/*if((pos + walkDir) == player.pos) // gdy ju¿ atakujemy gracza ...
+				{
+					fightState = (rand() % 5 != 0); //... rozwa¿my zmianê stanu
+					cpos = pos; // aktualizacja centrum b³¹dzenia
+				}*/
+			}
+			else
+			{
+				newPos = pos; //stój w miejscu
 			}
 		}
 		if(pos.GetX() < newPos.GetX())
