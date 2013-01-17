@@ -106,8 +106,9 @@ public:
 		CHAR3,
 		SIT1,
 		SIT2,
-		NEED3,
+		BOSS,
 		TABLE,
+		GUARD
 
 	};
 private:

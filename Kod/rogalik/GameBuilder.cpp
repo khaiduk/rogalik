@@ -1023,7 +1023,7 @@ void GameBuilder::generateNewGame()
 						powrot_y5=y;
 					}
 				}
-
+				
 				for(int y= 11; y<22; y++)
 					for(int x=81; x<100; x++)
 						map[14][x][y].SetImage(ImageRes::GOLD).SetSolid(true);
@@ -1032,7 +1032,7 @@ void GameBuilder::generateNewGame()
 	}
 
 	//pomieszczenie finalowe
-	map.insert(map.begin() + 15, emptyTerrainLevel(50, 20, 15));
+	map.insert(map.begin() + 15, emptyTerrainLevel(40, 20, 15));
 	for(int x=0;x<map[15].size();x++)
 	{
 		for(int y=0;y<map[15][x].size();y++)
@@ -1045,7 +1045,7 @@ void GameBuilder::generateNewGame()
 	y=yp3;
 	map[15][x][y].SetImage(ImageRes::EMPTY).SetSolid(false);
 	map[15][x][y].setWarp(Position(powrot_x5, powrot_y5, 14));
-
+	
 	for(int y=0; y<8;y++)
 	{
 		for(int x=1; x<25; x++)
@@ -1063,12 +1063,47 @@ void GameBuilder::generateNewGame()
 			map[15][x][y].setSolid(true);
 		}
 	}
+
+	for(int y=0; y<5;y++)
+	{
+		for(int x=25;x<40; x++)
+		{
+			map[15][x][y].setImage(ImageRes::EMPTY);
+			map[15][x][y].setSolid(true);
+		}
+	}
 	
-	for(int x=1; x<25; x++)
+	for(int y=15; y<20; y++)
+	{
+		for(int x=25; x<40; x++)
+		{
+			map[15][x][y].setImage(ImageRes::EMPTY);
+			map[15][x][y].setSolid(true);
+		}
+	}
+
+		
+	for(int x=1; x<40; x++)
 	{
 		map[15][x][7].SetImage(ImageRes::WINDOW).SetSolid(true);
 		map[15][x][12].SetImage(ImageRes::WINDOW).SetSolid(true);
+		if(x>=25)
+		{
+			map[15][x][4].SetImage(ImageRes::WINDOW).SetSolid(true);
+			map[15][x][15].SetImage(ImageRes::WINDOW).SetSolid(true);
+		}
+		if(x==39)
+		{
+			for(int y=5;y<20;y++)
+			{
+				map[15][x][y].SetImage(ImageRes::WINDOW).SetSolid(true);
+				map[15][x][y].SetImage(ImageRes::WINDOW).SetSolid(true);
+			}
+		}
 	}
+	map[15][39][10].setWarp(Position(1,10,19)); //miejsce przejscia z jednego poziomu np. 1 1 1 [z x y] do 13 12 0 [x y z]
+	map[15][39][10].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
+	map[15][39][10].setSolid(false);
 	//////////////////////////////////////////////////////////////////////////////////
 	//chata cinkciarza
 	house_x = rand()%23+50;
@@ -1102,30 +1137,6 @@ void GameBuilder::generateNewGame()
 	buildFurniture(map,16,5,1);
 	map[16][9][7].SetImage(ImageRes::BED);
 	map[16][0][7].setImage(ImageRes::BARREL1);
-	/*
-	for(int y=3;y<6;y++)
-	{
-		map[16][6][y].setImage(ImageRes::DESK);
-		map[16][6][y].setSolid(true);
-	}
-		
-	for(int x=4;x<10;x++)
-	{
-			map[16][x][0].setImage(ImageRes::DESK);
-			map[16][x][0].setSolid(true);
-	}
-	
-	for(int x=2;x<7;x++)
-	{
-			map[16][x][7].setImage(ImageRes::DESK);
-			map[16][x][7].setSolid(true);
-	}
-	
-		for(int y=3;y<8;y++)
-		{
-			map[16][9][y].setImage(ImageRes::DESK);
-			map[16][9][y].setSolid(true);
-		}*/
 		
 	map[16][0][1].setWarp(Position(house_x,house_y,14)); //miejsce przejscia z jednego poziomu np. 1 1 1 [z x y] do 13 12 0 [x y z]
 	map[16][0][1].setImage(ImageRes::EMPTY); // miejsce przejscia wyglada wg kafelka o numerze np 0
@@ -1223,7 +1234,41 @@ void GameBuilder::generateNewGame()
 	map[18][0][0].setWarp(Position(house_x,house_y,14));
 	map[18][0][0].setImage(ImageRes::EMPTY);
 	
-	
+	//miejsce ostatecznej rozgrywki
+		map.insert(map.begin() + 19, emptyTerrainLevel(20, 20, 19));
+	for(int x=0;x<map[19].size();x++)
+	{
+		for(int y=0;y<map[19][x].size();y++)
+		{
+			map[19][x][y].setImage(ImageRes::STAR);
+		}
+	}
+
+	map[19][0][10].setSolid(false);
+	for(int y=0; y<20;y++)
+	{
+		map[19][0][y].setImage(ImageRes::WINDOW);
+		map[19][0][y].setSolid(true);
+
+		map[19][19][y].setImage(ImageRes::WINDOW);
+		map[19][19][y].setSolid(true);
+	}
+	for(int x=0; x<20; x++)
+	{
+		map[19][x][0].setImage(ImageRes::WINDOW);
+		map[19][x][0].setSolid(true);
+
+		map[19][x][19].setImage(ImageRes::WINDOW);
+		map[19][x][19].setSolid(true);
+	}
+	//boss
+	Creature boss = Creature(Position(10,10, 19), ImageRes::BOSS);
+	boss.setSpeed(12); // doœæ wolny
+	boss.setAttack(0.08);
+	boss.setDefence(0.065);
+	boss.setAI(Creature::AI::FIGHT); // losowo walczy
+	boss.setType(Creature::Type::HOSTILE); // wrogi
+	game.creatures.push_back( boss );
 	/////////////////////////////////////////////////////////////////////////////////
 	//ENEMY
 	/////////////////////////////////////////////////////////////////////////////////
@@ -1298,7 +1343,7 @@ void GameBuilder::generateNewGame()
 	}
 	/********************************************************************************/
 	//poziom 5 straznicy przed domem
-	Creature warta = Creature(Position(79,13, 14), ImageRes::CHAR0);
+	Creature warta = Creature(Position(79,13, 14), ImageRes::GUARD);
 	warta.setSpeed(2); // doœæ wolny
 	warta.setAttack(0.05);
 	warta.setDefence(0.03);
@@ -1307,7 +1352,7 @@ void GameBuilder::generateNewGame()
 	game.creatures.push_back( warta );
 	for(int i=14;i<=17;i++)
 	{
-	Creature warta2 = Creature(Position(78,i, 14), ImageRes::CHAR0);
+	Creature warta2 = Creature(Position(78,i, 14), ImageRes::GUARD);
 	warta2.setSpeed(3); // doœæ wolny
 	warta2.setAttack(0.05);
 	warta2.setDefence(0.03);
@@ -1315,7 +1360,7 @@ void GameBuilder::generateNewGame()
 	warta2.setType(Creature::Type::HOSTILE); // wrogi
 	game.creatures.push_back( warta2 );
 	}
-	Creature warta3 = Creature(Position(79,18, 14), ImageRes::CHAR0);
+	Creature warta3 = Creature(Position(79,18, 14), ImageRes::GUARD);
 	warta3.setSpeed(3); // doœæ wolny
 	warta3.setAttack(0.05);
 	warta3.setDefence(0.03);
@@ -1326,11 +1371,11 @@ void GameBuilder::generateNewGame()
 	//straznicy w korytarzu
 	for(int i=0;i<5;i++)
 	{
-	Creature warta4 = Creature(Position(rand()%19+1,rand()%4+8, 15), ImageRes::CHAR0);
-	warta4.setSpeed(3); // doœæ wolny
+	Creature warta4 = Creature(Position(rand()%19+1,rand()%4+8, 15), ImageRes::GUARD);
+	warta4.setSpeed(11); // doœæ wolny
 	warta4.setAttack(0.05);
 	warta4.setDefence(0.05);
-	warta4.setAI(Creature::AI::FIGHT); // losowo b³¹dzi
+	warta4.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo b³¹dzi
 	warta4.setType(Creature::Type::HOSTILE); // wrogi
 	game.creatures.push_back( warta4 );
 	}
@@ -1441,19 +1486,9 @@ void GameBuilder::generateNewGame()
 		addOption(L"Chcia³em zobaczyæ czym siê tutaj zajmujecie.", 5).
 		addOption(L"Ale¿ jest Pan mi³y!", 6).
 		addOption(L"Handel", 29);
-	dialog1.addNode(29,L"Panie chcesz cos kupic czy sprzedac").
-		addOption(L"Kupic",30).
-		addOption(L"Sprzedac",31).
+	dialog1.addNode(29,L"Panie chcesz cos kupic?").
+		addOption(L"Tak",30).
 		addOption(L"Rozmyslilem sie", Dialog::END_DIALOG);
-	dialog1.addNode(31,L"Pokaz Panie co posiadasz").
-		showWhatYouGot(game.player).
-		addOption(L"Wyjscie ",Dialog::END_DIALOG);
-	for(int i = 100 ; i <= size ; i++)
-	{
-		dialog1.addNode(i,L"Dzieki Panie").
-		addTakeItem(game.player,i).
-		addOption(L"Wyjscie " , Dialog::END_DIALOG);
-	}
 	dialog1.addNode(30, L"Zbroje tylko u mnie !!!").
 		addOptionIfHasMoney(5, L"Tania zbroja skórzana (5 monet)", 301).
         addOptionIfHasMoney(15, L"Zwyk³a zbroja z br¹zu (15 monet)", 302).
@@ -1560,7 +1595,7 @@ void GameBuilder::generateNewGame()
 	dialog3.addNode(90010, L"Pewnie! Ale chyba napijesz siê ze mn¹?").
 		addOption(L"Jasne...", 90011);
 
-	dialog3.addNode(90011, L"Jeœli wybierzesz drogê na lewo, to bêdziesz musia³ zap³aciæ za jej pzejœcie i jest trochê d³u¿sza, ale za to bez przeszkód. Jeœli jednak pójdziesz na prawo... S³ysza³em o zbójniku, który chodzi z wilkiem i ma doskona³y miecz! Przyda³by Ci siê!").
+	dialog3.addNode(90011, L"Jeœli wybierzesz drogê na lewo (tê u góry), to bêdziesz musia³ zap³aciæ za jej pzejœcie i jest trochê d³u¿sza, ale za to bez przeszkód. Jeœli jednak pójdziesz na prawo... S³ysza³em o zbójniku, który chodzi z wilkiem i ma doskona³y miecz! Przyda³by Ci siê!").
 		addOption(L"Dziêkujê! Bywaj zdrów!", 90012);
 	dialog3.addNode(90012, L"Wst¹p jeszcze kiedyœ!").
 		addOption(L". . .", Dialog::END_DIALOG); //KONIEC
@@ -1603,7 +1638,7 @@ void GameBuilder::generateNewGame()
 		addTakeCoins(15).
 		addOption(L"Dziekuje!", Dialog::END_DIALOG);
 	dialog4.addNode(104,L"Trzymaj , oto twoj nowy he³m. Zapraszam ponownie !!!").
-		addGiveItem( Item(L"Didaem Zeusa",L"Wykuty przez samego Hefajstosa").setProperty(Item::HELMET,0.5)).
+		addGiveItem( Item(L"Diadem Zeusa",L"Wykuty przez samego Hefajstosa").setProperty(Item::HELMET,0.5)).
 		addTakeCoins(25).
 		addOption(L"Dziekuje!", Dialog::END_DIALOG);
 
