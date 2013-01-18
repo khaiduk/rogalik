@@ -102,6 +102,11 @@ public:
 	**/
 	const std::vector<Item> & getInventory()const;
 
+	/**
+	 * Zwraca true gdy wygraliœmy grê
+	 */
+	bool isWinner() const;
+
 	friend class GameBuilder;
 private:
 	/**
@@ -133,6 +138,8 @@ private:
 	int weapon;
 	int armor;
 	int selectedItem;
+
+	std::vector<std::wstring> msgList;
 
 	friend Dialog;
 };

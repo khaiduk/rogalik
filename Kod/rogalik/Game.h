@@ -43,6 +43,7 @@ public:
 		DIALOG,
 		TRADE,
 		GAMEOVER,
+		YOUWIN,
 		EXIT
 	};
 

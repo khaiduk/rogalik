@@ -110,7 +110,7 @@ void Game::getInput(const sf::Event& e)
 			}
 		}
 	}
-	else if(gameState == GAMEOVER)
+	else if(gameState == GAMEOVER || gameState == YOUWIN)
 	{
 		if( e.Type == sf::Event::KeyPressed && e.Key.Code == sf::Key::Escape)
 		{
@@ -141,6 +141,10 @@ void Game::step(float dt)
 	if(!player.isAlive())
 	{
 		gameState = GAMEOVER;
+	}
+	if(player.isWinner())
+	{
+		gameState = YOUWIN;
 	}
 }
 
@@ -206,6 +210,27 @@ void Game::draw(sf::RenderWindow& rw)
 		txt2.SetPosition(80, 200);
 		txt2.SetColor(sf::Color(20, 18, 160));
 		rw.Draw(txt);
+		rw.Draw(txt2);
+	}
+	else if(gameState == YOUWIN)
+	{
+		sf::Sprite tloH(tlo);
+		rw.Draw(tloH);
+		
+		sf::String txt(L"Wygra³eœ", font, 90);
+		txt.SetPosition(180, 50);
+		txt.SetColor(sf::Color(20, 18, 160));
+		
+		sf::String txt1(L"Uda³o ci siê zdobyæ Rogalik", font, 40);
+		txt1.SetPosition(80, 200);
+		txt1.SetColor(sf::Color(20, 18, 160));
+
+		sf::String txt2(L"Naciœnij ESC aby wyjœæ", font, 30);
+		txt2.SetPosition(100, 280);
+		txt2.SetColor(sf::Color(20, 18, 160));
+
+		rw.Draw(txt);
+		rw.Draw(txt1);
 		rw.Draw(txt2);
 	}
 }

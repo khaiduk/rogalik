@@ -80,7 +80,10 @@ void Creature::fight(Creature& creature)
 		creature.health -= rnd * getAttack() / creature.getDefence();
 		fightPower -= 1;
 		if(! creature.isAlive()) // zabiliœmy dziada
-			xp += creature.xp;//dajmy expa
+		{
+			if(rand() % 5 == 0)
+				xp += creature.xp;//dajmy expa
+		}
 	}
 }
 

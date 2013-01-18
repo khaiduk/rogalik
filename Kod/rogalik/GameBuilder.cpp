@@ -1263,9 +1263,10 @@ void GameBuilder::generateNewGame()
 	Creature boss = Creature(Position(10,10, 19), ImageRes::BOSS);
 	boss.setSpeed(12); // doœæ wolny
 	boss.setAttack(0.08);
-	boss.setDefence(0.065);
+	boss.setDefence(2);
 	boss.setAI(Creature::AI::FIGHT); // losowo walczy
 	boss.setType(Creature::Type::HOSTILE); // wrogi
+	boss.addLoot( Item(L"Rogalik", L"") );
 	game.creatures.push_back( boss );
 	/////////////////////////////////////////////////////////////////////////////////
 	//ENEMY
@@ -1907,7 +1908,7 @@ void GameBuilder::generateNewGame()
 		addOptionIfHasMoney(5, L"Tania zbroja skórzana (5 monet)", 301).
         addOptionIfHasMoney(15, L"Zwyk³a zbroja z br¹zu (15 monet)", 302).
         addOptionIfHasMoney(25, L"Wytrzyma³a zbroja ¿elazna (25 monet)", 303).
-		addOptionIfHasMoney(25, L"Kolczuga Bilba(LOTR) (125 monet)", 304).
+		addOptionIfHasMoney(125, L"Kolczuga Bilba(LOTR) (125 monet)", 304).
         addOptionIfHasNotMoney(5, L"Nie posiadam pieniedzy . Dowidzenia !!!", Dialog::END_DIALOG); 
 	dialog10.addNode(301,L"Proszê, oto twoja zbroja. Niech ci s³u¿y.").
 		addGiveItem( Item(L"Zbroja skorzana",L"Tania zbroja").setProperty(Item::ARMOR,0.1)).

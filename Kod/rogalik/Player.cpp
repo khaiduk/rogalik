@@ -15,6 +15,14 @@ Player::Player(Position pos) : Creature(pos, ImageRes::HERO),
 
 void Player::drawHud(sf::RenderWindow& rw) const
 {
+	static bool firstRun = true;
+	static sf::Font font;
+	if(firstRun) 
+	{
+		firstRun = false;
+		font.LoadFromFile("silesiana.otf", 50,  L"A•BC∆DE FGHIJKL£MN—O”PRSåTUWYZèØaπbcÊdeÍfghijkl≥mnÒoÛprsútuwyzüøXxVvQq0123456789~!@#$%^&*()_-[]\\;',./{}:\"<>?=-+ ");
+	}
+
 	sf::Sprite hud(hudimg, sf::Vector2f(0, 350));
 	rw.Draw(hud);
 
@@ -22,6 +30,17 @@ void Player::drawHud(sf::RenderWindow& rw) const
 	sf::Sprite hbar(hbarimg, sf::Vector2f(42, 376 + hbarimg.GetHeight() - hbarheight));
 	hbar.SetSubRect(sf::IntRect(0, hbarimg.GetHeight() - hbarheight, hbarimg.GetWidth(), hbarimg.GetHeight()));
 	rw.Draw(hbar);
+
+	std::wstring str;
+	for(int i=0;i<4;i++)
+	{
+		if(i<msgList.size())
+		str += msgList[i] + L"\n";
+	}
+	sf::String msgs(str, font, 30);
+	msgs.SetColor(sf::Color(120, 10, 10));
+	msgs.SetPosition(200, 450);
+	rw.Draw(msgs);
 }
 
 void Player::drawInventory(sf::RenderWindow& rw) const
@@ -150,6 +169,15 @@ void Player::step(float dt, const Terrain& terrain, std::list<Creature> &creatur
 	replenishHealth();
 	hitRegen();
 	walk(walkDir, terrain, creatures, *this, game);
+	
+	if(msgList.size() > 4)
+	{
+		for(int i=0;i<4;i++)
+		{
+			msgList[i] = msgList[msgList.size()-4+i];
+		}
+		msgList.erase(msgList.begin()+4, msgList.end());
+	}
 }
 
 void Player::getInput(const sf::Event& e)
@@ -294,6 +322,7 @@ void Player::getInputAtributes(const sf::Event& e)
 void Player::giveItem(const Item& item)
 {
 	inventory.push_back(item);
+	msgList.push_back(std::wstring(L"Zdobywasz: ") + item.getName());
 }
 
 void Player::takeItem(const std::wstring& item)
@@ -311,6 +340,12 @@ void Player::takeItem(const std::wstring& item)
 void Player::giveMoney(int coins)
 {
 	this->coins += coins;
+	if(coins > 0)
+	{
+		std::wstringstream ss;
+		ss << "Dostajesz " << coins << "$";
+		msgList.push_back(ss.str());
+	}
 }
 
 void Player::takeMoney(int coins)
@@ -335,18 +370,20 @@ int Player::hasMoney() const
 
 float Player::getAttack()
 {
+	float boost = 0;
 	if(weapon != -1)
-		return 0.02 * attLevel + inventory[weapon].getPropertyBoost();
-	else
-		return 0.02 * attLevel;
+		boost += inventory[weapon].getPropertyBoost() * 0.1;
+	
+	return 0.02 * attLevel + boost;
 }
 
 float Player::getDefence()
 {
+	float boost = 0;
 	if(armor != -1)
-		return 0.2 * defLevel + inventory[armor].getPropertyBoost();
-	else
-		return 0.2 * defLevel;
+		boost +=  inventory[armor].getPropertyBoost() * 0.1;
+	
+	return 0.2 * defLevel + boost;
 }
 void Player::deleteItem(int i)
 {
@@ -365,4 +402,9 @@ void Player::deleteItem(int i)
 const std::vector<Item> &Player::getInventory()const
 {
 	return inventory;
+}
+
+bool Player::isWinner() const
+{
+	return hasItem(L"Rogalik");
 }
