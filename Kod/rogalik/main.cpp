@@ -25,7 +25,7 @@ int main()
 		sf::Event Event;
 		if(m.isOutsideGame()) while(App.GetEvent(Event))
 		{
-			if(Event.Type == sf::Event::Closed || Event.Key.Code==sf::Key::E )//|| Event.Key.Code == sf::Key::Escape)
+			if(Event.Type == sf::Event::Closed || (Event.Type == sf::Event::KeyPressed && Event.Key.Code == sf::Key::E))
 				App.Close();
 			else if (Event.Type == sf::Event::KeyPressed || Event.Type == sf::Event::KeyReleased)
 			{
@@ -44,7 +44,7 @@ int main()
 		{
 			while(App.GetEvent(Event))
 			{
-				if(Event.Type == sf::Event::Closed || Event.Key.Code==sf::Key::E)
+				if(Event.Type == sf::Event::Closed)
 				{
 					App.Close();
 				}

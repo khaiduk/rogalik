@@ -143,7 +143,6 @@ void GameBuilder::generateNewGame()
 			losowypotwor2.setDefence(0.05);
 			losowypotwor2.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo b³¹dzi
 			losowypotwor2.setType(Creature::Type::HOSTILE); // wrogi
-			losowypotwor2.addLoot( Item(L"Badyl", L"Przepotê¿ny kostur? Totalnie badyl!").setProperty(Item::WEAPON, 0.05) );
 			losowypotwor2.addLootMoney(1);
 			game.creatures.push_back( losowypotwor2 );
 		}
@@ -157,7 +156,6 @@ void GameBuilder::generateNewGame()
 			cwaniaczek.setAI(Creature::AI::FIGHT_AND_FLEE); // tam gdzie gracz
 			cwaniaczek.setType(Creature::Type::HOSTILE); // wrogi
 			cwaniaczek.addLoot( Item(L"Trunek", L"Butelka wina.") );
-			cwaniaczek.addLoot(Item(L"Moneta", L"Sakwa monet."));
 			cwaniaczek.addLootMoney(10);
 			game.creatures.push_back( cwaniaczek );
 		}
@@ -508,7 +506,8 @@ void GameBuilder::generateNewGame()
 			wlesie.setDefence(1);
 			wlesie.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo b³¹dzi
 			wlesie.setType(Creature::Type::HOSTILE); // wrogi
-			wlesie.addLoot( Item(L"Badyl", L"Przepotê¿ny kostur? Totalnie badyl!").setProperty(Item::WEAPON, 0.05) );
+			if(rand()%3==0)
+				wlesie.addLoot( Item(L"Badyl", L"Przepotê¿ny kostur? Totalnie badyl!").setProperty(Item::WEAPON, 0.05) );
 			wlesie.addLootMoney(1);
 			game.creatures.push_back( wlesie );
 		}
@@ -579,7 +578,6 @@ void GameBuilder::generateNewGame()
 			wlesie2.setDefence(0.08);
 			wlesie2.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo b³¹dzi
 			wlesie2.setType(Creature::Type::HOSTILE); // wrogi
-			wlesie2.addLoot( Item(L"Badyl", L"Przepotê¿ny kostur? Totalnie badyl!").setProperty(Item::WEAPON, 0.05) );
 			wlesie2.addLootMoney(1);
 			game.creatures.push_back( wlesie2 );
 		}
@@ -1309,8 +1307,10 @@ void GameBuilder::generateNewGame()
 	losowypotwor5.setDefence(0.1);
 	losowypotwor5.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo 
 	losowypotwor5.setType(Creature::Type::HOSTILE); // wrogi
-	if(i%3==0)
-	losowypotwor5.addLoot( Item(L"Badyl", L"Przepotê¿ny kostur? Totalnie badyl!") );
+	if(rand()%3==0)
+		losowypotwor5.addLoot( Item(L"Skóra", L"Skórzane okrycie.").setProperty(Item::ARMOR, 0.1) );
+	else if(rand()%3==0)
+		losowypotwor5.addLoot( Item(L"Badyl", L"Przepotê¿ny kostur? Totalnie badyl!").setProperty(Item::WEAPON, 0.01) );
 	game.creatures.push_back( losowypotwor5 );
 	}
 	//////////////////////////////////////////////////////////////////////////////////
@@ -1323,8 +1323,10 @@ void GameBuilder::generateNewGame()
 	losowypotwor8.setDefence(0.2);
 	losowypotwor8.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo b³¹dzi
 	losowypotwor8.setType(Creature::Type::HOSTILE); // wrogi
-	if(i%2==0)
-	losowypotwor8.addLoot( Item(L"Badyl", L"Przepotê¿ny kostur? Totalnie badyl!") );
+	if(rand()%3==0)
+		losowypotwor8.addLoot( Item(L"Skóra", L"Skórzane okrycie.").setProperty(Item::ARMOR, 0.1) );
+	else if(rand()%3==0)
+		losowypotwor8.addLoot( Item(L"Badyl", L"Przepotê¿ny kostur? Totalnie badyl!").setProperty(Item::WEAPON, 0.01) );
 	game.creatures.push_back( losowypotwor8 );
 	}
 	////////////////////////////////////////////////////////////////////////////////////
@@ -1337,8 +1339,10 @@ void GameBuilder::generateNewGame()
 	losowypotwor9.setDefence(0.3);
 	losowypotwor9.setAI(Creature::AI::FIGHT_AND_FLEE); // losowo b³¹dzi
 	losowypotwor9.setType(Creature::Type::HOSTILE); // wrogi
-	if(i%2==0)
-	losowypotwor9.addLoot( Item(L"Badyl", L"Przepotê¿ny kostur? Totalnie badyl!") );
+	if(rand()%3==0)
+		losowypotwor9.addLoot( Item(L"Skóra", L"Skórzane okrycie.").setProperty(Item::ARMOR, 0.1) );
+	else if(rand()%3==0)
+		losowypotwor9.addLoot( Item(L"Badyl", L"Przepotê¿ny kostur? Totalnie badyl!").setProperty(Item::WEAPON, 0.01) );
 	game.creatures.push_back( losowypotwor9 );
 	}
 	/********************************************************************************/
@@ -1585,7 +1589,7 @@ void GameBuilder::generateNewGame()
 		addOption(L"Zap³acê Ci.",900);
 
 	dialog3.addNode(900, L"A masz coœ do picia? Trochê boli mnie g³owa...").
-		addOption(L"Mo¿e wina?", 9001).
+		addOptionIfHas(L"Trunek", L"Mo¿e wina?", 9001).
 		addOption(L"Niestety nie mam nic.",9002).
 		addOption(L"Oszala³eœ?! Nie wiem w ogóle po co z Tob¹ rozmawiam. Sam wybiorê drogê. Na pewno trafiê.", Dialog::END_DIALOG);
 
@@ -1601,7 +1605,8 @@ void GameBuilder::generateNewGame()
 		addOption(L". . .", Dialog::END_DIALOG); //KONIEC
 
 	dialog3.addNode(9002, L"Uuu to szkoda. Lubiê czasami wypiæ coœ mocniejszego. Lepiej mi siê myœli.").
-		addOption(L"Hmm... Moment. Mo¿e wina?", 9001);
+		addOptionIfHas(L"Trunek", L"Hmm... Moment. Mo¿e wina?", 9001).
+		addOptionIfHasNot(L"Trunek", L"...", Dialog::END_DIALOG);
 
 	pijak.addDialog(dialog3);
 
@@ -1833,6 +1838,7 @@ void GameBuilder::generateNewGame()
 		addOption(L"Mogê Ci sprzedaæ. Potrzebujê piniêdzy wiêc ka¿da moneta siê przyda.", 172);
 
 	dialog8.addNode(171, L"Och, jesteœcie tacy mi³osierni. Przyjmijcie w zamian eliksir ¿ycia.").
+		addGiveItem( Item(L"Eliksir ¿ycia",L"Bêdziesz mia³ wiêcej energii do dzia³ania!").setProperty(Item::LIFEPOTION)).
 		addOption(L". . .", Dialog::END_DIALOG);//KONIEC
 
 	dialog8.addNode(172, L"No dobrze, mam kilka.").

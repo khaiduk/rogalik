@@ -10,7 +10,7 @@ Dialog::~Dialog(void)
 {
 }
 
-Dialog::Node::Node(std::wstring msg):message(msg), losehp(false), giveCoins(0)
+Dialog::Node::Node(std::wstring msg):message(msg), losehp(false), giveCoins(0), takeCoins(0)
 {
 }
 
@@ -171,6 +171,13 @@ void Dialog::draw(sf::RenderWindow& rw, const Player& player)
 	rw.Draw(txt);
 	
 	float posy = txt.GetHeight() + 100;
+
+	if(!nodes[currentNode].optionIsShown(selectedAns, player))
+	{
+		selectedAns=0;
+		while(!nodes[currentNode].optionIsShown(selectedAns, player))
+			selectedAns++;
+	}
 	
 	for(int i=0;i<nodes[currentNode].optsAns.size();i++)
 	{
@@ -243,10 +250,13 @@ bool Dialog::getInput(const sf::Event& e, Player &player)
 			if(nodes[currentNode].losehp)
 				player.health *= 0.80;
 
-			if(player.hasMoney() > nodes[currentNode].takeCoins)
-				player.takeMoney(nodes[currentNode].takeCoins);
-			else
-				player.takeMoney(player.hasMoney());
+			if(nodes[currentNode].takeCoins > 0)
+			{
+				if(player.hasMoney() > nodes[currentNode].takeCoins)
+					player.takeMoney(nodes[currentNode].takeCoins);
+				else
+					player.takeMoney(player.hasMoney());
+			}
 			player.giveMoney(nodes[currentNode].giveCoins);
 		}
 	}

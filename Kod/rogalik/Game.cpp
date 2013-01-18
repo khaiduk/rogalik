@@ -7,6 +7,8 @@ Game::Game(void) : gameState(INGAME), currentDialog(NULL)
 
 void Game::getInput(const sf::Event& e)
 {
+	if(e.Key.Code == sf::Key::Q)
+		gameState = GAMEOVER;
 	if(gameState == INGAME)
 	{
 		if(	e.Key.Code == sf::Key::Up ||
@@ -108,6 +110,13 @@ void Game::getInput(const sf::Event& e)
 			}
 		}
 	}
+	else if(gameState == GAMEOVER)
+	{
+		if( e.Type == sf::Event::KeyPressed && e.Key.Code == sf::Key::Escape)
+		{
+			gameState = EXIT;
+		}
+	}
 }
 
 void Game::step(float dt)
@@ -129,10 +138,24 @@ void Game::step(float dt)
 			i++;
 		}
 	}
+	if(!player.isAlive())
+	{
+		gameState = GAMEOVER;
+	}
 }
 
 void Game::draw(sf::RenderWindow& rw)
 {
+	static bool firstRun = true;
+	static sf::Image tlo; //do gameover
+	static sf::Font font;
+	if(firstRun)
+	{
+		tlo.LoadFromFile("tlo.png");
+		firstRun = false;
+		font.LoadFromFile("silesiana.otf", 50,  L"A•BC∆DE FGHIJKL£MN—O”PRSåTUWYZèØaπbcÊdeÍfghijkl≥mnÒoÛprsútuwyzüøXxVvQq0123456789~!@#$%^&*()_-[]\\;',./{}:\"<>?=-+ ");
+	}
+
 	if(gameState == INGAME)
 	{
 		Position dp;
@@ -169,6 +192,21 @@ void Game::draw(sf::RenderWindow& rw)
 	else if(gameState == TRADE)
 	{
 		currentTrade->draw(rw);
+	}
+	else if(gameState == GAMEOVER)
+	{
+		sf::Sprite tloH(tlo);
+		rw.Draw(tloH);
+		
+		sf::String txt(L"Koniec Gry", font, 80);
+		txt.SetPosition(180, 50);
+		txt.SetColor(sf::Color(20, 18, 160));
+
+		sf::String txt2(L"Naciúnij ESC aby wyjúÊ", font, 30);
+		txt2.SetPosition(80, 200);
+		txt2.SetColor(sf::Color(20, 18, 160));
+		rw.Draw(txt);
+		rw.Draw(txt2);
 	}
 }
 

@@ -42,6 +42,7 @@ public:
 		GAMEMENU,
 		DIALOG,
 		TRADE,
+		GAMEOVER,
 		EXIT
 	};
 
